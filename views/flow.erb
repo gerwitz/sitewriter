@@ -1,0 +1,79 @@
+<div><%= @site.domain %></div>
+
+<h1>Flow for '<%= Post::TYPES[@flow.post_type_id] %>'</h1>
+<div>
+  <form action="/<%= @site.domain %>/flows" method="post">
+    <input type="hidden" name="id" value="<%= @flow.id %>">
+    <div>
+      <label>
+        Name
+        <input type="text" name="name" placeholder="name" value="<%= @flow.name %>">
+      </label>
+    </div>
+
+    <h2>Posts</h2>
+    <div>
+      <label>
+        Store posts via <select name="store_id">
+        <% @site.stores.each do |store| %>
+        <option value="<%= store.id %>"<%= ' selected' if (store.id == @flow.store_id) %>>
+          <%= store.name %>
+        </option>
+        <% end %>
+      </select></label>
+    </div><div>
+      <label>
+        Path template
+        <br>
+        <input type="text" size="80" name="path_template" value="<%= @flow.path_template %>">
+      </label>
+    </div><div>
+      <label>
+        URL template
+        <br>
+        <input type="text" size="80" name="url_template" value="<%= @flow.url_template %>">
+      </label>
+    </div><div>
+      <label>
+        Content template
+        <br>
+        <textarea name="content_template" cols="80" rows="25"><%= @flow.content_template %></textarea>
+      </label>
+    </div>
+
+    <h2>Media Files</h2>
+    <div>
+      <label><input type="checkbox" name="allow_media" value="true"<%= ' checked' if @flow.allow_media %>>Handle media?</label>
+      <label>
+        Store media via <select name="media_store_id">
+          <% @site.stores.each do |store| %>
+          <option value="<%= store.id %>"<%= ' selected' if (store.id == @flow.media_store_id) %>>
+            <%= store.name %>
+          </option>
+          <% end %>
+        </select>
+      </label>
+    </div><div>
+      <label>
+        Path template
+        <br>
+        <input type="text" size="80" name="media_path_template" value="<%= @flow.media_path_template %>">
+      </label>
+    </div><div>
+      <label>
+        URL template
+        <br>
+        <input type="text" size="80" name="media_url_template" value="<%= @flow.media_url_template %>">
+      </label>
+    </div>
+
+    <h2>Webmentions</h2>
+    <div>
+      <label><input type="checkbox" name="allow_meta" value="true"<%= ' checked' if @flow.allow_meta %>>Handle metadata pings?</label>
+    </div>
+
+    <div>
+      <button type="submit">Update</button>
+    </div>
+  </form>
+</div>

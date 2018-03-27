@@ -1,0 +1,15 @@
+<div>
+  <% if session[:domain] %>
+  Authenticated as <a href="/<%= session[:domain] %>"><%= session[:domain] %></a>
+  <form action="/logout" method="get">
+    <button type="submit">Log out</button>
+  </form>
+  <% else %>
+  <form action="https://indieauth.com/auth" method="get">
+    <input type="text" name="me" placeholder="mydomain.com">
+    <input type="hidden" name="client_id" value="<%= "#{request.scheme}://#{ request.host_with_port }/" %>">
+    <input type="hidden" name="redirect_uri" value="<%= "#{request.scheme}://#{ request.host_with_port }/login" %>">
+    <button type="submit">My Site</button>
+  </form>
+  <% end %>
+</div>
