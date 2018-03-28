@@ -6,7 +6,7 @@ class Github < Store
   end
 
   def name
-    return "#{github_full_repo} on GitHub"
+    return "GitHub (#{github_full_repo})"
   end
 
 # below from Transformative
@@ -36,7 +36,7 @@ class Github < Store
     octokit.create_contents(
       github_full_repo,
       filename,
-      "Adding new post via sitewriter",
+      "Adding new post via sitewriter.net",
       content
     )
   end
@@ -45,24 +45,17 @@ class Github < Store
     octokit.update_contents(
       github_full_repo,
       filename,
-      "Updating post via sitewriter",
+      "Updating post via sitewriter.net",
       sha,
       content
     )
   end
 
   def upload(filename, file)
-    # base64_content = Base64.encode64(file.read)
-    # octokit.create_contents(
-    #   github_full_repo,
-    #   filename,
-    #   "Adding new file via sitewriter",
-    #   base64_content
-    # )
     octokit.create_contents(
       github_full_repo,
       filename,
-      "Adding new file via sitewriter",
+      "Adding new file via sitewriter.net",
       {file: file}
     )
   end

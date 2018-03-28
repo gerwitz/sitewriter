@@ -1,3 +1,18 @@
+<h2>What is this?</h2>
+<p>SiteWriter.net makes it easy to use <a href="https://indiewebify.me">IndieWeb</a> services with your website.<p>
+Currently supported:
+<ul>
+  <li>
+    Micropub posts: notes
+  </li>
+  <li>
+    Micropub media files
+  </li>
+  <li>
+    Writing to GitHub
+  </li>
+</ul>
+
 <div>
   <% if session[:domain] %>
   Authenticated as <a href="/<%= session[:domain] %>"><%= session[:domain] %></a>
@@ -5,11 +20,12 @@
     <button type="submit">Log out</button>
   </form>
   <% else %>
+  Set up your domain for <a href="https://indieweb.org/How_to_set_up_web_sign-in_on_your_own_domain">web sign-in</a> and start here:
   <form action="https://indieauth.com/auth" method="get">
     <input type="text" name="me" placeholder="mydomain.com">
     <input type="hidden" name="client_id" value="<%= "#{request.scheme}://#{ request.host_with_port }/" %>">
     <input type="hidden" name="redirect_uri" value="<%= "#{request.scheme}://#{ request.host_with_port }/login" %>">
-    <button type="submit">My Site</button>
+    <button type="submit">Sign In</button>
   </form>
   <% end %>
 </div>

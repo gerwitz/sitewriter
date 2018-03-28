@@ -2,15 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>sitewriter</title>
+    <title>SiteWriter.net</title>
     <link rel="stylesheet" href="/css/styles.css?v=20180318">
   </head>
   <body>
     <header>
-      <a href="/">sitewriter</a>
+      <a href="/">SiteWriter.net</a>
     </header>
 
-    <%= yield %>
-
+    <div id="content">
+      <%= yield %>
+    </div>
   </body>
+  <footer>
+    SiteWriter.net is an <a href="https://github.com/gerwitz/sitewriter">open source</a> project from <a href="https://hans.gerwitz.com/">Hans Gerwitz</a>.
+  </footer>
 </html>

@@ -1,8 +1,53 @@
+html, body {
+  height: 100%;
+}
 body {
-	line-height: 1;
+	display: flex;
+  flex-direction: column;
+
+	margin: 0;
+
+	line-height: 1.5;
 
 	color: black;
 	background: white;
 
 	font-family: sans-serif;
+}
+
+header {
+	margin: 0;
+	padding: 0 16px;
+	padding-top: 16px;
+	font-size: 32px;
+	background-color: #34495E;
+	color: #FFFFFF;
+}
+header a {
+	text-decoration: none;
+	color: inherit;
+}
+
+#content {
+	flex: 1 0 auto;
+
+	padding: 16px;
+}
+
+footer {
+  flex-shrink: 0;
+
+	margin: 0;
+	padding: 16px;
+	font-size: 16px;
+	background-color: #34495E;
+	color: #FFFFFF;
+}
+footer a {
+	text-decoration: none;
+	color: inherit;
+}
+
+h2 {
+	color: #34495E;
 }
