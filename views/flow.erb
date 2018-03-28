@@ -1,4 +1,4 @@
-<div><%= @site.domain %></div>
+<div>&lt; <a href="/<%= @site.domain %>"><%= @site.domain %><a></div>
 
 <h1>Flow for '<%= Post::TYPES[@flow.post_type_id] %>'</h1>
 <div>
@@ -21,23 +21,54 @@
         </option>
         <% end %>
       </select></label>
-    </div><div>
+    </div>
+    <br>
+    <div>
       <label>
         Path template
         <br>
         <input type="text" size="80" name="path_template" value="<%= @flow.path_template %>">
+        <br>
+        <small>
+          <code>_posts/{{year}}-{{month}}/{{year}}-{{month}}-{{day}}-{{slug}}.md</code>
+        </small>
       </label>
-    </div><div>
+    </div>
+    <br>
+    <div>
       <label>
         URL template
         <br>
         <input type="text" size="80" name="url_template" value="<%= @flow.url_template %>">
+        <br>
+        <small>
+          <code>{{year}}/{{month}}/{{day}}/{{slug}}.html</code>
+        </small>
       </label>
-    </div><div>
+    </div>
+    <br>
+    <div>
       <label>
         Content template
         <br>
         <textarea name="content_template" cols="80" rows="25"><%= @flow.content_template %></textarea>
+        <br>
+        <small><pre>
+---
+date: {{date_time}}
+slug: {{slug}}
+categories:
+- microblog
+{{#categories}}
+- {{name}}
+{{/categories}}
+---
+{{{content}}}
+
+{{#photos}}
+![]({{url}})
+{{/photos}}
+</pre></small>
       </label>
     </div>
 
@@ -58,21 +89,31 @@
         Path template
         <br>
         <input type="text" size="80" name="media_path_template" value="<%= @flow.media_path_template %>">
+        <br>
+        <small>
+          <code>assets/{{year}}-{{month}}/{{day}}-{{slug}}{{extension}}</code>
+        </small>
       </label>
     </div><div>
       <label>
         URL template
         <br>
         <input type="text" size="80" name="media_url_template" value="<%= @flow.media_url_template %>">
+        <br>
+        <small>
+          <code>assets/{{year}}-{{month}}/{{day}}-{{slug}}{{extension}}</code>
+        </small>
       </label>
     </div>
 
+<!--
     <h2>Webmentions</h2>
     <div>
       <label><input type="checkbox" name="allow_meta" value="true"<%= ' checked' if @flow.allow_meta %>>Handle metadata pings?</label>
     </div>
-
+-->
     <div>
+      <br>
       <button type="submit">Update</button>
     </div>
   </form>
