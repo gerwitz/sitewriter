@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require "irb"
+require "irb/completion"
+
+env = ENV['RACK_ENV'] || 'development'
+env = env.to_sym
+
+require "bundler/setup"
+Bundler.require(:default, env)
+
+Dotenv.load unless env == :production
+
+# require_relative '../models/init'
+require_relative '../app'
+
+# Suppress the Sinatra `at_exit` hook
+set :run, false
+
+IRB.start
