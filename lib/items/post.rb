@@ -212,10 +212,11 @@ class Post
   def self.new_from_properties(props)
     klass = Post
     mf_type = ''
-    if props.key?('h')
-      mf_type = 'h-'+props['h'][0].to_s
-puts("👑 h")
-    elsif props.key?('type')
+#     if props.key?('h')
+#       mf_type = 'h-'+props['h'][0].to_s
+# puts("👑 h")
+#     els
+    if props.key?('type')
       mf_type = props['type'][0].to_s
     end
 puts("👑 mf_type is '#{mf_type}': #{props.inspect}")

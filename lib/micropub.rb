@@ -4,7 +4,10 @@ module Micropub
   # TODO: handle JSON requests
   def create(params)
     if params.key?('h')
+      mf_type = 'h-'+params['h'].to_s
+puts("👑 discerned #{mf_type}")
       safe_properties = sanitize_properties(params)
+      safe_properties['type'] = mf_type
       # wrap each non-array value in an array
       deep_props = Hash[ safe_properties.map { |k, v| [k, Array(v)] } ]
       post = Post.new_from_properties(deep_props)
