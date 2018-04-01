@@ -45,7 +45,7 @@
       <th>
         <%= flow.name %>
       </th><td>
-        sends <%= flow.post_type %>
+        sends <%= flow.post_kind %>
         <% if flow.store_id %>
           to <%= flow.store.name %>
         <% end %>
@@ -67,9 +67,9 @@
   <div>
     New:
     <form action="/<%= @site.domain %>/flows" method="post">
-      <select name="post_type_id">
-        <% Post::TYPES.each do |id, name| %>
-        <option value="<%= id %>"><%= name %></option>
+      <select name="post_kind">
+        <% Post::KINDS.each do |kind| %>
+        <option value="<%= kind %>"><%= kind %></option>
         <% end %>
       </select>
       <label>

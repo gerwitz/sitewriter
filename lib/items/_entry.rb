@@ -4,10 +4,6 @@ class Entry < Post
     super(properties, url)
   end
 
-  def type_id
-    TYPES.key(:entry)
-  end
-
   def h_type
     'h-entry'
   end

@@ -4,10 +4,6 @@ class Cite < Post
     super(properties, url)
   end
 
-  def type_id
-    TYPES.key(:cite)
-  end
-
   def h_type
     'h-cite'
   end

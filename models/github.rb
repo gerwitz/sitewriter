@@ -60,6 +60,7 @@ class Github < Store
     )
   end
 
+  # broken
   def get(filename)
     file_content = get_file_content(filename)
     data = JSON.parse(file_content)

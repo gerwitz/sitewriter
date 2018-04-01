@@ -17,6 +17,7 @@ class SiteWriter < Sinatra::Application
     if session[:domain]
       redirect "/#{session[:domain]}/"
     else
+      # it didn't work
       redirect '/'
     end
   end
@@ -31,14 +32,12 @@ class SiteWriter < Sinatra::Application
   end
 
   get '/:domain/' do
-    auth_for_domain
-    @site = find_site
+    @site = auth_site
     erb :site
   end
 
   post '/:domain/stores' do
-    auth_for_domain
-    @site = find_site
+    @site = auth_site
     if params.key?('type_id')
       type_id = params['type_id'].to_i
       store_class = Store.sti_class_from_sti_key(type_id)
@@ -52,9 +51,7 @@ class SiteWriter < Sinatra::Application
   end
 
   post '/:domain/flows' do
-    auth_for_domain
-    # auth_for_domain(params[:domain])
-    @site = find_site
+    @site = auth_site
     if params.key?('id')
       # editing
       flow = Flow.first(id: params[:id].to_i)
@@ -73,15 +70,14 @@ class SiteWriter < Sinatra::Application
       redirect "/#{@site.domain}/"
     else
       # creating
-      flow = Flow.find_or_create(site_id: @site.id, post_type_id: params[:post_type_id].to_i)
-      # flow.update_fields(params, [:post_type_id])
+      flow = Flow.find_or_create(site_id: @site.id, post_kind: params[:post_kind].to_s)
+      # flow.update_fields(params, [:post_kind])
       redirect "/#{@site.domain}/flows/#{flow.id}"
     end
   end
 
   get '/:domain/flows/:id' do
-    auth_for_domain
-    @site = find_site
+    @site = auth_site
     @flow = Flow.find(id: params[:id].to_i, site_id: @site.id)
     erb :flow
   end
@@ -120,11 +116,12 @@ private
     session[:domain] = domain
   end
 
-  def find_site
-    if params[:domain]
-      site = Site.first(domain: params[:domain].to_s)
+  def find_site(domain = nil)
+    domain ||= params[:domain]
+    if domain
+      site = Site.first(domain: domain.to_s)
       if site.nil?
-        raise StandardError.new("No site found for '#{params[:domain].to_s}'")
+        raise StandardError.new("No site found for '#{domain}'")
       else
         return site
       end
@@ -133,12 +130,58 @@ private
     end
   end
 
-  def auth_for_domain(domain = nil)
-    return if ENV['RACK_ENV'].to_sym == :development
+  def auth_site(domain = nil)
+    # return if ENV['RACK_ENV'].to_sym == :development
     domain ||= params[:domain]
-    if domain != session[:domain]
-      redirect '/'
+    if domain == session[:domain]
+      return find_site(domain)
+    else
+      login_site(domain)
     end
   end
+
+  def login_site(domain = nil)
+    auth_host = "indieauth.com"
+    auth_path = "/auth"
+
+    domain ||= params[:domain]
+    auth_query = URI.encode_www_form(
+      client_id: "#{request.scheme}://#{ request.host_with_port }/",
+      redirect_uri: "#{request.scheme}://#{ request.host_with_port }/login",
+      me: domain
+    )
+    redirect URI::HTTPS.build(
+      host: auth_host,
+      path: auth_path,
+      query: auth_query
+    ), 302
+  end
+  #
+  #   def auth_domain
+  #
+  #   if params[:domain]
+  #     site = Site.first(domain: params[:domain].to_s)
+  #
+  #
+  #
+  #   if params[:domain]
+  #     site = Site.first(domain: params[:domain].to_s)
+  #     if site.nil?
+  #       raise StandardError.new("No site found for '#{params[:domain].to_s}'")
+  #     else
+  #       return site
+  #     end
+  #   else
+  #     not_found
+  #   end
+  # end
+  #
+  # def auth_for_domain(domain = nil)
+  #   return if ENV['RACK_ENV'].to_sym == :development
+  #   domain ||= params[:domain]
+  #   if domain != session[:domain]
+  #     redirect '/'
+  #   end
+  # end
 
 end

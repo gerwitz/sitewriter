@@ -15,7 +15,7 @@ class Media
     @extension = extension || Rack::Mime::MIME_TYPES.invert[type]
   end
 
-  def view_properties
+  def render_variables
     {
       slug: @slug,
       extension: @extension,

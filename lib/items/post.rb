@@ -1,21 +1,15 @@
 class Post
 
-  TYPES = {
-    1 => :entry,
-    2 => :note,
-    3 => :cite,
-    4 => :card,
-    5 => :event
-  }
-
-# note
-# bookmark-of
-# cite
-# location
-# event
-# card
-# repost
-# reply
+  KINDS = [
+    :article,
+    :note
+    # :photo,
+    # :bookmark,
+    # :event,
+    # :card,
+    # :repost,
+    # :reply
+  ]
 
   # this was for access to the raw microformat properties
   # ...but maybe we can avoid that
@@ -29,6 +23,10 @@ class Post
     unless @properties.key?('published')
       @properties['published'] = [Time.now.utc.iso8601]
     end
+  end
+
+  def kind
+    "unknown"
   end
 
   def attach_url(type, url)
@@ -50,7 +48,7 @@ class Post
     @time ||= timify
   end
 
-  def view_properties
+  def render_variables
     return {
       slug: slug,
       date_time: time.rfc3339,
@@ -64,9 +62,9 @@ class Post
     # }.merge(@properties)
   end
 
-  def data
-    { 'type' => [h_type], 'properties' => @properties }
-  end
+  # def data
+  #   { 'type' => [h_type], 'properties' => @properties }
+  # end
 
   # def filename
   #   "#{url}.json"
@@ -84,10 +82,10 @@ class Post
   #   URI.join(ENV['SITE_URL'], url).to_s
   # end
 
-  def is_deleted?
-    @properties.key?('deleted') &&
-      Time.parse(@properties['deleted'][0]) < Time.now
-  end
+  # def is_deleted?
+  #   @properties.key?('deleted') &&
+  #     Time.parse(@properties['deleted'][0]) < Time.now
+  # end
 
   def content
     if @properties.key?('content')
@@ -101,7 +99,6 @@ class Post
       @properties['summary'][0]
     end
   end
-
 
   # def generate_url_published
   #   # unless @properties.key?('published')
@@ -137,56 +134,56 @@ class Post
     end
   end
 
-  def replace(props)
-    props.keys.each do |prop|
-      @properties[prop] = props[prop]
-    end
-  end
+  # def replace(props)
+  #   props.keys.each do |prop|
+  #     @properties[prop] = props[prop]
+  #   end
+  # end
+  #
+  # def add(props)
+  #   props.keys.each do |prop|
+  #     unless @properties.key?(prop)
+  #       @properties[prop] = props[prop]
+  #     else
+  #       @properties[prop] += props[prop]
+  #     end
+  #   end
+  # end
+  #
+  # def remove(props)
+  #   if props.is_a?(Hash)
+  #     props.keys.each do |prop|
+  #       @properties[prop] -= props[prop]
+  #       if @properties[prop].empty?
+  #         @properties.delete(prop)
+  #       end
+  #     end
+  #   else
+  #     props.each do |prop|
+  #       @properties.delete(prop)
+  #     end
+  #   end
+  # end
+  #
+  # def delete
+  #   @properties['deleted'] = [Time.now.utc.iso8601]
+  # end
+  #
+  # def undelete
+  #   @properties.delete('deleted')
+  # end
+  #
+  # def set_updated
+  #   @properties['updated'] = [Time.now.utc.iso8601]
+  # end
 
-  def add(props)
-    props.keys.each do |prop|
-      unless @properties.key?(prop)
-        @properties[prop] = props[prop]
-      else
-        @properties[prop] += props[prop]
-      end
-    end
-  end
-
-  def remove(props)
-    if props.is_a?(Hash)
-      props.keys.each do |prop|
-        @properties[prop] -= props[prop]
-        if @properties[prop].empty?
-          @properties.delete(prop)
-        end
-      end
+  def set_slug(mp_params)
+    if mp_params.key?('properties')
+      return unless mp_params['properties'].key?('mp-slug')
+      mp_slug = mp_params['properties']['mp-slug'][0]
     else
-      props.each do |prop|
-        @properties.delete(prop)
-      end
-    end
-  end
-
-  def delete
-    @properties['deleted'] = [Time.now.utc.iso8601]
-  end
-
-  def undelete
-    @properties.delete('deleted')
-  end
-
-  def set_updated
-    @properties['updated'] = [Time.now.utc.iso8601]
-  end
-
-  def set_slug(params)
-    if params.key?('properties')
-      return unless params['properties'].key?('mp-slug')
-      mp_slug = params['properties']['mp-slug'][0]
-    else
-      return unless params.key?('mp-slug')
-      mp_slug = params['mp-slug']
+      return unless mp_params.key?('mp-slug')
+      mp_slug = mp_params['mp-slug']
     end
     @slug = mp_slug.strip.downcase.gsub(/[^\w-]/, '-')
   end
@@ -212,18 +209,49 @@ class Post
     @properties['syndication'] += new_syndications
   end
 
-  def self.class_from_type(type)
-    case type
-    when 'h-card'
-      Card
-    when 'h-cite'
-      Cite
-    when 'h-entry'
-      Entry
-    when 'h-event'
-      Event
+  def self.new_from_properties(props)
+    klass = Post
+    mf_type = ''
+    if props.key?('h')
+      mf_type = 'h-'+props['h'][0].to_s
+    elsif props.key?('type')
+      mf_type = props['type'][0].to_s
     end
+    if mf_type == 'h-entry'
+      if props.key?('bookmark-of')
+        klass = Bookmark
+      else
+        # does it have a title?
+        if props.key?('title')
+          klass = Article
+        else
+          syndication = ''
+          if props.key?('syndication')
+            syndication = props['syndication'][0].to_s
+          end
+          if syndication.include?('instagram.com/')
+            klass = Photo
+          else
+            klass = Note
+          end
+        end
+      end
+    end
+    return klass.new(props)
   end
+
+  # def self.class_from_type(type)
+  #   case type
+  #   when 'h-card'
+  #     Card
+  #   when 'h-cite'
+  #     Cite
+  #   when 'h-entry'
+  #     Entry
+  #   when 'h-event'
+  #     Event
+  #   end
+  # end
 
   def self.valid_types
     %w( h-card h-cite h-entry h-event )

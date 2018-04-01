@@ -3,8 +3,12 @@ require_relative 'auth'
 
 require_relative 'media'
 
-require_relative 'posts/post'
-require_relative 'posts/card'
-require_relative 'posts/cite'
-require_relative 'posts/entry'
-require_relative 'posts/event'
+# require_relative 'card'
+# require_relative 'cite'
+# require_relative 'location'
+
+require_relative 'items/post'
+require_relative 'items/article'
+require_relative 'items/bookmark'
+require_relative 'items/note'
+require_relative 'items/photo'

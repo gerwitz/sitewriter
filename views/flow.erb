@@ -1,6 +1,6 @@
 <div>&lt; <a href="/<%= @site.domain %>"><%= @site.domain %><a></div>
 
-<h1>Flow for '<%= Post::TYPES[@flow.post_type_id] %>'</h1>
+<h1>Flow for '<%= @flow.post_kind %>'</h1>
 <div>
   <form action="/<%= @site.domain %>/flows" method="post">
     <input type="hidden" name="id" value="<%= @flow.id %>">

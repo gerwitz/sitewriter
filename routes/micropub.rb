@@ -26,12 +26,14 @@ class SiteWriter < Sinatra::Application
       require_auth
       verify_create
       post = Micropub.create(params)
-      raise EndpointError("invalid_request", "Unknown entry type", 400) unless post
-# puts "💡 flows: #{flows.inspect}"
-      flow = flows.where(post_type_id: post.type_id).first
-# puts "💡 flow: #{flow.inspect}"
-      # post.syndicate(services) if services.any?
-      raise EndpointError("configuration_error", "Not configured to store #{post.class.name}", 501) unless flow
+      raise Micropub::InvalidRequestError.new(
+        "Unknown post kind."
+      ) unless post
+      flow = flows.where(post_kind: post.kind).first
+      raise EndpointError(
+        "configuration_error", "Not configured to store #{post.kind}",
+        501
+      ) unless flow
 
       if params.key?(:photo)
         flow.attach_photos(post, params[:photo])

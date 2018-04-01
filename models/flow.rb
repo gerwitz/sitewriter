@@ -2,31 +2,24 @@ class Flow < Sequel::Model
 
   require 'mustache'
 
-  # def handles_type?(type)
-  #   return post_types.contains(type)
-  # end
   many_to_one :site
   many_to_one :store
   many_to_one :media_store, class: :Store
 
-  def post_type
-    return Post::TYPES[post_type_id].to_s
-  end
-
   def url_for_post(post)
-    relative_url = Mustache.render(url_template, post.view_properties)
+    relative_url = Mustache.render(url_template, post.render_variables)
     return URI.join(site.url, relative_url).to_s
   end
 
   def file_path_for_post(post)
-    Mustache.render(path_template, post.view_properties)
+    Mustache.render(path_template, post.render_variables)
   end
 
   def file_content_for_post(post)
-puts "🐌 post.view_properties: #{post.view_properties.inspect}"
-puts "🐌 as json: #{post.view_properties.to_json}"
+puts "🐌 post.render_variables: #{post.render_variables.inspect}"
+puts "🐌 as json: #{post.render_variables.to_json}"
 
-    Mustache.render(content_template, post.view_properties)
+    Mustache.render(content_template, post.render_variables)
   end
 
   def store_post(post)
@@ -35,12 +28,12 @@ puts "🐌 as json: #{post.view_properties.to_json}"
   end
 
   def url_for_media(media)
-    relative_url = Mustache.render(media_url_template, media.view_properties)
+    relative_url = Mustache.render(media_url_template, media.render_variables)
     return URI.join(site.url, relative_url).to_s
   end
 
   def file_path_for_media(media)
-    Mustache.render(media_path_template, media.view_properties)
+    Mustache.render(media_path_template, media.render_variables)
   end
 
   def store_file(media)
