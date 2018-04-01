@@ -214,9 +214,11 @@ class Post
     mf_type = ''
     if props.key?('h')
       mf_type = 'h-'+props['h'][0].to_s
+puts("👑 h")
     elsif props.key?('type')
       mf_type = props['type'][0].to_s
     end
+puts("👑 mf_type is '#{mf_type}': #{props.inspect}")
     if mf_type == 'h-entry'
       if props.key?('bookmark-of')
         klass = Bookmark
