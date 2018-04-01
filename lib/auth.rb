@@ -13,16 +13,16 @@ module Auth
     })
     unless response.code.to_i == 200
       if result = JSON.parse(response.body)
-        raise TransformativeError.new(result.error, result.error_description, response.code.to_i)
+        raise SitewriterError.new(result.error, result.error_description, response.code.to_i)
       else
-        raise TransformativeError.new("indieauth", "Unrecognized IndieAuth error", 500)
+        raise SitewriterError.new("indieauth", "Unrecognized IndieAuth error", 500)
       end
     end
     body = JSON.parse(response.body)
     if body['me']
       return body['me']
     else
-      raise TransformativeError.new("indieauth", "Invalid IndieAuth response", 500)
+      raise SitewriterError.new("indieauth", "Invalid IndieAuth response", 500)
     end
   end
 
@@ -60,19 +60,19 @@ module Auth
     end
   end
 
-  class NoTokenError < TransformativeError
+  class NoTokenError < SitewriterError
     def initialize(message="Micropub endpoint did not return an access token.")
       super("unauthorized", message, 401)
     end
   end
 
-  class InsufficientScope < TransformativeError
+  class InsufficientScope < SitewriterError
     def initialize(message="The user does not have sufficient scope to perform this action.")
       super("insufficient_scope", message, 401)
     end
   end
 
-  class ForbiddenError < TransformativeError
+  class ForbiddenError < SitewriterError
     def initialize(message="The authenticated user does not have permission" +
         " to perform this request.")
       super("forbidden", message, 403)

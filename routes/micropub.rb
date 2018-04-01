@@ -30,9 +30,8 @@ class SiteWriter < Sinatra::Application
         "Unknown post kind."
       ) unless post
       flow = flows.where(post_kind: post.kind).first
-      raise EndpointError(
-        "configuration_error", "Not configured to store #{post.kind}",
-        501
+      raise Micropub::ContentError.new(
+        "Not configured to write posts of kind '#{post.kind}'."
       ) unless flow
 
       if params.key?(:photo)
@@ -147,13 +146,4 @@ private
     data.to_json
   end
 
-end
-
-class EndpointError < StandardError
-  attr_reader :type, :status
-  def initialize(type, message, status=500)
-    @type = type
-    @status = status.to_i
-    super(message)
-  end
 end

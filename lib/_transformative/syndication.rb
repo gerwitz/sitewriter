@@ -50,7 +50,7 @@ module Transformative
 
   end
 
-  class SyndicationError < TransformativeError
+  class SyndicationError < SitewriterError
     def initialize(message)
       super("syndication", message)
     end

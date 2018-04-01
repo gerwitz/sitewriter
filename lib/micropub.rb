@@ -87,31 +87,38 @@ module Micropub
     ]
   end
 
-  class ForbiddenError < TransformativeError
+  class ForbiddenError < SitewriterError
     def initialize(message="The authenticated user does not have permission to perform this request.")
       super("forbidden", message, 403)
     end
   end
 
-  class InsufficientScopeError < TransformativeError
+  class InsufficientScopeError < SitewriterError
     def initialize(message="The scope of this token does not meet the requirements for this request.")
       super("insufficient_scope", message, 401)
     end
   end
 
-  class InvalidRequestError < TransformativeError
+  class InvalidRequestError < SitewriterError
     def initialize(message="The request is missing a required parameter, or there was a problem with a value of one of the parameters.")
       super("invalid_request", message, 400)
     end
   end
 
-  class NotFoundError < TransformativeError
+  # not on-spec but it feels right
+  class ContentError < SitewriterError
+    def initialize(message="The request includes content that cannot be accepted for writing.")
+      super("unaccepted_content", message, 501)
+    end
+  end
+
+  class NotFoundError < SitewriterError
     def initialize(message="The post with the requested URL was not found.")
       super("not_found", message, 400)
     end
   end
 
-  class ConflictError < TransformativeError
+  class ConflictError < SitewriterError
     def initialize(
         message="The post has already been created and syndicated.")
       super("conflict", message, 409)

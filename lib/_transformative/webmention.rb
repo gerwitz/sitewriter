@@ -171,7 +171,7 @@ module Transformative
 
   end
 
-  class WebmentionError < TransformativeError
+  class WebmentionError < SitewriterError
     def initialize(type, message)
       super(type, message, 400)
     end

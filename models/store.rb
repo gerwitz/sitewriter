@@ -18,7 +18,7 @@ class Store < Sequel::Model
 
 end
 
-class StoreError < TransformativeError
+class StoreError < SitewriterError
   def initialize(message)
     super("store", message)
   end

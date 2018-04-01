@@ -45,7 +45,7 @@ class SiteWriter < Sinatra::Application
       store = store_class.create(site_id: @site.id)
       store.update_fields(params, [:location, :user, :key])
     else
-      raise TransformativeError.new("bad_request", "Can't POST a store without a type")
+      raise SitewriterError.new("bad_request", "Can't POST a store without a type")
     end
     redirect "/#{@site.domain}/"
   end
@@ -87,7 +87,7 @@ class SiteWriter < Sinatra::Application
     erb :'404'
   end
 
-  error TransformativeError do
+  error SitewriterError do
     e = env['sinatra.error']
     json = {
       error: e.type,
@@ -121,7 +121,7 @@ private
     if domain
       site = Site.first(domain: domain.to_s)
       if site.nil?
-        raise StandardError.new("No site found for '#{domain}'")
+        raise SitewriterError.new("No site found for '#{domain}'")
       else
         return site
       end

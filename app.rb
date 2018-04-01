@@ -18,7 +18,7 @@ class SiteWriter < Sinatra::Application
   end
 end
 
-class TransformativeError < StandardError
+class SitewriterError < StandardError
   attr_reader :type, :status
   def initialize(type, message, status=500)
     @type = type
