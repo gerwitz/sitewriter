@@ -18,6 +18,11 @@ class Post
   def initialize(properties, url=nil)
     @properties = properties
     @url = url
+    if @properties.key?('category')
+      @categories = @properties['category']
+    else
+      @categories = []
+    end
     @photos = []
 
     unless @properties.key?('published')
@@ -55,6 +60,7 @@ class Post
       year: time.strftime('%Y'),
       month: time.strftime('%m'),
       day: time.strftime('%d'),
+      categories: @categories,
       content: content,
       has_photos: @photos.any?,
       photos: @photos
