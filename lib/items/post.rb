@@ -61,6 +61,7 @@ class Post
       month: time.strftime('%m'),
       day: time.strftime('%d'),
       categories: @categories,
+      first_category: @categories.first || '',
       content: content,
       has_photos: @photos.any?,
       photos: @photos
@@ -218,30 +219,25 @@ class Post
   def self.new_from_properties(props)
     klass = Post
     mf_type = ''
-#     if props.key?('h')
-#       mf_type = 'h-'+props['h'][0].to_s
-# puts("👑 h")
-#     els
     if props.key?('type')
       mf_type = props['type'][0].to_s
-    end
-puts("👑 mf_type is '#{mf_type}': #{props.inspect}")
-    if mf_type == 'h-entry'
-      if props.key?('bookmark-of')
-        klass = Bookmark
-      else
-        # does it have a title?
-        if props.key?('title')
-          klass = Article
+      if mf_type == 'h-entry'
+        if props.key?('bookmark-of')
+          klass = Bookmark
         else
-          syndication = ''
-          if props.key?('syndication')
-            syndication = props['syndication'][0].to_s
-          end
-          if syndication.include?('instagram.com/')
-            klass = Photo
+          # does it have a title?
+          if props.key?('title')
+            klass = Article
           else
-            klass = Note
+            syndication = ''
+            if props.key?('syndication')
+              syndication = props['syndication'][0].to_s
+            end
+            if syndication.include?('instagram.com/')
+              klass = Photo
+            else
+              klass = Note
+            end
           end
         end
       end
