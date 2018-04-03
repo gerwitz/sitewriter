@@ -2,8 +2,8 @@ class SiteWriter < Sinatra::Application
 
   post '/:domain/micropub' do
     # TODO: handle multipart requests
-    puts "Micropub params=#{params}"
     site = find_site
+    start_log(site)
     flows = site.flows_dataset
     # start by assuming this is a non-create action
     # if params.key?('action')
@@ -18,9 +18,17 @@ class SiteWriter < Sinatra::Application
       require_auth
       media = Media.new(params[:file])
       flow = flows.first(allow_media: true)
+      @log.update(
+        flow_id: flow.id
+      )
       url = flow.store_file(media)
       headers 'Location' => url
       status 202
+      @log.update(
+        url: url,
+        status_code: 202,
+        finished_at: Time.now()
+      )
     else
       # assume this is a create
       require_auth
@@ -44,6 +52,7 @@ class SiteWriter < Sinatra::Application
   # TODO: syndication targets
   get '/:domain/micropub' do
     site = find_site
+    start_log(site)
     if params.key?('q')
       require_auth
       content_type :json
@@ -61,12 +70,26 @@ class SiteWriter < Sinatra::Application
       else
         # Silently fail if query method is not supported
       end
+      @log.update(
+        url: url,
+        status_code: 202,
+        finished_at: Time.now()
+      )
     else
       'Micropub endpoint'
     end
   end
 
 private
+
+  def start_log(site)
+    # DB is defined in models/init
+    @log = DB[:log].insert(
+      started_at: Time.now(),
+      site_id: site.id,
+      request: Sequel.pg_json(request)
+    )
+  end
 
   def require_auth
     return unless settings.production?
@@ -77,6 +100,7 @@ private
     end
     scope = params.key?('action') ? params['action'] : 'post'
     Auth.verify_token_and_scope(token, scope)
+    # TODO: check "me" for domain match
   end
 
   def verify_create

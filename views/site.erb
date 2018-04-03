@@ -85,4 +85,10 @@
   </div>
 <% end %>
 
+<pre>
+<% @site.log.each do |entry| %>
+- <%= entry.inspect %>
+<% end %>
+</pre>
+
 </div>
