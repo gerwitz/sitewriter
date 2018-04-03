@@ -87,7 +87,7 @@ private
     @log = DB[:log].insert(
       started_at: Time.now(),
       site_id: site.id,
-      request: Sequel.pg_json(request)
+      request: Sequel.pg_json(params)
     )
   end
 
