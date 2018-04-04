@@ -87,15 +87,6 @@ class SiteWriter < Sinatra::Application
     erb :'404'
   end
 
-  error SitewriterError do
-    e = env['sinatra.error']
-    json = {
-      error: e.type,
-      error_description: e.message
-    }.to_json
-    halt(e.status, { 'Content-Type' => 'application/json' }, json)
-  end
-
   error do
     erb :'500', layout: false
   end

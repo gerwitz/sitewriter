@@ -75,6 +75,17 @@ class SiteWriter < Sinatra::Application
     end
   end
 
+  error SitewriterError do
+    e = env['sinatra.error']
+    json = {
+      error: e.type,
+      error_description: e.message
+    }.to_json
+    @log[:error] = Sequel.pg_json(json)
+    write_log
+    halt(e.status, { 'Content-Type' => 'application/json' }, json)
+  end
+
 private
 
   def start_log(site)
