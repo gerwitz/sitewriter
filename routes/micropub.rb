@@ -18,16 +18,11 @@ class SiteWriter < Sinatra::Application
       require_auth
       media = Media.new(params[:file])
       flow = flows.first(allow_media: true)
-      @log << {
-        flow_id: flow.id
-      }
-      puts "👽 #{@log}"
+      @log[:flow_id] = flow.id
       url = flow.store_file(media)
-      @log << {
-        url: url,
-        status_code: 202,
-        finished_at: Time.now()
-      }
+      @log[:url] = url
+      @log[:status_code] = 202
+      @log[:finished_at] = Time.now()
       headers 'Location' => url
       status 202
     else
@@ -39,20 +34,14 @@ class SiteWriter < Sinatra::Application
       raise Micropub::ContentError.new(
         "Not configured to write posts of kind '#{post.kind}'."
       ) unless flow
-      @log << {
-        flow_id: flow.id
-      }
-
+      @log[:flow_id] = flow.id
       if params.key?(:photo)
         flow.attach_photos(post, params[:photo])
       end
-
       url = flow.store_post(post)
-      @log << {
-        url: url,
-        status_code: 202,
-        finished_at: Time.now()
-      }
+      @log[:url] = url
+      @log[:status_code] = 202
+      @log[:finished_at] = Time.now()
       headers 'Location' => url
       status 202
     end
