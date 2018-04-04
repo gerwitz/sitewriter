@@ -23,6 +23,7 @@ class SiteWriter < Sinatra::Application
       @log[:url] = url
       @log[:response_code] = 202
       @log[:finished_at] = Time.now()
+      write_log
       headers 'Location' => url
       status 202
     else
@@ -42,10 +43,10 @@ class SiteWriter < Sinatra::Application
       @log[:url] = url
       @log[:response_code] = 202
       @log[:finished_at] = Time.now()
+      write_log
       headers 'Location' => url
       status 202
     end
-    write_log
   end
 
   # TODO: syndication targets
