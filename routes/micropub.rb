@@ -21,7 +21,7 @@ class SiteWriter < Sinatra::Application
       @log[:flow_id] = flow.id
       url = flow.store_file(media)
       @log[:url] = url
-      @log[:status_code] = 202
+      @log[:response_code] = 202
       @log[:finished_at] = Time.now()
       headers 'Location' => url
       status 202
@@ -40,7 +40,7 @@ class SiteWriter < Sinatra::Application
       end
       url = flow.store_post(post)
       @log[:url] = url
-      @log[:status_code] = 202
+      @log[:response_code] = 202
       @log[:finished_at] = Time.now()
       headers 'Location' => url
       status 202
