@@ -94,7 +94,10 @@ private
     @log = {
       started_at: Time.now(),
       site_id: site.id,
-      request: Sequel.pg_json(params)
+      ip: request.ip,
+      user_agent: request.user_agent,
+      properties: Sequel.pg_json(params),
+      request: request.body
     }
   end
 

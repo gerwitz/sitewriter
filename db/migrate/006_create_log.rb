@@ -7,10 +7,13 @@ Sequel.migration do
 
       column :started_at, 'timestamp without time zone', index: true
       column :finished_at, 'timestamp without time zone'
-      column :request, :jsonb
+      String :ip
+      String :user_agent
+      column :properties, :jsonb
+      String :request, text: true
       String :kind
       String :url, size: 255
-      Integer :response_code
+      Integer :status_code
       column :error, :jsonb
     end
   end
