@@ -18,17 +18,18 @@ class SiteWriter < Sinatra::Application
       require_auth
       media = Media.new(params[:file])
       flow = flows.first(allow_media: true)
-      @log.update(
+      @log << {
         flow_id: flow.id
-      )
+      }
+      puts "👽 #{@log}"
       url = flow.store_file(media)
-      headers 'Location' => url
-      status 202
-      @log.update(
+      @log << {
         url: url,
         status_code: 202,
         finished_at: Time.now()
-      )
+      }
+      headers 'Location' => url
+      status 202
     else
       # assume this is a create
       require_auth
@@ -38,21 +39,30 @@ class SiteWriter < Sinatra::Application
       raise Micropub::ContentError.new(
         "Not configured to write posts of kind '#{post.kind}'."
       ) unless flow
+      @log << {
+        flow_id: flow.id
+      }
 
       if params.key?(:photo)
         flow.attach_photos(post, params[:photo])
       end
 
       url = flow.store_post(post)
+      @log << {
+        url: url,
+        status_code: 202,
+        finished_at: Time.now()
+      }
       headers 'Location' => url
       status 202
     end
+    write_log
   end
 
   # TODO: syndication targets
   get '/:domain/micropub' do
     site = find_site
-    start_log(site)
+    # start_log(site)
     if params.key?('q')
       require_auth
       content_type :json
@@ -70,11 +80,6 @@ class SiteWriter < Sinatra::Application
       else
         # Silently fail if query method is not supported
       end
-      @log.update(
-        url: url,
-        status_code: 202,
-        finished_at: Time.now()
-      )
     else
       'Micropub endpoint'
     end
@@ -84,11 +89,15 @@ private
 
   def start_log(site)
     # DB is defined in models/init
-    @log = DB[:log].insert(
+    @log = {
       started_at: Time.now(),
       site_id: site.id,
       request: Sequel.pg_json(params)
-    )
+    }
+  end
+
+  def write_log
+    DB[:log].insert(@log)
   end
 
   def require_auth
