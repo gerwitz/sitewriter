@@ -15,6 +15,7 @@ class SiteWriter < Sinatra::Application
     # elsif params.key?('file')
     if params.key?('file')
       # assume this a file (photo) upload
+      @log[:request] = "#{request.media_type} (#{request.content_length} bytes)"
       require_auth
       media = Media.new(params[:file])
       flow = flows.first(allow_media: true)
@@ -28,6 +29,8 @@ class SiteWriter < Sinatra::Application
       status 202
     else
       # assume this is a create
+      request.body.rewind
+      @log[:request] = request.body.read
       require_auth
       verify_create
       post = Micropub.create(params)
@@ -97,9 +100,7 @@ private
       ip: request.ip,
       user_agent: request.user_agent,
       properties: Sequel.pg_json(params),
-      request: request.body.read
     }
-    request.body.rewind
   end
 
   def write_log
