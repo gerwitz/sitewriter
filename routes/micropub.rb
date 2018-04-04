@@ -21,7 +21,7 @@ class SiteWriter < Sinatra::Application
       @log[:flow_id] = flow.id
       url = flow.store_file(media)
       @log[:url] = url
-      @log[:response_code] = 202
+      @log[:status_code] = 202
       @log[:finished_at] = Time.now()
       write_log
       headers 'Location' => url
@@ -41,7 +41,7 @@ class SiteWriter < Sinatra::Application
       end
       url = flow.store_post(post)
       @log[:url] = url
-      @log[:response_code] = 202
+      @log[:status_code] = 202
       @log[:finished_at] = Time.now()
       write_log
       headers 'Location' => url
@@ -81,7 +81,7 @@ class SiteWriter < Sinatra::Application
       error: e.type,
       error_description: e.message
     }.to_json
-    @log[:response_code] = e.status
+    @log[:status_code] = e.status
     @log[:error] = Sequel.pg_json(json)
     write_log
     halt(e.status, { 'Content-Type' => 'application/json' }, json)
