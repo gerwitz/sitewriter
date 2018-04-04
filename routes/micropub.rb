@@ -97,8 +97,9 @@ private
       ip: request.ip,
       user_agent: request.user_agent,
       properties: Sequel.pg_json(params),
-      request: request.body
+      request: request.body.read
     }
+    request.body.rewind
   end
 
   def write_log
