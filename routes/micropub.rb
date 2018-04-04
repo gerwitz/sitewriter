@@ -81,6 +81,7 @@ class SiteWriter < Sinatra::Application
       error: e.type,
       error_description: e.message
     }.to_json
+    @log[:response_code] = e.status
     @log[:error] = Sequel.pg_json(json)
     write_log
     halt(e.status, { 'Content-Type' => 'application/json' }, json)
