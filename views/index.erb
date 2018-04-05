@@ -1,31 +1,32 @@
-<h2>What is this?</h2>
-<p>SiteWriter.net makes it easy to use <a href="https://indiewebify.me">IndieWeb</a> services with your website.<p>
-Currently supported:
-<ul>
-  <li>
-    Micropub posts: notes
-  </li>
-  <li>
-    Micropub media files
-  </li>
-  <li>
-    Writing to GitHub
-  </li>
-</ul>
+<% if session[:domain] %>
 
-<div>
-  <% if session[:domain] %>
-  Authenticated as <a href="/<%= session[:domain] %>"><%= session[:domain] %></a>
-  <form action="/logout" method="get">
-    <button type="submit">Log out</button>
-  </form>
-  <% else %>
-  Set up your domain for <a href="https://indieweb.org/How_to_set_up_web_sign-in_on_your_own_domain">web sign-in</a> and start here:
+<h2>Welcom back!</h2>
+
+<p>
+  You're authenticated as <a href="/<%= session[:domain] %>"><%= session[:domain] %></a>
+</p>
+<form action="/logout" method="get">
+  <button type="submit">Log out</button>
+</form>
+
+<% else %>
+
+<h2>What is this?</h2>
+<p>
+  SiteWriter.net makes it easy to use <a href="https://indiewebify.me/">IndieWeb</a> services with your static site. It currently supports writing Micropub posts to GitHub repositories.
+</p>
+<p>
+  To get started, enable IndieAuth on your domain. (<a href="https://indieauth.com/setup">IndieAuth.com</a> is a popular provider.) Then enter your domain here:
   <form action="https://indieauth.com/auth" method="get">
     <input type="text" name="me" placeholder="mydomain.com">
     <input type="hidden" name="client_id" value="<%= "#{request.scheme}://#{ request.host_with_port }/" %>">
     <input type="hidden" name="redirect_uri" value="<%= "#{request.scheme}://#{ request.host_with_port }/login" %>">
     <button type="submit">Sign In</button>
   </form>
-  <% end %>
-</div>
+</p>
+<p>
+  <small>
+    If you don't yet have a site, you can get started for free with <a href="http://jmcglone.com/guides/github-pages/">Jonathan McGlone's guide for GitHub pages</a>. We strongly suggest setting it up with a <a href="https://help.github.com/articles/quick-start-setting-up-a-custom-domain/">custom domain</a> of your own.
+  </small>
+</p>
+<% end %>

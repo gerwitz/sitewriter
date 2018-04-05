@@ -1,94 +1,78 @@
 <h1><%= @site.domain %></h1>
-<div>
-  <div>
-    Base URL: <a href="<%= @site.url %>"><%= @site.url %></a>
-  </div>
-  <% if !session[:domain] %>
-  <div>
-    <form action="https://indieauth.com/auth" method="get">
-      <input type="hidden" name="me" value="<%= @site.domain %>">
-      <input type="hidden" name="client_id" value="<%= "#{request.scheme}://#{ request.host_with_port }/" %>">
-      <input type="hidden" name="redirect_uri" value="<%= "#{request.scheme}://#{ request.host_with_port }/login" %>">
-      <button type="submit">Authenticate</button>
-    </form>
-  </div>
-  <% end %>
 
-  <h2>Destinations</h2>
-  <ul>
-    <% @site.stores.each do |store| %>
-    <li>
-      <%= store.name %>
-    </li>
-    <% end %>
-  </ul>
-  <div>
-    New:
-    <form action="/<%= @site.domain %>/stores" method="post">
-      <select name="type_id">
-        <% Store::TYPES.each do |id, name| %>
-        <option value="<%= id %>"><%= name %></option>
-        <% end %>
-      </select>
-      <input type="text" name="user" placeholder="username">
-      <input type="text" name="location" placeholder="repository">
-      <input type="text" name="key" placeholder="access key">
-      <button type="submit">Add Destination</button>
-    </form>
-  </div>
+<div>
+  Make sure you have linked to your endpoint by including this tag in the <code>&lt;head&gt;</code> of your homepage:
+  <pre>
+    &lt;link href=&quot;http://test.sitewriter.net/<%= @site.domain %>/micropub&quot; rel=&quot;micropub&quot;&gt;
+  </pre>
+</div>
+
+<div>
+  Base URL: <a href="<%= @site.url %>"><%= @site.url %></a>
+</div>
+
+<h2>Destinations</h2>
+<ul>
+  <% @site.stores.each do |store| %>
+  <li>
+    <%= store.name %>
+  </li>
+  <% end %>
+</ul>
+<div>
+  New:
+  <form action="/<%= @site.domain %>/stores" method="post">
+    <select name="type_id">
+      <% Store::TYPES.each do |id, name| %>
+      <option value="<%= id %>"><%= name %></option>
+      <% end %>
+    </select>
+    <input type="text" name="user" placeholder="username">
+    <input type="text" name="location" placeholder="repository">
+    <input type="text" name="key" placeholder="access key">
+    <button type="submit">Add Destination</button>
+  </form>
+</div>
 
 <% if @site.stores.count > 0 %>
   <h2>Flows</h2>
   <table>
-    <% @site.flows.each do |flow| %>
+    <%
+      @flows.each do |flow_hash|
+        post_kind = flow_hash[:kind]
+        flow = flow_hash[:flow]
+    %>
     <tr>
       <th>
-        <%= flow.name %>
+        <%= post_kind %>
       </th><td>
-        sends <%= flow.post_kind %>
-        <% if flow.store_id %>
-          to <%= flow.store.name %>
+        <% if flow %>
+          sent to <%= flow.store.name %>
+          [<a href="flows/<%= flow.id %>">edit</a>]
+        <% else %>
+          [<a href="flows/new?post_kind=<%= post_kind %>">configure</a>]
         <% end %>
-<!--
-      </td><td>
-        <%= flow.allow_media ? 'handles' : 'does not handle' %> media files
-        <% if flow.media_store_id %>
-          to <%= flow.media_store.type_desc %>
-        <% end %>
-      </td><td>
-        <%= flow.allow_meta ? 'handles' : 'does not handle' %> metadata pings
- -->
-      </td><td>
-        [<a href="flows/<%= flow.id %>">edit</a>]
       </td>
     </tr>
     <% end %>
   </table>
-  <div>
-    New:
-    <form action="/<%= @site.domain %>/flows" method="post">
-      <select name="post_kind">
-        <% Post::KINDS.each do |kind| %>
-        <option value="<%= kind %>"><%= kind %></option>
-        <% end %>
-      </select>
-      <label>
-        post store:
-        <select name="store_id">
-          <% @site.stores.each do |store| %>
-          <option value="<%= store.id %>"><%= store.name %></option>
-          <% end %>
-        </select>
-      </label>
-      <button type="submit">New Flow</button>
-    </form>
-  </div>
 <% end %>
 
-<pre>
-<% @site.log.each do |entry| %>
-- <%= entry.inspect %>
+<% if @site.log.count > 0 %>
+  <h2>Recent requests</h2>
+  <table>
+  <% @site.log.each do |entry| %>
+    <tr>
+      <th>
+        <%= entry.started_at.iso8601 %>
+      </th><td>
+        <%= entry.kind %>
+      </td><td>
+        <a href="<%= entry.url %>"><%= entry.url %></a>
+      </td><td>
+        <%= entry.status_code %>
+      </td>
+    </tr>
+  <% end %>
+  </ol>
 <% end %>
-</pre>
-
-</div>

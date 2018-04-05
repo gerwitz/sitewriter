@@ -33,6 +33,13 @@ class SiteWriter < Sinatra::Application
 
   get '/:domain/' do
     @site = auth_site
+    site_flows = @site.flows_dataset
+    @flows = Post::KINDS.map{|kind|
+      {
+        kind: kind,
+        flow: site_flows.where(post_kind: kind.to_s).first
+      }
+    }
     erb :site
   end
 
@@ -50,30 +57,30 @@ class SiteWriter < Sinatra::Application
     redirect "/#{@site.domain}/"
   end
 
+  get '/:domain/flows/new' do
+    @site = auth_site
+    flow = Flow.find_or_create(site_id: @site.id, post_kind: params[:post_kind].to_s)
+    # flow.update_fields(params, [:post_kind])
+    redirect "/#{@site.domain}/flows/#{flow.id}"
+  end
+
   post '/:domain/flows' do
     @site = auth_site
-    if params.key?('id')
-      # editing
-      flow = Flow.first(id: params[:id].to_i)
-      flow.update_fields(params, [
-        :store_id,
-        :name,
-        :path_template,
-        :url_template,
-        :content_template,
-        :allow_media,
-        :media_store_id,
-        :media_path_template,
-        :media_url_template,
-        :allow_meta
-      ])
-      redirect "/#{@site.domain}/"
-    else
-      # creating
-      flow = Flow.find_or_create(site_id: @site.id, post_kind: params[:post_kind].to_s)
-      # flow.update_fields(params, [:post_kind])
-      redirect "/#{@site.domain}/flows/#{flow.id}"
-    end
+    # editing
+    flow = Flow.first(id: params[:id].to_i)
+    flow.update_fields(params, [
+      :store_id,
+      :name,
+      :path_template,
+      :url_template,
+      :content_template,
+      :allow_media,
+      :media_store_id,
+      :media_path_template,
+      :media_url_template,
+      :allow_meta
+    ])
+    redirect "/#{@site.domain}/"
   end
 
   get '/:domain/flows/:id' do
