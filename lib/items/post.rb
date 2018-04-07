@@ -1,15 +1,9 @@
 class Post
+  require 'yaml'
 
-  KINDS = [
-    :article,
-    :note
-    # :photo,
-    # :bookmark,
-    # :event,
-    # :card,
-    # :repost,
-    # :reply
-  ]
+  TYPES_CATALOG = YAML.load_file('lib/items/post_types.yml')
+
+  TYPES = TYPES_CATALOG.keys
 
   # this was for access to the raw microformat properties
   # ...but maybe we can avoid that
@@ -257,6 +251,10 @@ class Post
   #     Event
   #   end
   # end
+
+  def self.description_for_type(type = :unknown)
+    "<p>#{TYPES_CATALOG[type.to_s]['description']}</p> <a href=\"#{TYPES_CATALOG[type.to_s]['link']}\">Read more.</a>"
+  end
 
   def self.valid_types
     %w( h-card h-cite h-entry h-event )

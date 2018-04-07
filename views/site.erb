@@ -20,7 +20,7 @@
   <% end %>
 </ul>
 <div>
-  New:
+  Add a new destination:
   <form action="/<%= @site.domain %>/stores" method="post">
     <select name="type_id">
       <% Store::TYPES.each do |id, name| %>
@@ -30,12 +30,12 @@
     <input type="text" name="user" placeholder="username">
     <input type="text" name="location" placeholder="repository">
     <input type="text" name="key" placeholder="access key">
-    <button type="submit">Add Destination</button>
+    <button type="submit">Add</button>
   </form>
 </div>
 
 <% if @site.stores.count > 0 %>
-  <h2>Flows</h2>
+  <h2>Post Types</h2>
   <table>
     <%
       @flows.each do |flow_hash|
@@ -47,7 +47,7 @@
         <%= post_kind %>
       </th><td>
         <% if flow %>
-          sent to <%= flow.store.name %>
+          saves to <%= flow.store.name %>
           [<a href="flows/<%= flow.id %>">edit</a>]
         <% else %>
           [<a href="flows/new?post_kind=<%= post_kind %>">configure</a>]
@@ -64,7 +64,7 @@
   <% @site.log.each do |entry| %>
     <tr>
       <th>
-        <%= entry[:started_at].iso8601 %>
+        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
       </th><td>
         <%= entry[:kind] %>
       </td><td>
@@ -74,5 +74,5 @@
       </td>
     </tr>
   <% end %>
-  </ol>
+  </table>
 <% end %>

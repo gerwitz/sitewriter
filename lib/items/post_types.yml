@@ -1,0 +1,36 @@
+note:
+  description: |
+    A simple text post, usually short, without a title.
+  link: https://indieweb.org/note
+article:
+  description: |
+    A titled post, usually long.
+  link: https://indieweb.org/article
+checkin:
+  description: |
+    A location and time, often with some description.
+  link: https://indieweb.org/checkin
+photo:
+  description: |
+    A photo (or photos) with some description.
+  link: https://indieweb.org/photo
+video:
+  description: |
+    A video (or videos) with some description (and optionally thumbnails).
+  link: https://indieweb.org/video
+like:
+  description: |
+    A "like" or "favorite" or "star" affirming a post at another URL.
+  link: https://indieweb.org/like
+repost:
+  description: |
+    Republication of another post, from anywhere.
+  link: https://indieweb.org/repost
+reply:
+  description: |
+    A comment on another post, from anywhere.
+  link: https://indieweb.org/reply
+event:
+  description: |
+    An event with a specific time and location.
+  link: https://indieweb.org/event

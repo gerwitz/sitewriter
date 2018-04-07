@@ -34,12 +34,17 @@ class SiteWriter < Sinatra::Application
   get '/:domain/' do
     @site = auth_site
     site_flows = @site.flows_dataset
-    @flows = Post::KINDS.map{|kind|
-      {
-        kind: kind,
-        flow: site_flows.where(post_kind: kind.to_s).first
-      }
-    }
+    @flows = Post::TYPES.map do |kind|
+      flow = site_flows.where(post_kind: kind.to_s).exclude(store_id: nil).first
+      if flow
+        {
+          kind: kind,
+          flow: flow
+        }
+      else
+        { kind: kind }
+      end
+    end
     erb :site
   end
 

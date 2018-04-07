@@ -1,20 +1,17 @@
 <div>&lt; <a href="/<%= @site.domain %>"><%= @site.domain %><a></div>
 
-<h1>Flow for '<%= @flow.post_kind %>'</h1>
+<h1><%= @flow.post_kind.capitalize %></h1>
+
+<div>
+  <%= Post.description_for_type(@flow.post_kind) %>
+</div>
+
 <div>
   <form action="/<%= @site.domain %>/flows" method="post">
     <input type="hidden" name="id" value="<%= @flow.id %>">
     <div>
       <label>
-        Name
-        <input type="text" name="name" placeholder="name" value="<%= @flow.name %>">
-      </label>
-    </div>
-
-    <h2>Posts</h2>
-    <div>
-      <label>
-        Store posts via <select name="store_id">
+        Save posts to <select name="store_id">
         <% @site.stores.each do |store| %>
         <option value="<%= store.id %>"<%= ' selected' if (store.id == @flow.store_id) %>>
           <%= store.name %>
@@ -72,11 +69,11 @@ categories:
       </label>
     </div>
 
-    <h2>Media Files</h2>
+    <h2>Attachments</h2>
     <div>
-      <label><input type="checkbox" name="allow_media" value="true"<%= ' checked' if @flow.allow_media %>>Handle media?</label>
+      <label><input type="checkbox" name="allow_media" value="true"<%= ' checked' if @flow.allow_media %>>Allow attachments?</label>
       <label>
-        Store media via <select name="media_store_id">
+        Save to <select name="media_store_id">
           <% @site.stores.each do |store| %>
           <option value="<%= store.id %>"<%= ' selected' if (store.id == @flow.media_store_id) %>>
             <%= store.name %>
