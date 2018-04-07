@@ -64,13 +64,13 @@
   <% @site.log.each do |entry| %>
     <tr>
       <th>
-        <%= entry.started_at.iso8601 %>
+        <%= entry[:started_at]iso8601 %>
       </th><td>
-        <%= entry.kind %>
+        <%= entry[:kind] %>
       </td><td>
-        <a href="<%= entry.url %>"><%= entry.url %></a>
+        <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
       </td><td>
-        <%= entry.status_code %>
+        <%= entry[:status_code] %>
       </td>
     </tr>
   <% end %>
