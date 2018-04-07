@@ -64,7 +64,7 @@
   <% @site.log.each do |entry| %>
     <tr>
       <th>
-        <%= entry[:started_at]iso8601 %>
+        <%= entry[:started_at].iso8601 %>
       </th><td>
         <%= entry[:kind] %>
       </td><td>
