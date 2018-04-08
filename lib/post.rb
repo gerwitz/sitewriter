@@ -1,7 +1,7 @@
 class Post
   require 'yaml'
 
-  TYPES_CATALOG = YAML.load_file('lib/items/post_types.yml')
+  TYPES_CATALOG = YAML.load_file(File.join(__dir__, 'post_types.yml'))
 
   TYPES = TYPES_CATALOG.keys
 
@@ -210,33 +210,51 @@ class Post
     @properties['syndication'] += new_syndications
   end
 
-  def self.new_from_properties(props)
-    klass = Post
+  def self.new_for_type(type, props)
+    klass = TYPES_CATALOG.dig(type.to_s, 'class') || Post
+    return klass.new(props)
+  end
+
+  # derived from: https://indieweb.org/post-type-discovery
+  # see README for a description
+  def self.type_from_properties(props)
+    post_type = ''
     mf_type = ''
     if props.key?('type')
       mf_type = props['type'][0].to_s
-      if mf_type == 'h-entry'
-        if props.key?('bookmark-of')
-          klass = Bookmark
+      if mf_type == 'h-event'
+        post_type = :event
+      elsif mf_type == 'h-entry'
+        if has_key(props, 'in-reply-to')
+          post_type = :reply
+        elsif has_key(props, 'repost-of')
+          post_type = :repost
+        elsif has_key(props, 'bookmark-of')
+          post_type = :bookmark
+        elsif has_key(props, 'checkin') || has_key(props, 'u-checkin')
+          post_type = :checkin
+        elsif has_key(props, 'like-of')
+          post_type = :like
+        elsif has_key(props, 'video')
+          post_type = :video
+        elsif has_key(props, 'photo')
+          post_type = :photo
         else
           # does it have a title?
-          if props.key?('title')
-            klass = Article
-          else
-            syndication = ''
-            if props.key?('syndication')
-              syndication = props['syndication'][0].to_s
-            end
-            if syndication.include?('instagram.com/')
-              klass = Photo
+          if has_key(props, 'name')
+            title = props['name'][0]
+            if title.empty?
+              post_type = :note
             else
-              klass = Note
+              post_type = :article
             end
+          else
+            post_type = :note
           end
         end
       end
     end
-    return klass.new(props)
+    return post_type
   end
 
   # def self.class_from_type(type)
@@ -258,6 +276,17 @@ class Post
 
   def self.valid_types
     %w( h-card h-cite h-entry h-event )
+  end
+
+private
+
+  def has_key(props, key)
+    # TODO: test fo not-null or other value validation
+    return true if props.has_key?(key)
+    props.each do |k, v|
+      return true if has_key(props[k], key)
+    end
+    return false
   end
 
 end

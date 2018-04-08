@@ -2,35 +2,54 @@ note:
   description: |
     A simple text post, usually short, without a title.
   link: https://indieweb.org/note
+  class: Note
 article:
   description: |
     A titled post, usually long.
   link: https://indieweb.org/article
+  class: article
 checkin:
   description: |
     A location and time, often with some description.
   link: https://indieweb.org/checkin
+  class: checkin
 photo:
   description: |
     A photo (or photos) with some description.
   link: https://indieweb.org/photo
+  class: photo
 video:
   description: |
     A video (or videos) with some description (and optionally thumbnails).
   link: https://indieweb.org/video
+  class: video
+audio:
+  description: |
+    A audio file (or files) with some description.
+  link: https://indieweb.org/audio
+  class: audio
 like:
   description: |
     A "like" or "favorite" or "star" affirming a post at another URL.
   link: https://indieweb.org/like
+  class: Like
+bookmark:
+  description: |
+    A bookmark of another URL, often with some comments or metadata.
+  link: https://indieweb.org/bookmark
+  class: Bookmark
 repost:
   description: |
     Republication of another post, from anywhere.
   link: https://indieweb.org/repost
+  class: Repost
 reply:
   description: |
     A comment on another post, from anywhere.
   link: https://indieweb.org/reply
+  class: Reply
 event:
   description: |
     An event with a specific time and location.
   link: https://indieweb.org/event
+  class: Event

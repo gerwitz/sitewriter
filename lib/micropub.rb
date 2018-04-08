@@ -7,19 +7,18 @@ module Micropub
       mf_type = 'h-'+params['h'].to_s
       safe_properties = sanitize_properties(params)
       safe_properties['type'] = mf_type
-      # wrap each non-array value in an array
-      deep_props = Hash[ safe_properties.map { |k, v| [k, Array(v)] } ]
-      post = Post.new_from_properties(deep_props)
       services = params.key?('mp-syndicate-to') ?
         Array(params['mp-syndicate-to']) : []
     else
-      check_if_syndicated(params['properties'])
-      # wrap each non-array value in an array
-      deep_props = Hash[ safe_properties.map { |k, v| [k, Array(v)] } ]
-      post = Post.new_from_properties(deep_props)
       services = params['properties'].key?('mp-syndicate-to') ?
         params['properties']['mp-syndicate-to'] : []
+      check_if_syndicated(params['properties'])
     end
+    # wrap each non-array value in an array
+    deep_props = Hash[ safe_properties.map { |k, v| [k, Array(v)] } ]
+    post_type = Post.type_from_properties(deep_props)
+    post = Post.new_for_type(post_type, deep_props)
+
     post.set_slug(params)
     # post.syndicate(services) if services.any?
     # Store.save(post)
