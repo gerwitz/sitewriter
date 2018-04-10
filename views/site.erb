@@ -3,7 +3,7 @@
 <div>
   Make sure you have linked to your endpoint by including this tag in the <code>&lt;head&gt;</code> of your homepage:
   <pre>
-    &lt;link href=&quot;http://test.sitewriter.net/<%= @site.domain %>/micropub&quot; rel=&quot;micropub&quot;&gt;
+    &lt;link href=&quot;<%= "#{request.scheme}://#{request.host_with_port}/#{@site.domain}/micropub" %>&quot; rel=&quot;micropub&quot;&gt;
   </pre>
 </div>
 
