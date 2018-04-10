@@ -280,7 +280,7 @@ class Post
 
 private
 
-  def has_key(props, key)
+  def self.has_key(props, key)
     # TODO: test fo not-null or other value validation
     return true if props.has_key?(key)
     props.each do |k, v|
