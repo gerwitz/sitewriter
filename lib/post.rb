@@ -282,11 +282,14 @@ private
 
   def self.has_key(props, key)
     # TODO: test fo not-null or other value validation
-    return true if props.has_key?(key)
-    props.each do |k, v|
-      return true if has_key(props[k], key)
+    if props.is_a? Hash
+      return true if props.has_key?(key)
+      props.each do |k, v|
+        return true if has_key(props[k], key)
+      end
+    elsif props.is_a? Array
+      return props.any? {|item| has_key(item, key)}
     end
-    return false
   end
 
 end
