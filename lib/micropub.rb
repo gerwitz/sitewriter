@@ -10,6 +10,7 @@ module Micropub
       services = params.key?('mp-syndicate-to') ?
         Array(params['mp-syndicate-to']) : []
     else
+      safe_properties = sanitise_properties(params['properties'])
       services = params['properties'].key?('mp-syndicate-to') ?
         params['properties']['mp-syndicate-to'] : []
       check_if_syndicated(params['properties'])
