@@ -212,19 +212,18 @@ class Post
 
   def self.new_for_type(type, props)
     class_name = TYPES_CATALOG.dig(type.to_s, 'class').to_s
-    puts "👑 #{class_name}"
     if Object.const_defined?(class_name)
       klass = Object.const_get(class_name)
     else
       klass = Post
     end
-    puts "👑 #{klass}"
     return klass.new(props)
   end
 
   # derived from: https://indieweb.org/post-type-discovery
   # see README for a description
   def self.type_from_properties(props)
+    puts "👑 #{props}"
     post_type = ''
     mf_type = ''
     if props.key?('type')
@@ -289,7 +288,7 @@ private
 
   def self.find_values(props, key)
     return props.reduce([]){ |memo, prop|
-      if prop.has_key?(key)
+      if prop.is_a? Hash && prop.has_key?(key)
         memo << prop[key]
       end
     }
