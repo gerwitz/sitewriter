@@ -8,7 +8,7 @@ require_relative 'media'
 # require_relative 'location'
 
 require_relative 'post'
-Dir[File.join(__dir__, 'items', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'posts', '*.rb')].each { |file| require file }
 
 # require_relative 'items/article'
 # require_relative 'items/bookmark'
