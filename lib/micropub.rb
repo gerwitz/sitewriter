@@ -6,11 +6,11 @@ module Micropub
     if params.key?('h')
       mf_type = 'h-'+params['h'].to_s
       safe_properties = sanitize_properties(params)
-      safe_properties['type'] = mf_type
+      safe_properties['type'] = [mf_type]
       services = params.key?('mp-syndicate-to') ?
         Array(params['mp-syndicate-to']) : []
     else
-      safe_properties = sanitise_properties(params['properties'])
+      safe_properties = sanitize_properties(params['properties'])
       services = params['properties'].key?('mp-syndicate-to') ?
         params['properties']['mp-syndicate-to'] : []
       check_if_syndicated(params['properties'])
