@@ -4,17 +4,20 @@ module Micropub
   # TODO: handle JSON requests
   def create(params)
     if params.key?('h')
+      # form-encoded
       mf_type = 'h-'+params['h'].to_s
       safe_properties = sanitize_properties(params)
-      safe_properties['type'] = [mf_type]
       services = params.key?('mp-syndicate-to') ?
         Array(params['mp-syndicate-to']) : []
-    else
+    elsif params.key?('type') && params['type'].is_a? Array
+      # JSON
+      mf_type = params['type'][0].to_s
       safe_properties = sanitize_properties(params['properties'])
       services = params['properties'].key?('mp-syndicate-to') ?
         params['properties']['mp-syndicate-to'] : []
       check_if_syndicated(params['properties'])
     end
+    safe_properties['type'] = [mf_type]
     # wrap each non-array value in an array
     deep_props = Hash[ safe_properties.map { |k, v| [k, Array(v)] } ]
     post_type = Post.type_from_properties(deep_props)
