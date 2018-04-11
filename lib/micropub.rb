@@ -9,7 +9,7 @@ module Micropub
       safe_properties = sanitize_properties(params)
       services = params.key?('mp-syndicate-to') ?
         Array(params['mp-syndicate-to']) : []
-    elsif params.key?('type') && params['type'].is_a? Array
+    elsif params.key?('type') && params['type'].is_a?(Array)
       # JSON
       mf_type = params['type'][0].to_s
       safe_properties = sanitize_properties(params['properties'])
