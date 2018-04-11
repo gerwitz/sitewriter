@@ -223,7 +223,6 @@ class Post
   # derived from: https://indieweb.org/post-type-discovery
   # see README for a description
   def self.type_from_properties(props)
-    puts "👑 #{props}"
     post_type = ''
     mf_type = ''
     if props.key?('type')
@@ -231,23 +230,23 @@ class Post
       if mf_type == 'h-event'
         post_type = :event
       elsif mf_type == 'h-entry'
-        if find_values(props, 'in-reply-to').any?
+        if props.key?('in-reply-to')
           post_type = :reply
-        elsif find_values(props, 'repost-of').any?
+        elsif props.key?('repost-of')
           post_type = :repost
-        elsif find_values(props, 'bookmark-of').any?
+        elsif props.key?('bookmark-of')
           post_type = :bookmark
-        elsif find_values(props, 'checkin').any? || find_values(props, 'u-checkin').any?
+        elsif props.key?('checkin') || props.key?('u-checkin')
           post_type = :checkin
-        elsif find_values(props, 'like-of').any?
+        elsif props.key?('like-of')
           post_type = :like
-        elsif find_values(props, 'video').any?
+        elsif props.key?('video')
           post_type = :video
-        elsif find_values(props, 'photo').any?
+        elsif props.key?('photo')
           post_type = :photo
         else
           # does it have a title?
-          if find_values(props, 'name').any?
+          if props.key?('name')
             title = props['name'][0]
             if title.empty?
               post_type = :note
@@ -282,16 +281,6 @@ class Post
 
   def self.valid_types
     %w( h-card h-cite h-entry h-event )
-  end
-
-private
-
-  def self.find_values(props, key)
-    return props.reduce([]){ |memo, prop|
-      if prop.is_a? Hash && prop.has_key?(key)
-        memo << prop[key]
-      end
-    }
   end
 
 end
