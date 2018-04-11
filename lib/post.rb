@@ -232,23 +232,23 @@ class Post
       if mf_type == 'h-event'
         post_type = :event
       elsif mf_type == 'h-entry'
-        if has_key(props, 'in-reply-to')
+        if find_all_props(props, 'in-reply-to').any?
           post_type = :reply
-        elsif has_key(props, 'repost-of')
+        elsif find_all_props(props, 'repost-of').any?
           post_type = :repost
-        elsif has_key(props, 'bookmark-of')
+        elsif find_all_props(props, 'bookmark-of').any?
           post_type = :bookmark
-        elsif has_key(props, 'checkin') || has_key(props, 'u-checkin')
+        elsif find_all_props(props, 'checkin').any? || find_all_props(props, 'u-checkin').any?
           post_type = :checkin
-        elsif has_key(props, 'like-of')
+        elsif find_all_props(props, 'like-of').any?
           post_type = :like
-        elsif has_key(props, 'video')
+        elsif find_all_props(props, 'video').any?
           post_type = :video
-        elsif has_key(props, 'photo')
+        elsif find_all_props(props, 'photo').any?
           post_type = :photo
         else
           # does it have a title?
-          if has_key(props, 'name')
+          if find_all_props(props, 'name').any?
             title = props['name'][0]
             if title.empty?
               post_type = :note
@@ -287,16 +287,17 @@ class Post
 
 private
 
-  def self.has_key(props, key)
-    # TODO: test fo not-null or other value validation
-    if props.is_a? Hash
-      return true if props.has_key?(key)
-      props.each do |k, v|
-        return true if has_key(props[k], key)
+  # thanks https://www.cookieshq.co.uk/posts/find-values-key-nested-hash-ruby
+  def self.find_all_props(props, key)
+    result = []
+    result << props[key]
+    props.values.each do |hash_value|
+      values = [hash_value] unless hash_value.is_a? Array
+      values.each do |value|
+        result += find_all_props(value, key) if value.is_a? Hash
       end
-    elsif props.is_a? Array
-      return props.any? {|item| has_key(item, key)}
     end
+    return result.compact
   end
 
 end
