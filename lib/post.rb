@@ -212,11 +212,13 @@ class Post
 
   def self.new_for_type(type, props)
     class_name = TYPES_CATALOG.dig(type.to_s, 'class').to_s
+    puts "👑 #{class_name}"
     if Object.const_defined?(class_name)
       klass = Object.const_get(class_name)
     else
       klass = Post
     end
+    puts "👑 #{klass}"
     return klass.new(props)
   end
 
