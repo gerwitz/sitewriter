@@ -232,23 +232,23 @@ class Post
       if mf_type == 'h-event'
         post_type = :event
       elsif mf_type == 'h-entry'
-        if find_all_props(props, 'in-reply-to').any?
+        if find_values(props, 'in-reply-to').any?
           post_type = :reply
-        elsif find_all_props(props, 'repost-of').any?
+        elsif find_values(props, 'repost-of').any?
           post_type = :repost
-        elsif find_all_props(props, 'bookmark-of').any?
+        elsif find_values(props, 'bookmark-of').any?
           post_type = :bookmark
-        elsif find_all_props(props, 'checkin').any? || find_all_props(props, 'u-checkin').any?
+        elsif find_values(props, 'checkin').any? || find_values(props, 'u-checkin').any?
           post_type = :checkin
-        elsif find_all_props(props, 'like-of').any?
+        elsif find_values(props, 'like-of').any?
           post_type = :like
-        elsif find_all_props(props, 'video').any?
+        elsif find_values(props, 'video').any?
           post_type = :video
-        elsif find_all_props(props, 'photo').any?
+        elsif find_values(props, 'photo').any?
           post_type = :photo
         else
           # does it have a title?
-          if find_all_props(props, 'name').any?
+          if find_values(props, 'name').any?
             title = props['name'][0]
             if title.empty?
               post_type = :note
@@ -287,17 +287,12 @@ class Post
 
 private
 
-  # thanks https://www.cookieshq.co.uk/posts/find-values-key-nested-hash-ruby
-  def self.find_all_props(props, key)
-    result = []
-    result << props[key]
-    props.values.each do |hash_value|
-      values = [hash_value] unless hash_value.is_a? Array
-      values.each do |value|
-        result += find_all_props(value, key) if value.is_a? Hash
+  def self.find_values(props, key)
+    return props.reduce([]){ |memo, prop|
+      if prop.has_key?(key)
+        memo << prop[key]
       end
-    end
-    return result.compact
+    }
   end
 
 end

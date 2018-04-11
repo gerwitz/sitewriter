@@ -15,17 +15,19 @@ I also use IndieAuth for the Micropub tokens. If you'd like to do the same, set 
 - If `mp-type` is defined, use it
 - If `type` == h-event or `h` == event: event
 - If `type` == h-entry or `h` == entry:
-  - If `in-reply-to`: reply
+  - If there is a `in-reply-to` value: reply
   - quotation
-  - If `repost-of`: repost
-  - If `bookmark-of`: bookmark
-  - If `checkin` or `u-checkin`: checkin
-  - If `like-of`: like
-  - If `video`: video
-  - If `photo`: photo
-  - If `audio`: audio
-  - article
-  - note
+  - If there is a `repost-of` value: repost
+  - If there is a `bookmark-of` value: bookmark
+  - If there is a `checkin` or `u-checkin` value: checkin
+  - If there is a `like-of` value: like
+  - If there is a `video` value: video
+  - If there is a `photo` value: photo
+  - If there is a `audio` value: audio
+  - If there is a `name` value: article
+  - Otherwise: note
+
+N.B. entries are flat. The value of a property may be an entry itself, but the "deeper" values will not be flattened for post type discovery.
 
 ## Credits
 
