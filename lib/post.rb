@@ -301,7 +301,7 @@ class Post
   end
 
   def self.variables_for_type(type = :unknown)
-    return self.class::VARIABLES_CATALOG.merge(VARIABLES_CATLOG)
+    return self::VARIABLES_CATALOG.merge(VARIABLES_CATLOG)
   end
 
   def self.valid_types
