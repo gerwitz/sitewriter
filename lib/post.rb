@@ -229,13 +229,17 @@ class Post
     @properties['syndication'] += new_syndications
   end
 
-  def self.new_for_type(type, props)
+  def self.class_for_type(type = :unknown)
     class_name = TYPES_CATALOG.dig(type.to_s, 'class').to_s
     if Object.const_defined?(class_name)
-      klass = Object.const_get(class_name)
+      return Object.const_get(class_name)
     else
-      klass = Post
+      return Post
     end
+  end
+
+  def self.new_for_type(type, props)
+    klass = class_for_type(type)
     return klass.new(props)
   end
 
@@ -300,8 +304,8 @@ class Post
     "<p>#{TYPES_CATALOG[type.to_s]['description']}</p> <a href=\"#{TYPES_CATALOG[type.to_s]['link']}\">Read more.</a>"
   end
 
-  def self.variables_for_type(type = :unknown)
-    return self::VARIABLES_CATALOG.merge(VARIABLES_CATLOG)
+  def self.variables_for_type(type)
+    class_for_type(type)::VARIABLES_CATALOG.merge(VARIABLES_CATALOG)
   end
 
   def self.valid_types

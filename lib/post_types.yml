@@ -7,27 +7,27 @@ article:
   description: |
     A titled post, usually long.
   link: https://indieweb.org/article
-  class: article
+  class: Article
 checkin:
   description: |
     A location and time, often with some description.
   link: https://indieweb.org/checkin
-  class: checkin
+  class: Checkin
 photo:
   description: |
     A photo (or photos) with some description.
   link: https://indieweb.org/photo
-  class: photo
+  class: Photo
 video:
   description: |
     A video (or videos) with some description (and optionally thumbnails).
   link: https://indieweb.org/video
-  class: video
+  class: Video
 audio:
   description: |
     A audio file (or files) with some description.
   link: https://indieweb.org/audio
-  class: audio
+  class: Audio
 like:
   description: |
     A "like" or "favorite" or "star" affirming a post at another URL.

@@ -1,4 +1,4 @@
-class Photo < Post
+class Audio < Post
 
   VARIABLES_CATALOG = {
   }
