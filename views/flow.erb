@@ -49,9 +49,10 @@
         Content template
         <br>
         <textarea name="content_template" cols="80" rows="25"><%= @flow.content_template %></textarea>
+      </label>
         <br>
+        Example:
         <small><pre>
-          <%= Post.variables_for_type(@flow.post_kind) %>
 ---
 date: {{date_time}}
 slug: {{slug}}
@@ -62,12 +63,13 @@ categories:
 {{/categories}}
 ---
 {{{content}}}
-
-{{#photos}}
-![]({{url}})
-{{/photos}}
 </pre></small>
-      </label>
+      Available {{variables}}:
+      <ul>
+      <%= Post.variables_for_type(@flow.post_kind).each do |v, desc| %>
+        <li title="<%= desc %>">{{<%= v %>}}</li>
+      <% end %>
+      </ul>
     </div>
 
     <h2>Attachments</h2>
