@@ -5,6 +5,22 @@ class Post
 
   TYPES = TYPES_CATALOG.keys
 
+  VARIABLES_CATALOG = {
+    content: 'post content',
+    slug: 'post slug',
+    date_time: 'rfc3339-formatted time',
+    year: '4-digit year',
+    month: '2-digit month',
+    day: '2-digit day of month',
+    hour: '2-digit hour (0-23)',
+    minute: 'minute',
+    second: 'second',
+    categories: '(list) categories (a.k.a. tags)',
+    first_category: 'the first catagory',
+    has_photos: 'true if there are any photo attachments',
+    photos: '(list) attached photos'
+  }
+
   # this was for access to the raw microformat properties
   # ...but maybe we can avoid that
   # attr_reader :properties, :url
@@ -54,6 +70,9 @@ class Post
       year: time.strftime('%Y'),
       month: time.strftime('%m'),
       day: time.strftime('%d'),
+      hour: time.strftime('%H'),
+      minute: time.strftime('%M'),
+      second: time.strftime('%S'),
       categories: @categories,
       first_category: @categories.first || '',
       content: content,
@@ -279,6 +298,10 @@ class Post
 
   def self.description_for_type(type = :unknown)
     "<p>#{TYPES_CATALOG[type.to_s]['description']}</p> <a href=\"#{TYPES_CATALOG[type.to_s]['link']}\">Read more.</a>"
+  end
+
+  def self.variables_for_type(type = :unknown)
+    return self.class::VARIABLES_CATALOG.merge(VARIABLES_CATLOG)
   end
 
   def self.valid_types

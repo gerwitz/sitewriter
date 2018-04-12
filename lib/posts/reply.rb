@@ -1,6 +1,7 @@
 class Reply < Post
 
-  # TODO
+  VARIABLES_CATALOG = {
+  }
 
   def initialize(properties, url=nil)
     super(properties, url)

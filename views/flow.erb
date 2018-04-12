@@ -51,6 +51,7 @@
         <textarea name="content_template" cols="80" rows="25"><%= @flow.content_template %></textarea>
         <br>
         <small><pre>
+          <%= Post.variables_for_type(@flow.post_kind) %>
 ---
 date: {{date_time}}
 slug: {{slug}}

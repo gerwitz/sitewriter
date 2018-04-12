@@ -1,5 +1,9 @@
 class Article < Post
 
+  VARIABLES_CATALOG = {
+    title: 'Post Title'
+  }
+
   attr_accessor :title
 
   def initialize(properties, url=nil)
