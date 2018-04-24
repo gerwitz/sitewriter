@@ -17,6 +17,7 @@ before do
     "Content-Security-Policy" => "script-src 'self'"
 end
 
+require_relative 'pages'
 require_relative 'manage'
 require_relative 'micropub'
-require_relative 'webmention'
+# require_relative 'webmention'

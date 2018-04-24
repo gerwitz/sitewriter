@@ -4,11 +4,6 @@ class SiteWriter < Sinatra::Application
 
   enable :sessions
 
-  get '/' do
-    @sites = Site.all
-    erb :index
-  end
-
   get '/login' do
     if params.key?('code') # this is probably an indieauth callback
       url = Auth.url_via_indieauth("#{request.scheme}://#{request.host_with_port}/", params[:code])
