@@ -61,6 +61,7 @@ class SiteWriter < Sinatra::Application
       content_type :json
       case params[:q]
       when 'source'
+        # TODO
         verify_url
         render_source
       when 'config'
@@ -141,7 +142,7 @@ private
       )
     end
   end
-
+  #
   # def verify_url
   #   unless params.key?('url') && !params[:url].empty? &&
   #       Store.exists_url?(params[:url])
