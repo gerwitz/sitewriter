@@ -1,0 +1,48 @@
+<div>
+  <b><%= @site.domain %></b> | <a href="config">Setup</a>
+</div>
+
+<h2>Status</h2>
+<div>
+  Base URL: <a href="<%= @site.url %>"><%= @site.url %></a>
+</div>
+
+<% if @site.default_store.nil? %>
+  <div class="warning">
+    No saving location defined! Please <a href="config">set up</a> one now.
+  </div>
+<% elsif @site.flows.count == 0 %>
+  <div class="warning">
+    No post types configured! Please <a href="config">set up</a> come now.
+  </div>
+<% else %>
+  <div>
+    Ready for post types: <%= @site.flows.map{|f| f.post_kind.capitalize }.join(', ') %>
+  </div>
+<% end %>
+
+<h2>Recent Activity</h2>
+<% if @site.log.count == 0 %>
+  <div>
+    No posts yet. Make sure you have linked to your endpoint by including this tag in the <code>&lt;head&gt;</code> of your homepage:
+    <pre>
+      &lt;link href=&quot;<%= "#{request.scheme}://#{request.host_with_port}/#{@site.domain}/micropub" %>&quot; rel=&quot;micropub&quot;&gt;
+    </pre>
+  </div>
+<% else %>
+  <table>
+  <% @site.log.each do |entry| %>
+    <tr>
+      <th>
+        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
+      </th><td>
+        <%= entry[:kind] %>
+      </td><td>
+        <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
+      </td><td>
+        <%= entry[:status_code] %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>

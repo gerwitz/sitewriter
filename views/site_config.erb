@@ -1,0 +1,51 @@
+<div>
+  <a href="./"><%= @site.domain %></a> | <b>Setup</b>
+</div>
+
+<h2>Posts Save To</h2>
+<% if @site.default_store %>
+  <%= @site.default_store.name %>
+<% else %>
+  <form action="/<%= @site.domain %>/store" method="post">
+    <select name="type_id">
+      <% Store::TYPES.each do |id, name| %>
+      <option value="<%= id %>"><%= name %></option>
+      <% end %>
+    </select>
+    <input type="text" name="user" placeholder="username">
+    <input type="text" name="location" placeholder="repository">
+    <input type="text" name="key" placeholder="access key">
+
+    <button type="submit">Save</button>
+  </form>
+<% end %>
+
+<h2>Post Types</h2>
+<table>
+  <%
+    @flows.each do |flow_hash|
+      post_kind = flow_hash[:kind]
+      flow = flow_hash[:flow]
+  %>
+  <tr>
+    <th>
+      <%= post_kind %>
+    </th>
+    <% if flow %>
+      <td>
+        file template: <code><%= flow.path_template %></code>
+        <br>
+        url template: <code><%= flow.url_template %></code>
+      </td><td>
+        [<a href="flows/<%= flow.id %>">edit</a>]
+      </td>
+    <% else %>
+      <td>
+        Not enabled
+      </td><td>
+        [<a href="flows/new?post_kind=<%= post_kind %>">configure</a>]
+      </td>
+    <% end %>
+  </tr>
+  <% end %>
+</table>

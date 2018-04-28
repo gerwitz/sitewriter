@@ -11,17 +11,6 @@
     <input type="hidden" name="id" value="<%= @flow.id %>">
     <div>
       <label>
-        Save posts to <select name="store_id">
-        <% @site.stores.each do |store| %>
-        <option value="<%= store.id %>"<%= ' selected' if (store.id == @flow.store_id) %>>
-          <%= store.name %>
-        </option>
-        <% end %>
-      </select></label>
-    </div>
-    <br>
-    <div>
-      <label>
         Path template
         <br>
         <input type="text" size="80" name="path_template" value="<%= @flow.path_template %>">
@@ -50,9 +39,9 @@
         <br>
         <textarea name="content_template" cols="80" rows="25"><%= @flow.content_template %></textarea>
       </label>
-        <br>
-        Example:
-        <small><pre>
+      <br>
+      Example:
+      <small><pre>
 ---
 date: {{date_time}}
 slug: {{slug}}
@@ -74,17 +63,6 @@ categories:
 
     <h2>Attachments</h2>
     <div>
-      <label><input type="checkbox" name="allow_media" value="true"<%= ' checked' if @flow.allow_media %>>Allow attachments?</label>
-      <label>
-        Save to <select name="media_store_id">
-          <% @site.stores.each do |store| %>
-          <option value="<%= store.id %>"<%= ' selected' if (store.id == @flow.media_store_id) %>>
-            <%= store.name %>
-          </option>
-          <% end %>
-        </select>
-      </label>
-    </div><div>
       <label>
         Path template
         <br>

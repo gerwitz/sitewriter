@@ -28,6 +28,11 @@ class SiteWriter < Sinatra::Application
 
   get '/:domain/' do
     @site = auth_site
+    erb :site_overview
+  end
+
+  get '/:domain/config' do
+    @site = auth_site
     site_flows = @site.flows_dataset
     @flows = Post::TYPES.map do |kind|
       flow = site_flows.where(post_kind: kind.to_s).exclude(store_id: nil).first
@@ -40,10 +45,10 @@ class SiteWriter < Sinatra::Application
         { kind: kind }
       end
     end
-    erb :site
+    erb :site_config
   end
 
-  post '/:domain/stores' do
+  post '/:domain/store' do
     @site = auth_site
     if params.key?('type_id')
       type_id = params['type_id'].to_i
@@ -54,7 +59,7 @@ class SiteWriter < Sinatra::Application
     else
       raise SitewriterError.new("bad_request", "Can't POST a store without a type")
     end
-    redirect "/#{@site.domain}/"
+    redirect "/#{@site.domain}/config"
   end
 
   get '/:domain/flows/new' do
@@ -80,7 +85,7 @@ class SiteWriter < Sinatra::Application
       :media_url_template,
       :allow_meta
     ])
-    redirect "/#{@site.domain}/"
+    redirect "/#{@site.domain}/config"
   end
 
   get '/:domain/flows/:id' do

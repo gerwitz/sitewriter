@@ -1,5 +1,6 @@
 class Site < Sequel::Model
-  one_to_many :stores
+  one_to_one :default_store, class: :Store
+  one_to_one :file_store, class: :Store
   one_to_many :flows
 
   def log
