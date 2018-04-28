@@ -59,6 +59,9 @@ class SiteWriter < Sinatra::Application
     else
       raise SitewriterError.new("bad_request", "Can't POST a store without a type")
     end
+    if params.key?('file_store') && params['file_store']
+      @site.file_store = store
+    end
     redirect "/#{@site.domain}/config"
   end
 

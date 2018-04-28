@@ -49,3 +49,22 @@
   </tr>
   <% end %>
 </table>
+
+<h2>Files Save To</h2>
+<% if @site.file_store %>
+  <%= @site.file_store.name %>
+<% else %>
+  <form action="/<%= @site.domain %>/store" method="post">
+    <input type="hidden" name="file_store" value="true">
+    <select name="type_id">
+      <% Store::TYPES.each do |id, name| %>
+      <option value="<%= id %>"><%= name %></option>
+      <% end %>
+    </select>
+    <input type="text" name="user" placeholder="username">
+    <input type="text" name="location" placeholder="repository">
+    <input type="text" name="key" placeholder="access key">
+
+    <button type="submit">Save</button>
+  </form>
+<% end %>
