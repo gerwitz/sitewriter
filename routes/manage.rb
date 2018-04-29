@@ -88,11 +88,20 @@ class SiteWriter < Sinatra::Application
     erb :flow_edit
   end
 
+  get '/:domain/flows/media' do
+    @site = auth_site
+    @flow = @site.file_flow
+    if @flow.nil?
+      @flow = Flow.create(site_id: @site.id, allow_media: true, store_id: @site.default_store.id)
+    end
+    erb :flow_media
+  end
+
   post '/:domain/flows' do
     @site = auth_site
     flow = Flow.first(id: params[:id].to_i)
     flow.update_fields(params, [
-      :name,
+      # :name,
       :path_template,
       :url_template,
       :content_template,

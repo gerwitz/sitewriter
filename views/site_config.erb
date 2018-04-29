@@ -3,61 +3,57 @@
 </div>
 
 <h2>Posts Save To</h2>
-<% if @site.default_store %>
-  <div>
-    <%= @site.default_store.name %>
-  </div>
-<% else %>
+<% if @site.default_store.nil? %>
   <div class="warning">
     No saving destination! Please <a href="stores/new">set one up</a> now.
   </div>
-<% end %>
-
-<h2>Post Types</h2>
-<table>
-  <%
-    @flows.each do |flow_hash|
-      post_kind = flow_hash[:kind]
-      flow = flow_hash[:flow]
-  %>
-  <tr>
-    <th>
-      <%= post_kind %>
-    </th>
-    <% if flow %>
-      <td>
-        file template: <code><%= flow.path_template %></code>
-        <br>
-        url template: <code><%= flow.url_template %></code>
-      </td><td>
-        [<a href="flows/<%= flow.id %>">Edit</a>]
-      </td>
-    <% else %>
-      <td>
-        Not enabled
-      </td><td>
-        [<a href="flows/new?post_kind=<%= post_kind %>">Configure</a>]
-      </td>
-    <% end %>
-  </tr>
-  <% end %>
-</table>
-
-<h2>Files Save To</h2>
-<% if @site.file_flow && @site.file_flow.store %>
-  <%= @site.file_flow.store.name %>
 <% else %>
-  <form action="/<%= @site.domain %>/store" method="post">
-    <input type="hidden" name="file_store" value="true">
-    <select name="type_id">
-      <% Store::TYPES.each do |id, name| %>
-      <option value="<%= id %>"><%= name %></option>
-      <% end %>
-    </select>
-    <input type="text" name="user" placeholder="username">
-    <input type="text" name="location" placeholder="repository">
-    <input type="text" name="key" placeholder="access key">
+  <div>
+    <%= @site.default_store.name %>
+  </div>
 
-    <button type="submit">Save</button>
-  </form>
+  <h2>Post Types</h2>
+  <table>
+    <%
+      @flows.each do |flow_hash|
+        post_kind = flow_hash[:kind]
+        flow = flow_hash[:flow]
+    %>
+    <tr>
+      <th>
+        <%= post_kind %>
+      </th>
+      <% if flow %>
+        <td>
+          file template: <code><%= flow.path_template %></code>
+          <br>
+          url template: <code><%= flow.url_template %></code>
+        </td><td>
+          [<a href="flows/<%= flow.id %>">Edit</a>]
+        </td>
+      <% else %>
+        <td>
+          Not enabled
+        </td><td>
+          [<a href="flows/new?post_kind=<%= post_kind %>">Configure</a>]
+        </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+
+  <h2>Media Endpoint</h2>
+  <% if @site.file_flow %>
+    Files Save To <%= @site.file_flow.store.name %>
+    <br>
+    path: <code><%= flow.path_template %></code>
+    <br>
+    url: <code><%= flow.url_template %></code>
+    <br>
+    [<a href="flows/media">Edit</a>]
+  <% else %>
+    <div class="warning">
+      No file saving destination! Please <a href="flows/media">set one up</a> now.
+    </div>
+  <% end %>
 <% end %>
