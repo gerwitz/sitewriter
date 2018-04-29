@@ -1,0 +1,26 @@
+<div class="nav">
+  <a href="./"><%= @site.domain %></a> | <b><a href="../config">Setup</a></b>
+</div>
+
+<% if @flow.nil? %>
+  <h2>Save Destination</h2>
+<% else %>
+  <h2>Save Destination For <%= @flow.name %></h2>
+<% end %>
+
+<form action="/<%= @site.domain %>/stores" method="post">
+  <% if @flow %>
+    <input type="hidden" name="flow_id" value="<%= @flow.id %>">
+  <% end %>
+  <select name="type_id">
+    <% Store::TYPES.each do |id, name| %>
+    <option value="<%= id %>"><%= name %></option>
+    <% end %>
+  </select>
+  <input type="text" name="user" placeholder="username">
+  <input type="text" name="location" placeholder="repository">
+  <input type="text" name="key" placeholder="access key">
+
+  <button type="submit">Create</button>
+  [<a href="../config">Cancel</a>]
+</form>

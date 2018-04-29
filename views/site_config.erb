@@ -1,23 +1,16 @@
-<div>
+<div class="nav">
   <a href="./"><%= @site.domain %></a> | <b>Setup</b>
 </div>
 
 <h2>Posts Save To</h2>
 <% if @site.default_store %>
-  <%= @site.default_store.name %>
+  <div>
+    <%= @site.default_store.name %>
+  </div>
 <% else %>
-  <form action="/<%= @site.domain %>/store" method="post">
-    <select name="type_id">
-      <% Store::TYPES.each do |id, name| %>
-      <option value="<%= id %>"><%= name %></option>
-      <% end %>
-    </select>
-    <input type="text" name="user" placeholder="username">
-    <input type="text" name="location" placeholder="repository">
-    <input type="text" name="key" placeholder="access key">
-
-    <button type="submit">Save</button>
-  </form>
+  <div class="warning">
+    No saving destination! Please <a href="stores/new">set one up</a> now.
+  </div>
 <% end %>
 
 <h2>Post Types</h2>
@@ -37,13 +30,13 @@
         <br>
         url template: <code><%= flow.url_template %></code>
       </td><td>
-        [<a href="flows/<%= flow.id %>">edit</a>]
+        [<a href="flows/<%= flow.id %>">Edit</a>]
       </td>
     <% else %>
       <td>
         Not enabled
       </td><td>
-        [<a href="flows/new?post_kind=<%= post_kind %>">configure</a>]
+        [<a href="flows/new?post_kind=<%= post_kind %>">Configure</a>]
       </td>
     <% end %>
   </tr>
@@ -51,8 +44,8 @@
 </table>
 
 <h2>Files Save To</h2>
-<% if @site.file_store %>
-  <%= @site.file_store.name %>
+<% if @site.file_flow && @site.file_flow.store %>
+  <%= @site.file_flow.store.name %>
 <% else %>
   <form action="/<%= @site.domain %>/store" method="post">
     <input type="hidden" name="file_store" value="true">

@@ -30,8 +30,16 @@ header a {
 
 #content {
 	flex: 1 0 auto;
-
-	padding: 16px;
+  margin: 0;
+  padding: 0;
+}
+#content>* {
+  width: 100%;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin: 0;
 }
 
 footer {
@@ -47,6 +55,34 @@ footer a {
 	color: inherit;
 }
 
-h2 {
+h1, h2 {
 	color: #34495E;
+}
+
+a {
+  color: #2980B9;
+}
+
+.nav {
+  background-color: #ECF0F1;
+  color: #34495E;
+}
+.nav a {
+  color: #34495E;
+}
+
+.warning {
+  font-weight: bold;
+  background-color: #E67E22;
+  color: #FFFFFF;
+}
+
+.success {
+  font-weight: bold;
+  background-color: #27AE60;
+  color: #FFFFFF;
+}
+
+.warning a, .success a {
+  color: #FFFFFF;
 }

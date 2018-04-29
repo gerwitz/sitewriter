@@ -1,6 +1,8 @@
-<div>&lt; <a href="/<%= @site.domain %>"><%= @site.domain %><a></div>
+<div class="nav">
+  <a href="./"><%= @site.domain %></a> | <b><a href="../config">Setup</a></b>
+</div>
 
-<h1><%= @flow.post_kind.capitalize %></h1>
+<h1><%= @flow.name %></h1>
 
 <div>
   <%= Post.description_for_type(@flow.post_kind) %>
@@ -91,8 +93,10 @@ categories:
     </div>
 -->
     <div>
-      <br>
       <button type="submit">Update</button>
+    </div>
+    <div>
+      [<a href="<%= @flow.id %>/delete">Remove</a>]
     </div>
   </form>
 </div>

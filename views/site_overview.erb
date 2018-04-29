@@ -1,4 +1,4 @@
-<div>
+<div class="nav">
   <b><%= @site.domain %></b> | <a href="config">Setup</a>
 </div>
 
@@ -9,15 +9,15 @@
 
 <% if @site.default_store.nil? %>
   <div class="warning">
-    No saving location defined! Please <a href="config">set up</a> one now.
+    No saving destination! Please <a href="stores/new">set one up</a> now.
   </div>
 <% elsif @site.flows.count == 0 %>
   <div class="warning">
-    No post types configured! Please <a href="config">set up</a> come now.
+    No post types configured! Please <a href="config">set some up</a> now.
   </div>
 <% else %>
   <div>
-    Ready for post types: <%= @site.flows.map{|f| f.post_kind.capitalize }.join(', ') %>
+    Ready for post types: <%= @site.flows.map{|f| f.name }.join(', ') %>
   </div>
 <% end %>
 

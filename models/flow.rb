@@ -6,6 +6,14 @@ class Flow < Sequel::Model
   many_to_one :store
   many_to_one :media_store, class: :Store
 
+  def name
+    if post_kind
+      return post_kind.capitalize
+    else
+      return "Files"
+    end
+  end
+
   def url_for_post(post)
     relative_url = Mustache.render(url_template, post.render_variables)
     return URI.join(site.url, relative_url).to_s

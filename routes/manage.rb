@@ -48,7 +48,12 @@ class SiteWriter < Sinatra::Application
     erb :site_config
   end
 
-  post '/:domain/store' do
+  get '/:domain/stores/new' do
+    @site = auth_site
+    erb :store_new
+  end
+
+  post '/:domain/stores' do
     @site = auth_site
     if params.key?('type_id')
       type_id = params['type_id'].to_i
@@ -56,20 +61,15 @@ class SiteWriter < Sinatra::Application
       # puts "type: #{type_id}, class: #{store_class}"
       store = store_class.create(site_id: @site.id)
       store.update_fields(params, [:location, :user, :key])
+      if params.key?('flow_id')
+        flow_id = params['flow_id'].to_i
+        flow = Flow.where(id: flow_id).first
+        flow.store = store
+      end
     else
       raise SitewriterError.new("bad_request", "Can't POST a store without a type")
     end
-    if params.key?('file_store') && params['file_store']
-      @site.file_store = store
-    end
     redirect "/#{@site.domain}/config"
-  end
-
-  get '/:domain/flows/new' do
-    @site = auth_site
-    flow = Flow.find_or_create(site_id: @site.id, post_kind: params[:post_kind].to_s)
-    # flow.update_fields(params, [:post_kind])
-    redirect "/#{@site.domain}/flows/#{flow.id}"
   end
 
   post '/:domain/flows' do
@@ -91,10 +91,27 @@ class SiteWriter < Sinatra::Application
     redirect "/#{@site.domain}/config"
   end
 
+  get '/:domain/flows/new' do
+    @site = auth_site
+    @flow = Flow.find_or_create(site_id: @site.id, post_kind: params['post_kind'].to_s)
+    if @flow.store.nil?
+      @flow.update(store_id: @site.default_store.id)
+    end
+    # flow.update_fields(params, [:post_kind])
+    redirect "/#{@site.domain}/flows/#{@flow.id}"
+  end
+
   get '/:domain/flows/:id' do
     @site = auth_site
     @flow = Flow.find(id: params[:id].to_i, site_id: @site.id)
-    erb :flow
+    erb :flow_edit
+  end
+
+  get '/:domain/flows/:id/delete' do
+    @site = auth_site
+    @flow = Flow.find(id: params[:id].to_i, site_id: @site.id)
+    @flow.destroy
+    redirect "/#{@site.domain}/config"
   end
 
   not_found do
@@ -127,7 +144,7 @@ private
     if domain
       site = Site.first(domain: domain.to_s)
       if site.nil?
-        raise SitewriterError.new("No site found for '#{domain}'")
+        raise SitewriterError.new("bad_request", "No site found for '#{domain}'")
       else
         return site
       end
