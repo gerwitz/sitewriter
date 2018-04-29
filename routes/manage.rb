@@ -72,25 +72,6 @@ class SiteWriter < Sinatra::Application
     redirect "/#{@site.domain}/config"
   end
 
-  post '/:domain/flows' do
-    @site = auth_site
-    # editing
-    flow = Flow.first(id: params[:id].to_i)
-    flow.update_fields(params, [
-      :store_id,
-      :name,
-      :path_template,
-      :url_template,
-      :content_template,
-      :allow_media,
-      :media_store_id,
-      :media_path_template,
-      :media_url_template,
-      :allow_meta
-    ])
-    redirect "/#{@site.domain}/config"
-  end
-
   get '/:domain/flows/new' do
     @site = auth_site
     @flow = Flow.find_or_create(site_id: @site.id, post_kind: params['post_kind'].to_s)
@@ -105,6 +86,23 @@ class SiteWriter < Sinatra::Application
     @site = auth_site
     @flow = Flow.find(id: params[:id].to_i, site_id: @site.id)
     erb :flow_edit
+  end
+
+  post '/:domain/flows' do
+    @site = auth_site
+    flow = Flow.first(id: params[:id].to_i)
+    flow.update_fields(params, [
+      :name,
+      :path_template,
+      :url_template,
+      :content_template,
+      :allow_media,
+      :media_store_id,
+      :media_path_template,
+      :media_url_template,
+      :allow_meta
+    ])
+    redirect "/#{@site.domain}/config"
   end
 
   get '/:domain/flows/:id/delete' do

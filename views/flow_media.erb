@@ -1,4 +1,6 @@
-<div>&lt; <a href="/<%= @site.domain %>"><%= @site.domain %><a></div>
+<div class="nav">
+  <a href="../"><%= @site.domain %></a> | <b><a href="../config">Setup</a></b>
+</div>
 
 <h1>Media</h1>
 
@@ -21,7 +23,7 @@
         <input type="text" size="80" name="media_path_template" value="<%= @flow.media_path_template %>">
         <br>
         <small>
-          <code>assets/{{year}}-{{month}}/{{day}}-{{slug}}{{extension}}</code>
+          <code>assets/:year-:month/:day-:slug.:extension</code>
         </small>
       </label>
     </div><div>
@@ -31,7 +33,7 @@
         <input type="text" size="80" name="media_url_template" value="<%= @flow.media_url_template %>">
         <br>
         <small>
-          <code>assets/{{year}}-{{month}}/{{day}}-{{slug}}{{extension}}</code>
+          <code>assets/:year-:month/:day-:slug.:extension</code>
         </small>
       </label>
     </div>

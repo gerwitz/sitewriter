@@ -120,6 +120,7 @@ DEPENDENCIES
   httparty
   microformats
   mustache
+  mustermann
   nokogiri
   octokit
   puma

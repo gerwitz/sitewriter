@@ -1,6 +1,6 @@
 class Flow < Sequel::Model
 
-  require 'mustache'
+  require 'mustermann'
 
   many_to_one :site
   many_to_one :store
@@ -14,19 +14,31 @@ class Flow < Sequel::Model
     end
   end
 
+  def url_pattern
+    return Mustermann.new(url_template) # type: :sinatra
+  end
+  def path_pattern
+    return Mustermann.new(path_template) # type: :sinatra
+  end
+  def media_url_pattern
+    return Mustermann.new(media_url_template) # type: :sinatra
+  end
+  def media_path_pattern
+    return Mustermann.new(media_path_template) # type: :sinatra
+  end
+
   def url_for_post(post)
-    relative_url = Mustache.render(url_template, post.render_variables)
+    relative_url = url_pattern.expand(post.render_variables)
     return URI.join(site.url, relative_url).to_s
   end
 
   def file_path_for_post(post)
-    Mustache.render(path_template, post.render_variables)
+    return path_pattern.expand(post.render_variables)
   end
 
   def file_content_for_post(post)
-puts "🐌 post.render_variables: #{post.render_variables.inspect}"
-puts "🐌 as json: #{post.render_variables.to_json}"
-
+# puts "🐌 post.render_variables: #{post.render_variables.inspect}"
+# puts "🐌 as json: #{post.render_variables.to_json}"
     Mustache.render(content_template, post.render_variables)
   end
 
@@ -36,12 +48,12 @@ puts "🐌 as json: #{post.render_variables.to_json}"
   end
 
   def url_for_media(media)
-    relative_url = Mustache.render(media_url_template, media.render_variables)
+    relative_url = url_pattern.expand(media.render_variables)
     return URI.join(site.url, relative_url).to_s
   end
 
   def file_path_for_media(media)
-    Mustache.render(media_path_template, media.render_variables)
+    return path_pattern.expand(media.render_variables)
   end
 
   def store_file(media)

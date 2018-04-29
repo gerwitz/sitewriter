@@ -7,12 +7,12 @@ class Media
 
     type = file_hash[:type]
     if filename = file_hash[:filename]
-      extension = File.extname(filename)
+      extension = File.extname(filename)[1..-1]
       @slug = "#{@time.strftime('%H%M%S')}-#{File.basename(filename, extension)}_#{SecureRandom.hex(2).to_s}"
     else
       @slug = "#{@time.strftime('%H%M%S')}-#{SecureRandom.hex(8).to_s}"
     end
-    @extension = extension || Rack::Mime::MIME_TYPES.invert[type]
+    @extension = extension || Rack::Mime::MIME_TYPES.invert[type][1..-1]
   end
 
   def render_variables
