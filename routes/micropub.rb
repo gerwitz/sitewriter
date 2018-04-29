@@ -20,6 +20,7 @@ class SiteWriter < Sinatra::Application
       media = Media.new(params[:file])
       flow = @site.file_flow
       @log[:flow_id] = flow.id
+      @log[:kind] = 'file'
       url = flow.store_file(media)
       @log[:url] = url
       @log[:status_code] = 202
@@ -39,6 +40,7 @@ class SiteWriter < Sinatra::Application
         "Not configured to write posts of kind '#{post.kind}'."
       ) unless flow
       @log[:flow_id] = flow.id
+      @log[:kind] = flow.post_kind
       if params.key?(:photo)
         flow.attach_photos(post, params[:photo])
       end
