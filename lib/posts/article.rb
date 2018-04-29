@@ -8,6 +8,11 @@ class Article < Post
 
   def initialize(properties, url=nil)
     super(properties, url)
+    if properties.key?('name')
+      @title = properties['name'][0]
+    else
+      @title = ''
+    end
   end
 
   def kind
