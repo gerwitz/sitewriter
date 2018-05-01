@@ -63,7 +63,7 @@ class SiteWriter < Sinatra::Application
       store.update_fields(params, [:location, :user, :key])
       if params.key?('flow_id')
         flow_id = params['flow_id'].to_i
-        flow = Flow.where(id: flow_id).first
+        flow = Flow.first(id: flow_id)
         flow.store = store
       end
     else
@@ -82,24 +82,40 @@ class SiteWriter < Sinatra::Application
     redirect "/#{@site.domain}/flows/#{@flow.id}"
   end
 
+  get '/:domain/flows/media' do
+    @site = auth_site
+    @flow = @site.file_flow
+    if @flow.nil?
+      @flow = Flow.find_or_create(site_id: @site.id, allow_media: true, media_store_id: @site.default_store.id)
+    # elsif @flow.media_store.nil?
+    #   @flow.update(media_store_id: @site.default_store.id)
+    end
+    erb :flow_media
+  end
+
+  post '/:domain/flows/media' do
+    @site = auth_site
+    flow = Flow.first(id: params[:id].to_i, site_id: @site.id)
+    flow.update_fields(params, [
+      :media_path_template,
+      :media_url_template
+    ])
+puts "☣️ #{@site.file_flow.media_store.inspect}"
+puts "☣️ #{flow.id}"
+puts "☣️ #{@site.file_flow.media_store.inspect}"
+    redirect "/#{@site.domain}/config"
+  end
+
+
   get '/:domain/flows/:id' do
     @site = auth_site
     @flow = Flow.find(id: params[:id].to_i, site_id: @site.id)
     erb :flow_edit
   end
 
-  get '/:domain/flows/media' do
-    @site = auth_site
-    @flow = @site.file_flow
-    if @flow.nil?
-      @flow = Flow.create(site_id: @site.id, allow_media: true, store_id: @site.default_store.id)
-    end
-    erb :flow_media
-  end
-
   post '/:domain/flows' do
     @site = auth_site
-    flow = Flow.first(id: params[:id].to_i)
+    flow = Flow.first(id: params[:id].to_i, site_id: @site.id)
     flow.update_fields(params, [
       # :name,
       :path_template,
@@ -108,8 +124,8 @@ class SiteWriter < Sinatra::Application
       :allow_media,
       :media_store_id,
       :media_path_template,
-      :media_url_template,
-      :allow_meta
+      :media_url_template
+      # :allow_meta
     ])
     redirect "/#{@site.domain}/config"
   end

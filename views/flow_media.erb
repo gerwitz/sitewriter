@@ -9,11 +9,11 @@
 </div>
 
 <div>
-  <form action="/<%= @site.domain %>/flows" method="post">
+  <form action="/<%= @site.domain %>/flows/media" method="post">
     <input type="hidden" name="id" value="<%= @flow.id %>">
 
     <div>
-      Saves to <%= @flow.store.name %>. [<a href="<%= "/#{@site.domain}/stores/new?flow_id=#{@flow.id}" %>">Change</a>]
+      Saves to <%= @flow.media_store.name %>. <!-- [<a href="<%= "/#{@site.domain}/stores/new?flow_id=#{@flow.id}" %>">Change</a>] -->
     </div>
 
     <div>

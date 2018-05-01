@@ -43,17 +43,19 @@
   </table>
 
   <h2>Media Endpoint</h2>
-  <% if @site.file_flow.nil? %>
+  <% if @site.file_flow.nil? || @site.file_flow.media_store.nil? %>
     <div class="warning">
       No file saving destination! Please <a href="flows/media">set one up</a> now.
     </div>
-    <% else %>
-    Files Save To <%= @site.file_flow.store.name %>
-    <br>
-    path: <code><%= flow.path_template %></code>
-    <br>
-    url: <code><%= flow.url_template %></code>
-    <br>
-    [<a href="flows/media">Edit</a>]
+  <% else %>
+    <div>
+      Files Save To <%= @site.file_flow.media_store.name %>
+      <br>
+      path: <code><%= @site.file_flow.media_path_template %></code>
+      <br>
+      url: <code><%= @site.file_flow.media_url_template %></code>
+      <br>
+      [<a href="flows/media">Edit</a>]
+    </div>
   <% end %>
 <% end %>
