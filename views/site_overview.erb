@@ -35,14 +35,14 @@
     <tr>
       <th>
         <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>:
-        <%= entry[:status_code] %>
+        [<%= entry[:status_code] %>]
       </th><td>
         <%= entry[:kind] %>
       </td><td>
         <% if entry[:url] %>
           <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
         <% else %>
-          <span title="<%= entry[:error][:error_description] %>">error: <code><%= entry[:error][:error] %></code></span>
+          <span title="<%= entry[:error]['error_description'] %>">error: <code><%= entry[:error]['error'] %></code></span>
         <% end %>
       </td>
     </tr>
