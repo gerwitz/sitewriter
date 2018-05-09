@@ -39,7 +39,7 @@
       <label>
         Content template
         <br>
-        <textarea name="content_template" cols="80" rows="25"><%= @flow.content_template %></textarea>
+        <textarea id="editor" name="content_template" cols="80" rows="25"><%= @flow.content_template %></textarea>
       </label>
       <br>
       Example:
@@ -100,3 +100,9 @@ categories:
     </div>
   </form>
 </div>
+
+<script src="https://unpkg.com/codeflask/build/codeflask.min.js">
+<script defer>
+  import CodeFlask from 'codeflask';
+  const flask = new CodeFlask('#editor', { language: 'liquid' });
+</script>
