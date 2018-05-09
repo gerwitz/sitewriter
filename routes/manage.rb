@@ -86,10 +86,13 @@ class SiteWriter < Sinatra::Application
     @site = auth_site
     @flow = @site.file_flow
     if @flow.nil?
-      @flow = Flow.find_or_create(site_id: @site.id, allow_media: true, media_store_id: @site.default_store.id)
-    # elsif @flow.media_store.nil?
-    #   @flow.update(media_store_id: @site.default_store.id)
+      puts "☣️ Creating new file flow for #{@site.domain}"
+      @flow = Flow.create(site_id: @site.id, allow_media: true, media_store_id: @site.default_store.id)
+      @site.update(file_flow_id: @flow.id)
     end
+    # if @flow.media_store.nil?
+    #   @flow.update(media_store_id: @site.default_store.id)
+    # end
     erb :flow_media
   end
 
@@ -109,7 +112,7 @@ puts "☣️ #{@site.file_flow.media_store.inspect}"
 
   get '/:domain/flows/:id' do
     @site = auth_site
-    @flow = Flow.find(id: params[:id].to_i, site_id: @site.id)
+    @flow = Flow.first(id: params[:id].to_i, site_id: @site.id)
     erb :flow_edit
   end
 
