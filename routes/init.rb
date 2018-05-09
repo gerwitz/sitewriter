@@ -14,7 +14,7 @@ end
 before do
   headers \
     "Referrer-Policy" => "no-referrer",
-    "Content-Security-Policy" => "script-src 'self'"
+    "Content-Security-Policy" => "script-src 'self' unsafe-inline"
 end
 
 require_relative 'pages'
