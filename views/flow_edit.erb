@@ -39,7 +39,7 @@
       <label>
         Content template
         <br>
-        <textarea id="editor" name="content_template" cols="80" rows="25"><%= @flow.content_template %></textarea>
+        <textarea id="editor" name="content_template" cols="80" rows="25" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"><%= @flow.content_template %></textarea>
       </label>
       <br>
       Example:
@@ -104,4 +104,5 @@ categories:
 <script src="/js/codeflask.min.js"></script>
 <script defer>
   const flask = new CodeFlask('#editor', { language: 'liquid' });
+  flask.updateCode("new {{code}} here");
 </script>
