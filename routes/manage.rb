@@ -86,9 +86,9 @@ class SiteWriter < Sinatra::Application
     @site = auth_site
     @flow = @site.file_flow
     if @flow.nil?
-      puts "☣️ Creating new file flow for #{@site.domain}"
       @flow = Flow.create(site_id: @site.id, allow_media: true, media_store_id: @site.default_store.id)
       @site.update(file_flow_id: @flow.id)
+      puts "☣️ Created new file flow [#{@flow.id}] for #{@site.domain}"
     end
     # if @flow.media_store.nil?
     #   @flow.update(media_store_id: @site.default_store.id)
@@ -98,14 +98,16 @@ class SiteWriter < Sinatra::Application
 
   post '/:domain/flows/media' do
     @site = auth_site
-    flow = Flow.first(id: params[:id].to_i, site_id: @site.id)
+    flow = @site.file_flow
+    puts "☣️ Updating file flow #{@flow.id}"
+    flow.update(kind: nil)
     flow.update_fields(params, [
       :media_path_template,
       :media_url_template
     ])
-puts "☣️ #{@site.file_flow.media_store.inspect}"
-puts "☣️ #{flow.id}"
-puts "☣️ #{@site.file_flow.media_store.inspect}"
+# puts "☣️ #{@site.file_flow.media_store.inspect}"
+# puts "☣️ #{flow.id}"
+# puts "☣️ #{@site.file_flow.media_store.inspect}"
     redirect "/#{@site.domain}/config"
   end
 
