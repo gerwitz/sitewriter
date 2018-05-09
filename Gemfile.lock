@@ -58,6 +58,7 @@ GEM
       rack
     rake (12.3.1)
     redcarpet (3.4.0)
+    redis (4.0.1)
     s3 (0.3.26)
       addressable
       proxies
@@ -130,6 +131,7 @@ DEPENDENCIES
   rack-ssl
   rake
   redcarpet
+  redis
   s3
   sanitize
   sentry-raven
