@@ -67,6 +67,7 @@ class Post
   def render_variables
     return {
       slug: slug,
+      slug_underscore: slug_underscore,
       date_time: time.rfc3339,
       year: time.strftime('%Y'),
       month: time.strftime('%m'),
@@ -84,30 +85,15 @@ class Post
     # }.merge(@properties)
   end
 
-  # def data
-  #   { 'type' => [h_type], 'properties' => @properties }
-  # end
-
-  # def filename
-  #   "#{url}.json"
-  # end
-
+  # memoize
   def slug
-    @slug ||= slugify
+    @slug ||= slugify('-')
   end
 
-  # def url
-  #   @url ||= generate_url
-  # end
-  #
-  # def absolute_url
-  #   URI.join(ENV['SITE_URL'], url).to_s
-  # end
-
-  # def is_deleted?
-  #   @properties.key?('deleted') &&
-  #     Time.parse(@properties['deleted'][0]) < Time.now
-  # end
+  # memoize
+  def slug_underscore
+    @slug_underscore ||= slugify('_')
+  end
 
   def content
     if @properties.key?('content')
@@ -122,19 +108,16 @@ class Post
     end
   end
 
-  # def generate_url_published
-  #   # unless @properties.key?('published')
-  #   #   @properties['published'] = [Time.now.utc.iso8601]
-  #   # end
-  #   "/#{Time.parse(@properties['published'][0]).strftime('%Y/%m')}/#{slug}"
-  # end
-  #
-  # def generate_url_slug(prefix='/')
-  #   slugify_url = Utils.slugify_url(@properties['url'][0])
-  #   "#{prefix}#{slugify_url}"
-  # end
+  def slugify(spacer='-')
+    @raw_slug ||= slugify_raw
+    if @raw_slug.empty?
+      return time.strftime("%d#{spacer}%H%M%S")
+    else
+      return @raw_slug.downcase.gsub(/[^\w-]/, ' ').strip.gsub(' ', spacer).gsub(/[-_]+/,spacer).split(spacer)[0..5].join(spacer)
+    end
+  end
 
-  def slugify
+  def slugify_raw
     content = ''
     if @properties.key?('name')
       content = @properties['name'][0]
@@ -148,11 +131,6 @@ class Post
        else
          content = @properties['content'][0]
        end
-    end
-    if content.empty?
-      return time.strftime('%d-%H%M%S')
-    else
-      content.downcase.gsub(/[^\w-]/, ' ').strip.gsub(' ', '-').gsub(/[-_]+/,'-').split('-')[0..5].join('-')
     end
   end
 
