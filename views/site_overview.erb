@@ -34,13 +34,16 @@
   <% @site.log.each do |entry| %>
     <tr>
       <th>
-        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
+        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>:         <%= entry[:status_code] %>
+        <%= entry[:status_code] %>
       </th><td>
         <%= entry[:kind] %>
       </td><td>
-        <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
-      </td><td>
-        <%= entry[:status_code] %>
+        <% if entry[:url] %>
+          <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
+        <% else %>
+          <%= entry[:error].inspect %>
+        <% end %>
       </td>
     </tr>
   <% end %>
