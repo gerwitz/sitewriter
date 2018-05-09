@@ -35,6 +35,7 @@ class SiteWriter < Sinatra::Application
       require_auth
       verify_create
       post = Micropub.create(params)
+      raise Micropub::TypeError.new unless post
       @log[:kind] = post.kind
       flow = flows.where(post_kind: post.kind).first
       raise Micropub::ContentError.new(
