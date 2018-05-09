@@ -27,11 +27,24 @@ class Flow < Sequel::Model
     return Mustermann.new(media_path_template) # type: :sinatra
   end
 
+  # Replaces empty array values with an empty string
+  # to avoid https://github.com/sinatra/mustermann/issues/88
+  def make_mustermann_safe(variables)
+    return variables.each_with_object({}){ |(k, v), h|
+      if v == []
+        h[k] = ''
+      else
+        h[k] = v
+      end
+    }
+  end
+
   def url_for_post(post)
     begin
-      relative_url = url_pattern.expand(post.render_variables)
+      relative_url = url_pattern.expand(make_mustermann_safe(post.render_variables))
       return URI.join(site.url, relative_url).to_s
     rescue => e
+      puts "#{e.message} #{e.backtrace.join('\n')}"
       raise SitewriterError.new("template", "Unable to generate post url: #{e.message}", 500)
     end
   end
@@ -39,9 +52,11 @@ class Flow < Sequel::Model
   def file_path_for_post(post)
     puts "🐌 post.render_variables: #{post.render_variables.inspect}"
     puts "🐌 as json: #{post.render_variables.to_json}"
+
     begin
-      return path_pattern.expand(post.render_variables)
+      return path_pattern.expand(make_mustermann_safe(post.render_variables))
     rescue => e
+      puts "#{e.message} #{e.backtrace.join('\n')}"
       raise SitewriterError.new("template", "Unable to generate file path: #{e.message}", 500)
     end
   end
@@ -50,6 +65,7 @@ class Flow < Sequel::Model
     begin
       return Mustache.render(content_template, post.render_variables)
     rescue => e
+      puts "#{e.message} #{e.backtrace.join('\n')}"
       raise SitewriterError.new("template", "Unable to apply content template: #{e.message}", 500)
     end
   end
