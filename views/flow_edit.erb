@@ -18,7 +18,7 @@
         <input type="text" size="80" name="path_template" value="<%= @flow.path_template %>">
         <br>
         <small>
-          <code>_posts/:year-:month/:year-:month-:day-:slug.md</code>
+          <code>_posts/:year_month/:year-:month-:day-:slug.md</code>
         </small>
       </label>
     </div>
@@ -71,7 +71,7 @@ categories:
         <input type="text" size="80" name="media_path_template" value="<%= @flow.media_path_template %>">
         <br>
         <small>
-          <code>assets/:year-:month/:day-:slug.:extension</code>
+          <code>assets/:year_month/:day-:slug.:extension</code>
         </small>
       </label>
     </div><div>
@@ -81,7 +81,7 @@ categories:
         <input type="text" size="80" name="media_url_template" value="<%= @flow.media_url_template %>">
         <br>
         <small>
-          <code>assets/:year-:month/:day-:slug.:extension</code>
+          <code>assets/:year_month/:day-:slug.:extension</code>
         </small>
       </label>
     </div>

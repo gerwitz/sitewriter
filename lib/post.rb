@@ -13,6 +13,7 @@ class Post
     month: '2-digit month',
     day: '2-digit day of month',
     hour: '2-digit hour (0-23)',
+    year_month: 'YYYY-MM',
     minute: 'minute',
     second: 'second',
     categories: '(list) categories (a.k.a. tags)',
