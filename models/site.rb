@@ -1,5 +1,5 @@
 class Site < Sequel::Model
-  many_to_one :default_store, class: :Store
+  one_to_one :default_store, class: :Store
   many_to_one :file_flow, class: :Flow
   one_to_many :flows
 
