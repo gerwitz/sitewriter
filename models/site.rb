@@ -3,7 +3,7 @@ class Site < Sequel::Model
   one_to_one :file_flow, class: :Flow
   one_to_many :flows
 
-  def log
-    return DB[:log].where(site_id: id).first(20)
+  def log(count=20)
+    return DB[:log].where(site_id: id).reverse_order(:started_at).first(count)
   end
 end
