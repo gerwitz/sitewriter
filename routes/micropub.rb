@@ -35,7 +35,7 @@ class SiteWriter < Sinatra::Application
       require_auth
       verify_create
       post = Micropub.create(params)
-      @log[:kind] = flow.post_kind
+      @log[:kind] = post.kind
       flow = flows.where(post_kind: post.kind).first
       raise Micropub::ContentError.new(
         "Not configured to write posts of kind '#{post.kind}'."
