@@ -1,7 +1,7 @@
 require 'sinatra'
 
 class SiteWriter < Sinatra::Application
-  enable :sessions
+  # enable :sessions
 
   configure :production do
     set :haml, { :ugly=>true }
