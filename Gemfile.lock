@@ -32,6 +32,7 @@ GEM
       json
       nokogiri
     mini_portile2 (2.3.0)
+    moneta (1.0.0)
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
@@ -119,6 +120,7 @@ DEPENDENCIES
   dotenv
   httparty
   microformats
+  moneta
   mustache
   mustermann
   nokogiri
@@ -143,4 +145,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.14.4
+   1.16.0
