@@ -74,6 +74,7 @@ class Post
       hour: time.strftime('%H'),
       minute: time.strftime('%M'),
       second: time.strftime('%S'),
+      year_month: time.strftime('%Y-%m'),
       categories: @categories,
       first_category: @categories.first || '',
       content: content,
