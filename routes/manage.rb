@@ -99,7 +99,7 @@ class SiteWriter < Sinatra::Application
   post '/:domain/flows/media' do
     @site = auth_site
     flow = @site.file_flow
-    puts "☣️ Updating file flow #{@flow.id}"
+    puts "☣️ Updating file flow #{flow.id}"
     flow.update(kind: nil)
     flow.update_fields(params, [
       :media_path_template,
