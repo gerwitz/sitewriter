@@ -10,7 +10,7 @@ class Post
     slug: 'post slug (using \'-\')',
     slug_underscore: 'post slug (using \'_\')',
     date_time: 'rfc3339-formatted time',
-    year: '4-digit year',''
+    year: '4-digit year',
     month: '2-digit month',
     day: '2-digit day of month',
     hour: '2-digit hour (0-23)',
