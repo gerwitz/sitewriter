@@ -228,12 +228,10 @@ class Post
   # derived from: https://indieweb.org/post-type-discovery
   # see README for a description
   def self.type_from_properties(props)
-    puts "👑 #{props.inspect}"
     post_type = ''
     mf_type = ''
     if props.key?('type')
       mf_type = props['type'][0].to_s
-      puts "👑 type: #{mf_type}"
       if mf_type == 'h-event'
         post_type = :event
       elsif mf_type == 'h-entry'
