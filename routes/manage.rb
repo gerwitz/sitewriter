@@ -165,6 +165,11 @@ private
     @site.url = url
     @site.save
     session[:domain] = domain
+    if domain == 'hans.gerwitz.com'
+      session[:admin] = true
+    else
+      session[:admin] = false
+    end
   end
 
   def find_site(domain = nil)
@@ -184,7 +189,7 @@ private
   def auth_site(domain = nil)
     # return if ENV['RACK_ENV'].to_sym == :development
     domain ||= params[:domain]
-    if domain == session[:domain]
+    if (domain == session[:domain]) || (session[:admin])
       return find_site(domain)
     else
       login_site(domain)
