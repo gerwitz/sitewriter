@@ -132,6 +132,7 @@ class Post
          content = @properties['content'][0]
        end
     end
+    return content
   end
 
   # def replace(props)
