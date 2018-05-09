@@ -51,7 +51,7 @@ class Flow < Sequel::Model
 
   def file_content_for_post(post)
     begin
-      return Mustache.render(content_template, post.render_variables)
+      return Mustache.render(content_template, post.render_variables).encode(universal_newline: true)
     rescue => e
       puts "#{e.message} #{e.backtrace.join("\n")}"
       raise SitewriterError.new("template", "Unable to apply content template: #{e.message}", 500)
