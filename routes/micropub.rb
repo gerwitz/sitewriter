@@ -18,9 +18,9 @@ class SiteWriter < Sinatra::Application
       @log[:request] = "#{request.media_type} (#{request.content_length} bytes)"
       require_auth
       media = Media.new(params[:file])
+      @log[:kind] = 'file'
       flow = @site.file_flow
       @log[:flow_id] = flow.id
-      @log[:kind] = 'file'
       url = flow.store_file(media)
       @log[:url] = url
       @log[:status_code] = 202
@@ -35,12 +35,12 @@ class SiteWriter < Sinatra::Application
       require_auth
       verify_create
       post = Micropub.create(params)
+      @log[:kind] = flow.post_kind
       flow = flows.where(post_kind: post.kind).first
       raise Micropub::ContentError.new(
         "Not configured to write posts of kind '#{post.kind}'."
       ) unless flow
       @log[:flow_id] = flow.id
-      @log[:kind] = flow.post_kind
       if params.key?(:photo)
         flow.attach_photos(post, params[:photo])
       end
