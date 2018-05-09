@@ -42,7 +42,7 @@
         <% if entry[:url] %>
           <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
         <% else %>
-          <%= entry[:error].inspect %>
+          <span title="<%= entry[:error][:error_description] %>"><%= entry[:error][:error] %></span>
         <% end %>
       </td>
     </tr>
