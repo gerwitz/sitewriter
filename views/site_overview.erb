@@ -34,7 +34,7 @@
   <% @site.log.each do |entry| %>
     <tr>
       <th>
-        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>:         <%= entry[:status_code] %>
+        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>:
         <%= entry[:status_code] %>
       </th><td>
         <%= entry[:kind] %>
@@ -42,7 +42,7 @@
         <% if entry[:url] %>
           <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
         <% else %>
-          <span title="<%= entry[:error][:error_description] %>"><%= entry[:error][:error] %></span>
+          <span title="<%= entry[:error][:error_description] %>">error: <code><%= entry[:error][:error] %></code></span>
         <% end %>
       </td>
     </tr>

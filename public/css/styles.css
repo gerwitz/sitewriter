@@ -86,3 +86,8 @@ a {
 .warning a, .success a {
   color: #FFFFFF;
 }
+
+.log-error {
+  font-weight: bold;
+  color: #E67E22;
+}
