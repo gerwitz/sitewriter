@@ -19,9 +19,11 @@
         flow = flow_hash[:flow]
     %>
     <tr>
-      <th>
+      <th class="icon">
         <img src="/images/<%= post_kind %>.svg">
-        <%= post_kind %>
+      </th>
+      <th>
+        <%= post_kind.capitalize %>
       </th>
       <% if flow %>
         <td>
@@ -42,6 +44,7 @@
   </table>
 
   <h2>Media Endpoint</h2>
+
   <% if @site.file_flow.nil? || @site.file_flow.media_store.nil? %>
     <div class="warning">
       No file saving destination! Please <a href="flows/media">set one up</a> now.
@@ -49,12 +52,24 @@
   <% else %>
     <div>
       Files Save To <%= @site.file_flow.media_store.name %>
-      <br>
-      path: <code><%= @site.file_flow.media_path_template %></code>
-      <br>
-      url: <code><%= @site.file_flow.media_url_template %></code>
-      <br>
-      <a href="flows/media" class="button button-outline">Edit</a>
     </div>
+
+    <table class="site-types">
+      <tr>
+        <th class="icon">
+          <img src="/images/file.svg">
+        </th>
+        <th>
+          Direct Files
+        </th>
+        <td>
+          path template: <code><%= @site.file_flow.media_path_template %></code>
+          <br>
+          url template: <code><%= @site.file_flow.media_url_template %></code>
+        </td><td>
+          <a href="flows/media" class="button button-outline">Edit</a>
+        </td>
+      </tr>
+    </table>
   <% end %>
 <% end %>

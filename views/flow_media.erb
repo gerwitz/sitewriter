@@ -2,7 +2,10 @@
   <%= @site.domain %>: <a href="../">Status</a> | <b><a href="../config">Setup</a></b>
 </div>
 
-<h1>Media</h1>
+<h1>
+  <img src="/images/file.svg">
+  Media
+</h1>
 
 <div>
   Files sent to the media endpoint will be saved with this configuration.
@@ -27,25 +30,21 @@
         Path template
         <br>
         <input type="text" size="80" name="media_path_template" value="<%= @flow.media_path_template %>">
-        <br>
-        <small>
-          <code>assets/:year_month/:day-:slug.:extension</code>
-        </small>
       </label>
-    </div><div>
+      example: <code>assets/:year_month/:day-:slug.:extension</code>
+    </div>
+    <br>
+    <div>
       <label>
         URL template
         <br>
         <input type="text" size="80" name="media_url_template" value="<%= @flow.media_url_template %>">
-        <br>
-        <small>
-          <code>assets/:year_month/:day-:slug.:extension</code>
-        </small>
       </label>
+      example: <code>assets/:year_month/:day-:slug.:extension</code>
     </div>
 
-    <div>
-      <br>
+    <div class="float-right">
+      <a href="../config" class="button button-clear">Cancel</a>
       <button type="submit" class="button">Update</button>
     </div>
   </form>

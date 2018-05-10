@@ -123,13 +123,10 @@ ul.template-vars>li:hover {
   background-color: #BDC3C7;
 }
 
-.site-types th {
-  width: 180px;
-  vertical-align: middle;
+.site-types th.icon {
+  text-align: right;
 }
-.site-types th img {
-  width: 48px;
-  height: 48px;
-  float: left;
-  margin-right: 12px;
+.site-types th.icon img {
+  width: 32px;
+  height: 32px;
 }

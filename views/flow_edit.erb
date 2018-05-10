@@ -2,7 +2,7 @@
   <%= @site.domain %>: <a href="../">Status</a> | <b><a href="../config">Setup</a></b>
 </div>
 
-<h1><%= @flow.name %></h1>
+<h1><img src="/images/<%= @flow.name %>.svg"><%= @flow.name %></h1>
 
 <div>
   <%= Post.description_for_type(@flow.post_kind) %>
@@ -61,7 +61,7 @@ categories:
 </code></pre>
     </div>
 
-    <h2>Attachments</h2>
+    <h2><img src="/images/attachment.svg">Attachments</h2>
     <div>
       <label>
         Path template
