@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
-env = ENV['RACK_ENV'].to_sym
+env = ENV['RACK_ENV'].to_sym || :development
 
 require "bundler/setup"
 Bundler.require(:default, env)
@@ -21,18 +21,20 @@ end
 use Rack::PostBodyContentTypeParser
 
 # session pool using redis via moneta
-require 'rack/session/moneta'
-use Rack::Session::Moneta,
-    key:            'sitewriter.net',
-    path:           '/',
-    expire_after:   7*24*60*60, # one week
-    secret:         ENV['SESSION_SECRET_KEY'],
+if env != :development
+  require 'rack/session/moneta'
+  use Rack::Session::Moneta,
+      key:            'sitewriter.net',
+      path:           '/',
+      expire_after:   7*24*60*60, # one week
+      secret:         ENV['SESSION_SECRET_KEY'],
 
-    store:          Moneta.new(:Redis, {
-        url:            ENV['REDISCLOUD_URL'],
-        expires:        true,
-        threadsafe:     true
-    })
+      store:          Moneta.new(:Redis, {
+          url:            ENV['REDISCLOUD_URL'],
+          expires:        true,
+          threadsafe:     true
+      })
+end
 
 root = ::File.dirname(__FILE__)
 require ::File.join( root, 'app' )
