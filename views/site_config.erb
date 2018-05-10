@@ -1,19 +1,18 @@
 <div class="nav">
-  <a href="./"><%= @site.domain %></a> | <b>Setup</b>
+  <%= @site.domain %>: <a href="./">Status</a> | <b>Setup</b>
 </div>
 
-<h2>Posts Save To</h2>
+<h2>Micropub Posts</h2>
 <% if @site.default_store.nil? %>
   <div class="warning">
     No saving destination! Please <a href="stores/new">set one up</a> now.
   </div>
 <% else %>
   <div>
-    <%= @site.default_store.name %>
+    Posts save to <%= @site.default_store.name %>
   </div>
 
-  <h2>Post Types</h2>
-  <table>
+  <table class="site-types">
     <%
       @flows.each do |flow_hash|
         post_kind = flow_hash[:kind]
@@ -21,6 +20,7 @@
     %>
     <tr>
       <th>
+        <img src="/images/<%= post_kind %>.svg">
         <%= post_kind %>
       </th>
       <% if flow %>
@@ -29,13 +29,12 @@
           <br>
           url template: <code><%= flow.url_template %></code>
         </td><td>
-          [<a href="flows/<%= flow.id %>">Edit</a>]
+          <a href="flows/<%= flow.id %>" class="button button-outline">Edit</a>
         </td>
       <% else %>
         <td>
-          Not enabled
+          <a href="flows/new?post_kind=<%= post_kind %>" class="button button-outline">Enable</a>
         </td><td>
-          [<a href="flows/new?post_kind=<%= post_kind %>">Configure</a>]
         </td>
       <% end %>
     </tr>
@@ -55,7 +54,7 @@
       <br>
       url: <code><%= @site.file_flow.media_url_template %></code>
       <br>
-      [<a href="flows/media">Edit</a>]
+      <a href="flows/media" class="button button-outline">Edit</a>
     </div>
   <% end %>
 <% end %>

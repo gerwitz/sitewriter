@@ -6,7 +6,7 @@
   You're authenticated as <a href="/<%= session[:domain] %>"><%= session[:domain] %></a>
 </p>
 <form action="/logout" method="get">
-  <button type="submit">Log out</button>
+  <button type="submit" class="button button-outline">Log out</button>
 </form>
 
 <% else %>
@@ -21,7 +21,7 @@
     <input type="text" name="me" placeholder="mydomain.com">
     <input type="hidden" name="client_id" value="<%= "#{request.scheme}://#{ request.host_with_port }/" %>">
     <input type="hidden" name="redirect_uri" value="<%= "#{request.scheme}://#{ request.host_with_port }/login" %>">
-    <button type="submit">Sign In</button>
+    <button type="submit" class="button">Sign In</button>
   </form>
 </p>
 <p>

@@ -1,5 +1,5 @@
 <div class="nav">
-  <a href="../"><%= @site.domain %></a> | <b><a href="../config">Setup</a></b>
+  <%= @site.domain %>: <a href="../">Status</a> | <b><a href="../config">Setup</a></b>
 </div>
 
 <h1><%= @flow.name %></h1>
@@ -16,11 +16,8 @@
         Path template
         <br>
         <input type="text" size="80" name="path_template" value="<%= @flow.path_template %>">
-        <br>
-        <small>
-          <code>_posts/:year_month/:year-:month-:day-:slug.md</code>
-        </small>
       </label>
+      example: <code>_posts/:year_month/:year-:month-:day-:slug.md</code>
     </div>
     <br>
     <div>
@@ -28,11 +25,8 @@
         URL template
         <br>
         <input type="text" size="80" name="url_template" value="<%= @flow.url_template %>">
-        <br>
-        <small>
-          <code>:year/:month/:day/:slug.html</code>
-        </small>
       </label>
+      example: <code>:year/:month/:day/:slug.html</code>
     </div>
     <br>
     <div>
@@ -47,16 +41,14 @@
       <% Post.variables_for_type(@flow.post_kind).each do |v, desc| %>
         <li title="<%= desc %>"
             onclick="editor.replaceSelection('{{<%= v %>}}');"
-            onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc.gsub("'","&#39;") %>';"
+            onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc %>';"
             onmouseout="document.getElementById('vars-desc').innerHTML = '<%= @flow.post_kind %> variables:';"
         ><%= v %></li>
       <% end %>
       </ul>
 
-      <br>
-      Example:
-      <small><pre>
----
+      example:
+      <pre><code>---
 date: {{date_time}}
 slug: {{slug}}
 categories:
@@ -66,7 +58,7 @@ categories:
 {{/categories}}
 ---
 {{{content}}}
-</pre></small>
+</code></pre>
     </div>
 
     <h2>Attachments</h2>
@@ -75,39 +67,28 @@ categories:
         Path template
         <br>
         <input type="text" size="80" name="media_path_template" value="<%= @flow.media_path_template %>">
-        <br>
-        <small>
-          <code>assets/:year_month/:day-:slug.:extension</code>
-        </small>
       </label>
-    </div><div>
+      example: <code>assets/:year_month/:day-:slug.:extension</code>
+    </div>
+    <br>
+    <div>
       <label>
         URL template
-        <br>
         <input type="text" size="80" name="media_url_template" value="<%= @flow.media_url_template %>">
-        <br>
-        <small>
-          <code>assets/:year_month/:day-:slug.:extension</code>
-        </small>
       </label>
+      example: <code>assets/:year_month/:day-:slug.:extension</code>
     </div>
 
-<!--
-    <h2>Webmentions</h2>
-    <div>
-      <label><input type="checkbox" name="allow_meta" value="true"<%= ' checked' if @flow.allow_meta %>>Handle metadata pings?</label>
-    </div>
--->
-    <div>
-      <button type="submit">Update</button>
-    </div>
-    <div>
-      [<a href="<%= @flow.id %>/delete">Remove</a>]
+    <br>
+
+    <div class="float-right">
+      <a href="../config" class="button button-clear">Cancel</a>
+      <a href="<%= @flow.id %>/delete" class="button button-outline">Disable</a>
+      <button type="submit" class="button">Update</button>
     </div>
   </form>
 </div>
 
-<link rel="stylesheet" href="/css/codemirror.css">
 <script src="/js/codemirror/codemirror.js"></script>
 <script src="/js/codemirror/overlay.js"></script>
 <script src="/js/codemirror/markdown.js"></script>
@@ -120,7 +101,7 @@ categories:
           while ((ch = stream.next()) != null)
             if (ch == "}" && stream.next() == "}") {
               stream.eat("}");
-              return "mustache";
+              return "mustache cm-variable";
             }
         }
         while (stream.next() != null && !stream.match("{{", false)) {}

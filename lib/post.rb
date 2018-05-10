@@ -7,20 +7,20 @@ class Post
 
   VARIABLES_CATALOG = {
     content: 'post content',
-    slug: 'post slug (using \'-\')',
-    slug_underscore: 'post slug (using \'_\')',
-    date_time: 'rfc3339-formatted time',
-    year: '4-digit year',
-    month: '2-digit month',
-    day: '2-digit day of month',
-    hour: '2-digit hour (0-23)',
-    year_month: 'YYYY-MM',
-    minute: 'minute',
-    second: 'second',
-    categories: '(list) categories (a.k.a. tags)',
-    first_category: 'the first catagory',
+    slug: 'post slug (using hyphens)',
+    slug_underscore: 'post slug (using underscores)',
+    date_time: 'full publication time (rfc3339 format)',
+    year: 'publication year (YYYY)',
+    month: 'publication month (01-12)',
+    day: 'day of publication month (01-31)',
+    hour: 'hour of publication (00-23)',
+    year_month: 'year and month (YYYY-MM)',
+    minute: 'minute of publication',
+    second: 'second of publication',
+    categories: 'list of categories (a.k.a. tags)',
+    # first_category: 'the first catagory',
     has_photos: 'true if there are any photo attachments',
-    photos: '(list) attached photos'
+    photos: 'list of attached photos'
   }
 
   # this was for access to the raw microformat properties
@@ -78,7 +78,7 @@ class Post
       second: time.strftime('%S'),
       year_month: time.strftime('%Y-%m'),
       categories: @categories,
-      first_category: @categories.first || '',
+      # first_category: @categories.first || '',
       content: content,
       has_photos: @photos.any?,
       photos: @photos

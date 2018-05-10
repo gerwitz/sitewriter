@@ -11,8 +11,6 @@ body {
 
 	color: black;
 	background: white;
-
-	font-family: sans-serif;
 }
 
 header {
@@ -92,10 +90,18 @@ a {
   color: #E67E22;
 }
 
+/* copied from milligram's textarea */
 .CodeMirror {
-  border-width: 1px;
-  -webkit-appearance: textarea;
-  width: 90vw;
+  background-color: transparent;
+  border: 0.1rem solid #d1d1d1;
+  border-radius: .4rem;
+  box-shadow: none;
+  box-sizing: inherit;
+  padding: .6rem 1.0rem;
+  width: 100%;
+}
+.CodeMirror-focused {
+  border-color: #2980B9;
 }
 
 ul.template-vars {
@@ -115,4 +121,15 @@ ul.template-vars>li {
 }
 ul.template-vars>li:hover {
   background-color: #BDC3C7;
+}
+
+.site-types th {
+  width: 180px;
+  vertical-align: middle;
+}
+.site-types th img {
+  width: 48px;
+  height: 48px;
+  float: left;
+  margin-right: 12px;
 }
