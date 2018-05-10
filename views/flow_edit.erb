@@ -40,6 +40,19 @@
         Content template
         <textarea id="codemirror" name="content_template" cols="80" rows="25" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"><%= @flow.content_template %></textarea>
       </label>
+      <div id="vars-desc">
+        <%= @flow.post_kind %> variables: (hover for description)
+      </div>
+      <ul class="template-vars">
+      <% Post.variables_for_type(@flow.post_kind).each do |v, desc| %>
+        <li title="<%= desc %>"
+            onclick="editor.replaceSelection('{{<%= v %>}}');"
+            onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc.gsub("'","&#39;") %>';"
+            onmouseout="document.getElementById('vars-desc').innerHTML = '<%= @flow.post_kind %> variables:';"
+        ><%= v %></li>
+      <% end %>
+      </ul>
+
       <br>
       Example:
       <small><pre>
@@ -54,12 +67,6 @@ categories:
 ---
 {{{content}}}
 </pre></small>
-      Available {{variables}}:
-      <ul>
-      <% Post.variables_for_type(@flow.post_kind).each do |v, desc| %>
-        <li title="<%= desc %>">{{<%= v %>}}</li>
-      <% end %>
-      </ul>
     </div>
 
     <h2>Attachments</h2>

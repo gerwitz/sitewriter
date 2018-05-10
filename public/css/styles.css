@@ -91,3 +91,28 @@ a {
   font-weight: bold;
   color: #E67E22;
 }
+
+.CodeMirror {
+  border-width: 1px;
+  -webkit-appearance: textarea;
+  width: 90vw;
+}
+
+ul.template-vars {
+  padding: 0;
+}
+
+ul.template-vars>li {
+  display: inline;
+  list-style-type: none;
+  margin-right: 8px;
+
+  background-color: #ECF0F1;
+  font-size: 12px;
+  height: 20px;
+  padding: 4px 12px;
+  border-radius: 10px;
+}
+ul.template-vars>li:hover {
+  background-color: #BDC3C7;
+}
