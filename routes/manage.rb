@@ -189,7 +189,8 @@ private
   def auth_site(domain = nil)
     # return if ENV['RACK_ENV'].to_sym == :development
     domain ||= params[:domain]
-    if (domain == session[:domain]) || (session[:admin])
+    env = ENV['RACK_ENV'] || 'development'
+    if (domain == session[:domain]) || session[:admin] || (env.to_sym == :development)
       return find_site(domain)
     else
       login_site(domain)
