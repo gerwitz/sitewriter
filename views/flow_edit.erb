@@ -2,7 +2,7 @@
   <%= @site.domain %>: <a href="../">Status</a> | <b><a href="../config">Setup</a></b>
 </div>
 
-<h1><img src="/images/<%= @flow.name %>.svg"><%= @flow.name %></h1>
+<h1><img src="/images/<%= @flow.post_kind %>.svg"><%= @flow.name %></h1>
 
 <div>
   <%= Post.description_for_type(@flow.post_kind) %>
