@@ -25,9 +25,7 @@
 <% if @site.log.count == 0 %>
   <div>
     No posts yet. Make sure you have linked to your endpoint by including this tag in the <code>&lt;head&gt;</code> of your homepage:
-    <pre>
-      &lt;link href=&quot;<%= "#{request.scheme}://#{request.host_with_port}/#{@site.domain}/micropub" %>&quot; rel=&quot;micropub&quot;&gt;
-    </pre>
+    <pre><code>&lt;link href=&quot;<%= "#{request.scheme}://#{request.host_with_port}/#{@site.domain}/micropub" %>&quot; rel=&quot;micropub&quot;&gt;</code></pre>
   </div>
 <% else %>
   <table>
