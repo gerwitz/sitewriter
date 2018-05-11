@@ -15,7 +15,7 @@ module Micropub
       safe_properties = sanitize_properties(params['properties'])
       services = params['properties'].key?('mp-syndicate-to') ?
         params['properties']['mp-syndicate-to'] : []
-      check_if_syndicated(params['properties'])
+      # check_if_syndicated(params['properties'])
     end
     puts "👑 mf_type: #{mf_type}"
     safe_properties['type'] = [mf_type]
@@ -78,12 +78,12 @@ module Micropub
   end
 
   # has this post already been syndicated, perhaps via a pesos method?
-  def check_if_syndicated(properties)
-    if properties.key?('syndication') &&
-        Cache.find_via_syndication(properties['syndication']).any?
-      raise ConflictError.new
-    end
-  end
+  # def check_if_syndicated(properties)
+  #   if properties.key?('syndication') &&
+  #       Cache.find_via_syndication(properties['syndication']).any?
+  #     raise ConflictError.new
+  #   end
+  # end
 
   def sanitize_properties(properties)
     Hash[
