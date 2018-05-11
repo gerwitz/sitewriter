@@ -9,53 +9,42 @@ class Github < Store
     return "GitHub (#{github_full_repo})"
   end
 
-# below from Transformative
-
-  # def save(post)
-  #   # ensure entry posts always have an entry-type
-  #   if post.h_type == 'h-entry'
-  #     post.properties['entry-type'] ||= [post.entry_type]
-  #   end
-  #   put(post.filename, post.data)
-  #   post
-  # end
-
-  def put(filename, content)
+  def put(filename, content, description="post")
     puts "put: filename=#{filename}"
     # content = JSON.pretty_generate(data)
     if existing = get_file(filename)
       unless Base64.decode64(existing['content']) == content
-        update(existing['sha'], filename, content)
+        update(existing['sha'], filename, content, description)
       end
     else
-      create(filename, content)
+      create(filename, content, description)
     end
   end
 
-  def create(filename, content)
+  def create(filename, content, description)
     octokit.create_contents(
       github_full_repo,
       filename,
-      "Adding new post via sitewriter.net",
+      "New #{description} (via sitewriter.net)",
       content
     )
   end
 
-  def update(sha, filename, content)
+  def update(sha, filename, description)
     octokit.update_contents(
       github_full_repo,
       filename,
-      "Updating post via sitewriter.net",
+      "Updated #{description} (via sitewriter.net)",
       sha,
       content
     )
   end
 
-  def upload(filename, file)
+  def upload(filename, file, description="file")
     octokit.create_contents(
       github_full_repo,
       filename,
-      "Adding new file via sitewriter.net",
+      "New #{description} (via sitewriter.net)",
       {file: file}
     )
   end

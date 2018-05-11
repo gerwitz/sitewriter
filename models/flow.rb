@@ -38,9 +38,6 @@ class Flow < Sequel::Model
   end
 
   def file_path_for_post(post)
-    puts "🐌 post.render_variables: #{post.render_variables.inspect}"
-    puts "🐌 as json: #{post.render_variables.to_json}"
-
     begin
       return path_pattern.expand(:ignore, post.render_variables)
     rescue => e
@@ -59,7 +56,7 @@ class Flow < Sequel::Model
   end
 
   def store_post(post)
-    store.put(file_path_for_post(post), file_content_for_post(post))
+    store.put(file_path_for_post(post), file_content_for_post(post), post_kind)
     return url_for_post(post)
   end
 
@@ -73,7 +70,7 @@ class Flow < Sequel::Model
   end
 
   def store_file(media)
-    media_store.upload(file_path_for_media(media), media.file)
+    media_store.upload(file_path_for_media(media), media.file, "file")
     return url_for_media(media)
   end
 
