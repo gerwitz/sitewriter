@@ -24,7 +24,6 @@ class SiteWriter < Sinatra::Application
       url = flow.store_file(media)
       @log[:url] = url
       @log[:status_code] = 202
-      @log[:finished_at] = Time.now()
       write_log
       headers 'Location' => url
       status 202
@@ -48,7 +47,6 @@ class SiteWriter < Sinatra::Application
       url = flow.store_post(post)
       @log[:url] = url
       @log[:status_code] = 202
-      @log[:finished_at] = Time.now()
       write_log
       headers 'Location' => url
       status 202
@@ -96,6 +94,27 @@ class SiteWriter < Sinatra::Application
     halt(e.status, { 'Content-Type' => 'application/json' }, json)
   end
 
+  error do
+    e = env['sinatra.error']
+    error_description = "Unexpected server error (#{e.class})."
+    if @log
+      error_description << " Details can be found in your activity log."
+      @log[:status_code] = 500
+      log_json = {
+        error: e.class,
+        error_description: e.message,
+        backtrace: e.backtrace
+      }.to_json
+      @log[:error] = Sequel.pg_json(log_json)
+      write_log
+    end
+    json = {
+      error: 'server_error',
+      error_description: error_description
+    }.to_json
+    halt(500, { 'Content-Type' => 'application/json' }, json)
+  end
+
 private
 
   def start_log(site)
@@ -110,6 +129,7 @@ private
   end
 
   def write_log
+    @log[:finished_at] = Time.now()
     DB[:log].insert(@log)
   end
 

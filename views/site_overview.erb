@@ -30,17 +30,17 @@
 <% else %>
   <table>
   <% @site.log.each do |entry| %>
-    <tr>
+    <tr class="<% entry[:url] ? 'post' : 'error' %>">
       <th>
-        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>:
-        [<%= entry[:status_code] %>]
+        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
       </th><td>
+        <img src="/images/<%= @flow.post_kind %>.svg">
         <%= entry[:kind] %>
       </td><td>
         <% if entry[:url] %>
           <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
         <% else %>
-          <span title="<%= entry[:error]['error_description'] %>">error: <code><%= entry[:error]['error'] %></code></span>
+          <span title="<%= entry[:error]['error_description'] %>"><code><%= entry[:error]['error'] %></code> error</span>
         <% end %>
       </td>
     </tr>

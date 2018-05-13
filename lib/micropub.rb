@@ -116,14 +116,14 @@ module Micropub
 
   class TypeError < SitewriterError
     def initialize(message="The request did not match any known post type.")
-      super("server_error", message, 500)
+      super("server_error", message, 422)
     end
   end
 
   # not on-spec but it feels right
   class ContentError < SitewriterError
     def initialize(message="The request includes content that cannot be accepted for writing.")
-      super("unaccepted_content", message, 501)
+      super("unaccepted_content", message, 422)
     end
   end
 
