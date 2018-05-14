@@ -4,6 +4,17 @@ class SiteWriter < Sinatra::Application
 
   enable :sessions
 
+  get '/syslog' do
+    redirect '/syslog/'
+  end
+
+  get '/syslog/' do
+    env = ENV['RACK_ENV'].to_sym || :development
+    halt(404) unless (session[:domain] == 'hans.gerwitz.com') || (env == :development)
+    @log = DB[:log].reverse_order(:started_at)
+    erb :syslog
+  end
+
   get '/login' do
     if params.key?('code') # this is probably an indieauth callback
       url = Auth.url_via_indieauth("#{request.scheme}://#{request.host_with_port}/", params[:code])

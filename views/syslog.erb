@@ -1,0 +1,22 @@
+<h2>Most recent 100 log entries</h2>
+<table>
+<% @log.first(100).each do |entry| %>
+  <tr class="<% entry[:url] ? 'post' : 'error' %>">
+    <th>
+      <%= Site[entry[:site_id]].domain %>
+    </th>
+    <th>
+      <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
+    </th><td>
+      <img src="/images/<%= @flow.post_kind %>.svg">
+      <%= entry[:kind] %>
+    </td><td>
+      <% if entry[:url] %>
+        <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
+      <% else %>
+        <span title="<%= entry[:error]['error_description'] %>"><code><%= entry[:error]['error'] %></code> error</span>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
