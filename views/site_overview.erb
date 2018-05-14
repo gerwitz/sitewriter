@@ -34,8 +34,10 @@
       <th>
         <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
       </th><td>
-        <img src="/images/<%= entry[:kind] %>.svg">
-        <%= entry[:kind] %>
+        <% if entry[:kind] %>
+          <img src="/images/<%= entry[:kind] %>.svg">
+          <%= entry[:kind] %>
+        <% end %>
       </td><td>
         <% if entry[:url] %>
           <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
