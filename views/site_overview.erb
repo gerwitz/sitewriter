@@ -34,7 +34,7 @@
       <th>
         <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
       </th><td>
-        <img src="/images/<%= @flow.post_kind %>.svg">
+        <img src="/images/<%= entry[:kind] %>.svg">
         <%= entry[:kind] %>
       </td><td>
         <% if entry[:url] %>
