@@ -97,7 +97,7 @@ class SiteWriter < Sinatra::Application
   error do
     e = env['sinatra.error']
     error_description = "Unexpected server error (#{e.class})."
-    if @log
+    if @log.is_a? Hash
       error_description << " Details can be found in your activity log."
       @log[:status_code] = 500
       log_json = {
