@@ -1,6 +1,6 @@
 class SiteWriter < Sinatra::Application
 
-  post '/:domain/micropub' do
+  post '/:domain/micropub/?' do
     # TODO: handle multipart requests
     site = find_site
     start_log(site)
@@ -32,7 +32,6 @@ class SiteWriter < Sinatra::Application
       request.body.rewind
       @log[:request] = request.body.read
       require_auth
-      verify_create
       post = Micropub.create(params)
       raise Micropub::TypeError.new unless post
       @log[:kind] = post.kind
@@ -54,7 +53,7 @@ class SiteWriter < Sinatra::Application
   end
 
   # TODO: syndication targets
-  get '/:domain/micropub' do
+  get '/:domain/micropub/?' do
     site = find_site
     # start_log(site)
     if params.key?('q')
@@ -62,9 +61,7 @@ class SiteWriter < Sinatra::Application
       content_type :json
       case params[:q]
       when 'source'
-        # TODO
-        verify_url
-        render_source
+
       when 'config'
         {
           "media-endpoint" => "#{request.scheme}://#{request.host_with_port}/#{site.domain}/micropub",
@@ -86,7 +83,7 @@ class SiteWriter < Sinatra::Application
       error: e.type,
       error_description: e.message
     }.to_json
-    if @log
+    if @log.is_a? Hash
       @log[:status_code] = e.status
       @log[:error] = Sequel.pg_json(json)
       write_log
@@ -143,19 +140,6 @@ private
     scope = params.key?('action') ? params['action'] : 'post'
     Auth.verify_token_and_scope(token, scope)
     # TODO: check "me" for domain match
-  end
-
-  def verify_create
-    if params.key?('h') && Post.valid_types.include?("h-#{params[:h]}")
-      return
-    elsif params.key?('type') && Post.valid_types.include?(params[:type][0])
-      return
-    else
-      raise Micropub::InvalidRequestError.new(
-        "You must specify a Microformats 'h-' type to create a new post. " +
-        "Valid post types are: #{Post.valid_types.join(' ')}."
-      )
-    end
   end
 
   def verify_action

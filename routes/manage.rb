@@ -1,14 +1,9 @@
 class SiteWriter < Sinatra::Application
   helpers Sinatra::LinkHeader
-  # helpers ViewHelper
 
   enable :sessions
 
-  get '/syslog' do
-    redirect '/syslog/'
-  end
-
-  get '/syslog/' do
+  get '/syslog/?' do
     env = ENV['RACK_ENV'].to_sym || :development
     halt(404) unless (session[:domain] == 'hans.gerwitz.com') || (env == :development)
     @log = DB[:log].reverse_order(:started_at)
@@ -33,11 +28,7 @@ class SiteWriter < Sinatra::Application
     redirect '/'
   end
 
-  get '/:domain' do
-    redirect "/#{params[:domain]}/"
-  end
-
-  get '/:domain/' do
+  get '/:domain/?' do
     @site = auth_site
     erb :site_overview
   end
@@ -116,9 +107,6 @@ class SiteWriter < Sinatra::Application
       :media_path_template,
       :media_url_template
     ])
-# puts "☣️ #{@site.file_flow.media_store.inspect}"
-# puts "☣️ #{flow.id}"
-# puts "☣️ #{@site.file_flow.media_store.inspect}"
     redirect "/#{@site.domain}/config"
   end
 
@@ -160,11 +148,6 @@ class SiteWriter < Sinatra::Application
 
   error do
     erb :'500', layout: false
-  end
-
-  def deleted
-    status 410
-    erb :'410'
   end
 
 private
@@ -224,32 +207,5 @@ private
       query: auth_query
     ), 302
   end
-  #
-  #   def auth_domain
-  #
-  #   if params[:domain]
-  #     site = Site.first(domain: params[:domain].to_s)
-  #
-  #
-  #
-  #   if params[:domain]
-  #     site = Site.first(domain: params[:domain].to_s)
-  #     if site.nil?
-  #       raise StandardError.new("No site found for '#{params[:domain].to_s}'")
-  #     else
-  #       return site
-  #     end
-  #   else
-  #     not_found
-  #   end
-  # end
-  #
-  # def auth_for_domain(domain = nil)
-  #   return if ENV['RACK_ENV'].to_sym == :development
-  #   domain ||= params[:domain]
-  #   if domain != session[:domain]
-  #     redirect '/'
-  #   end
-  # end
 
 end
