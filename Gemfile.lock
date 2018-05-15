@@ -103,6 +103,10 @@ GEM
       multipart-post (~> 2.0)
       naught (~> 1.0)
       simple_oauth (~> 0.3.0)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
+    tzinfo-data (1.2018.5)
+      tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
@@ -140,6 +144,8 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   twitter
+  tzinfo
+  tzinfo-data
   webmention
   will_paginate
 
@@ -147,4 +153,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.16.0
+   1.16.1

@@ -24,6 +24,8 @@ gem 'sequel_pg', require: 'sequel'
 gem 'will_paginate'
 gem 's3'
 gem 'twitter'
+gem 'tzinfo'
+gem 'tzinfo-data'
 
 group :production do
   gem 'sentry-raven'

@@ -21,6 +21,25 @@
   </div>
 <% end %>
 
+<% timezone = "Etc/UTC" %>
+<h2>Settings</h2>
+<div>
+<form action="" method="POST">
+  <label>
+    Default Timezone
+    <select>
+      <% TZInfo::Timezone.all_data_zones.each do |tz| %>
+      <option value="<%= tz.name %>%"<%= " selected" if tz.name == timezone %>><%= tz.to_s %></option>
+      <% end %>
+    </select>
+  </label>
+  <div class="float-right">
+    <a href="." class="button button-clear">Cancel</a>
+    <button type="submit" class="button">Update</button>
+  </div>
+</form>
+</div>
+
 <h2>Recent Activity</h2>
 <% if @site.log.count == 0 %>
   <div>
