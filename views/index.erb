@@ -18,7 +18,7 @@
 <p>
   To get started, enable IndieAuth on your domain. (<a href="https://indieauth.com/setup">IndieAuth.com</a> is a popular provider.) Then enter your domain here:
   <form action="https://indieauth.com/auth" method="get">
-    <input type="text" name="me" placeholder="mydomain.com">
+    <input type="text" name="me" placeholder="mydomain.com" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
     <input type="hidden" name="client_id" value="<%= "#{request.scheme}://#{ request.host_with_port }/" %>">
     <input type="hidden" name="redirect_uri" value="<%= "#{request.scheme}://#{ request.host_with_port }/login" %>">
     <button type="submit" class="button">Sign In</button>
