@@ -19,7 +19,7 @@ class SiteWriter < Sinatra::Application
       require_auth
       media = Media.new(params[:file])
       @log[:kind] = 'file'
-      flow = @site.file_flow
+      flow = site.file_flow
       @log[:flow_id] = flow.id
       url = flow.store_file(media)
       @log[:url] = url
