@@ -19,10 +19,13 @@ class Media
     {
       slug: @slug,
       extension: @extension,
-      date_time: @time.rfc3339,
       year: @time.strftime('%Y'),
       month: @time.strftime('%m'),
       day: @time.strftime('%d')
+      hour: @time.strftime('%H'),
+      minute: @time.strftime('%M'),
+      second: @time.strftime('%S'),
+      year_month: @time.strftime('%Y-%m')
     }
   end
 
