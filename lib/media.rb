@@ -21,7 +21,7 @@ class Media
       extension: @extension,
       year: @time.strftime('%Y'),
       month: @time.strftime('%m'),
-      day: @time.strftime('%d')
+      day: @time.strftime('%d'),
       hour: @time.strftime('%H'),
       minute: @time.strftime('%M'),
       second: @time.strftime('%S'),
