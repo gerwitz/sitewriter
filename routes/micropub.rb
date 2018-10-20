@@ -5,6 +5,11 @@ class SiteWriter < Sinatra::Application
     site = find_site
     start_log(site)
     flows = site.flows_dataset
+    # add a localized timestamp to params
+    unless params.key?('published')
+      tz = TZInfo::Timezone.get(site.timezone)
+      params['published'] = tz.now
+    end
     # start by assuming this is a non-create action
     # if params.key?('action')
     #   verify_action

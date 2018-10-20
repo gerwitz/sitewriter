@@ -38,6 +38,7 @@ class Post
     @photos = []
 
     unless @properties.key?('published')
+      # This shouldn't happen anymore
       @properties['published'] = [Time.now.utc.iso8601]
     end
   end
