@@ -47,6 +47,11 @@
   </div>
 <% else %>
   <table>
+    <colgroup>
+      <col style="width: 25%">
+      <col style="width: 15%">
+      <col style="width: 60%">
+    </colgroup>
   <% @site.log.each do |entry| %>
     <tr class="<% entry[:url] ? 'post' : 'error' %>">
       <th>
@@ -60,7 +65,10 @@
         <% if entry[:url] %>
           <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
         <% else %>
-          <span title="<%= entry[:error]['error_description'] %>"><code><%= entry[:error]['error'] %></code> error</span>
+          <details>
+            <summary><code><%= entry[:error]['error'] %></code> error</summary>
+            <pre><%= entry[:error]['error_description'] %></pre>
+          </details>
         <% end %>
       </td>
     </tr>

@@ -184,6 +184,7 @@ pre {
   background: #ECF0F1;
   border-left: 0.3rem solid #2980B9;
   overflow-y: hidden;
+  white-space: pre-wrap;
 }
 
 pre > code {
