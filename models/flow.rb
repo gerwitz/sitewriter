@@ -14,6 +14,9 @@ class Flow < Sequel::Model
     end
   end
 
+  def stringed_variables(post)
+    return post.render_variables.map{|k,v| {k => v.to_s}}
+  end
   def url_pattern
     return Mustermann.new(url_template) # type: :sinatra
   end
@@ -29,7 +32,7 @@ class Flow < Sequel::Model
 
   def url_for_post(post)
     begin
-      relative_url = url_pattern.expand(:ignore, post.render_variables)
+      relative_url = url_pattern.expand(:ignore, stringed_variables(post))
       return URI.join(site.url, relative_url).to_s
     rescue => e
       puts "#{e.message} #{e.backtrace.join("\n")}"
@@ -39,7 +42,7 @@ class Flow < Sequel::Model
 
   def file_path_for_post(post)
     begin
-      return path_pattern.expand(:ignore, post.render_variables)
+      return path_pattern.expand(:ignore, stringed_variables(post))
     rescue => e
       puts "#{e.message} #{e.backtrace.join("\n")}"
       raise SitewriterError.new("template", "Unable to generate file path: #{e.message}", 500)
@@ -61,12 +64,12 @@ class Flow < Sequel::Model
   end
 
   def url_for_media(media)
-    relative_url = media_url_pattern.expand(:ignore, media.render_variables)
+    relative_url = media_url_pattern.expand(:ignore, stringed_variables(media))
     return URI.join(site.url, relative_url).to_s
   end
 
   def file_path_for_media(media)
-    return media_path_pattern.expand(:ignore, media.render_variables)
+    return media_path_pattern.expand(:ignore, stringed_variables(media))
   end
 
   def store_file(media)
