@@ -33,6 +33,16 @@ class SiteWriter < Sinatra::Application
     erb :site_overview
   end
 
+  post '/:domain/?' do
+    @site = auth_site
+    puts "☣️ Updating #{@site.domain}"
+    @site.update_fields(params, [
+      :timezone
+    ])
+    puts("updated timezone to #{@site.timezone}")
+    redirect "/#{@site.domain}/"
+  end
+
   get '/:domain/config' do
     @site = auth_site
     site_flows = @site.flows_dataset
