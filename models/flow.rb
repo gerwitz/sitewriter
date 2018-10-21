@@ -15,8 +15,10 @@ class Flow < Sequel::Model
   end
 
   def stringed_variables(post)
-    return post.render_variables.map{|k,v| {k => v.to_s}}
-  end
+    strings = post.render_variables.map{|k,v| {k => v.to_s}}
+    puts("🧠 #{strings}")
+    return strings
+  ends
   def url_pattern
     return Mustermann.new(url_template) # type: :sinatra
   end

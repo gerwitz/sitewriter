@@ -9,9 +9,7 @@ class Post
     content: 'post content',
     slug: 'post slug (using hyphens)',
     slug_underscore: 'post slug (using underscores)',
-    date_time: 'publication time (rfc3339 format)',
-    utc_date_time: 'publication time in UTC',
-    utc_unix_epoch: 'publication time as seconds since 1970-01-01',
+    date_time: 'publication time (RFC 3339 format)',
     year: 'publication year (YYYY)',
     month: 'publication month (01-12)',
     day: 'day of publication month (01-31)',
@@ -19,6 +17,8 @@ class Post
     year_month: 'year and month (YYYY-MM)',
     minute: 'minute of publication',
     second: 'second of publication',
+    utc_date_time: 'publication time in UTC (RFC 3339 format)',
+    utc_unix_epoch: 'publication time as seconds since 1970-01-01',
     categories: 'list of categories (a.k.a. tags)',
     # first_category: 'the first catagory',
     has_photos: 'true if there are any photo attachments',
@@ -66,7 +66,6 @@ class Post
 
     return {local: local_time, utc: utc_time}
   end
-
   # memoize
   def both_times
     @times ||= timify
@@ -78,6 +77,7 @@ class Post
     both_times[:utc]
   end
 
+  # TODO memoize this
   def render_variables
     return {
       slug: slug,
