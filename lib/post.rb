@@ -9,7 +9,6 @@ class Post
     content: 'post content',
     slug: 'post slug (using hyphens)',
     slug_underscore: 'post slug (using underscores)',
-    date_time: 'publication time (RFC 3339 format)',
     year: 'publication year (YYYY)',
     month: 'publication month (01-12)',
     day: 'day of publication month (01-31)',
@@ -17,8 +16,8 @@ class Post
     year_month: 'year and month (YYYY-MM)',
     minute: 'minute of publication',
     second: 'second of publication',
-    utc_date_time: 'publication time in UTC (RFC 3339 format)',
-    utc_unix_epoch: 'publication time as seconds since 1970-01-01',
+    utc_datetime: 'publication time in UTC (RFC 3339 format)',
+    utc_epoch: 'publication time as seconds since 1970-01-01',
     categories: 'list of categories (a.k.a. tags)',
     # first_category: 'the first catagory',
     has_photos: 'true if there are any photo attachments',
@@ -83,8 +82,8 @@ class Post
       slug: slug,
       slug_underscore: slug_underscore,
 
-      utc_date_time: utc_time.to_datetime.rfc3339,
-      utc_unix_epoch: utc_time.to_i,
+      utc_datetime: utc_time.to_datetime.rfc3339,
+      utc_epoch: utc_time.to_i,
 
       # FIXME this thinks it's UTC and is adding a +0 offset
       # date_time: local_time.to_datetime.rfc3339,
