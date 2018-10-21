@@ -87,7 +87,8 @@ class Post
       utc_unix_epoch: utc_time.to_i,
 
       # FIXME this thinks it's UTC and is adding a +0 offset
-      date_time: local_time.to_datetime.rfc3339,
+      # date_time: local_time.to_datetime.rfc3339,
+
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
       day: local_time.strftime('%d'),
