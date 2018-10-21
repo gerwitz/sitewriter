@@ -59,7 +59,7 @@ class Post
 
   def timify
     published = @properties['published'].first
-    puts("😱 timify - published: #{publisheed}")
+    puts("😱 timify - published: #{published}")
     return DateTime.iso8601(published)
   end
 
