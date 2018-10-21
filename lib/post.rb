@@ -73,8 +73,8 @@ class Post
     return {
       slug: slug,
       slug_underscore: slug_underscore,
-      utc_date_time: local_time.to_utc.rfc3339,
-      utc_unix_epoch: local_time.to_utc.to_i,
+      utc_date_time: local_time.utc.rfc3339,
+      utc_unix_epoch: local_time.utc.to_i,
       date_time: local_time.rfc3339,
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
