@@ -39,6 +39,7 @@ class Post
 
     unless @properties.key?('published')
       # This shouldn't happen anymore
+      puts("😱 found no property 'published'")
       @properties['published'] = [Time.now.utc.iso8601]
     end
   end
@@ -58,6 +59,7 @@ class Post
 
   def timify
     published = @properties['published'].first
+    puts("😱 timify - published: #{publisheed}")
     return DateTime.iso8601(published)
   end
 
