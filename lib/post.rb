@@ -86,6 +86,7 @@ class Post
       utc_date_time: utc_time.to_datetime.rfc3339,
       utc_unix_epoch: utc_time.to_i,
 
+      # FIXME this thinks it's UTC and is adding a +0 offset
       date_time: local_time.to_datetime.rfc3339,
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
@@ -95,13 +96,13 @@ class Post
       second: local_time.strftime('%S'),
       year_month: local_time.strftime('%Y-%m'),
 
-      categories: @categories,
+      # categories: @categories,
       # first_category: @categories.first || '',
 
       content: content,
 
-      has_photos: @photos.any?,
-      photos: @photos
+      has_photos: @photos.any?
+      # photos: @photos
     }
     # }.merge(@properties)
   end
