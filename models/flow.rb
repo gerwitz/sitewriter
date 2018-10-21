@@ -15,7 +15,8 @@ class Flow < Sequel::Model
   end
 
   def stringed_variables(post)
-    strings = post.render_variables.map{|k,v| {k => v.to_s}}
+    # strings = post.render_variables.map{|k,v| {k => v.to_s}}
+    strings = post.render_variables
     puts("🧠 #{strings}")
     return strings
   end
