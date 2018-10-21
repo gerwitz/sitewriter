@@ -50,7 +50,9 @@ class Post
     end
   end
 
+  # get publication time as a DateTime and apply timezone
   def timify
+    # no client sends 'published' but we'll prepare for it
     if @properties.key?('published')
       utc_time = DateTime.iso8601(@properties['published'].first)
     else
@@ -61,20 +63,27 @@ class Post
     else
       local_time = utc_time
     end
-    return local_time
+
+    return {local: local_time, utc: utc_time}
   end
 
   # memoize
+  def both_times
+    @times ||= timify
+  end
   def local_time
-    @time ||= timify
+    both_times[:local]
+  end
+  def utc_time
+    both_times[:utc]
   end
 
   def render_variables
     return {
       slug: slug,
       slug_underscore: slug_underscore,
-      utc_date_time: local_time.utc.rfc3339,
-      utc_unix_epoch: local_time.utc.to_i,
+      utc_date_time: utc_time.rfc3339,
+      utc_unix_epoch: utc_time.to_i,
       date_time: local_time.rfc3339,
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
