@@ -228,7 +228,7 @@ class Post
 
   def self.new_for_type(type, props, timezone=nil)
     klass = class_for_type(type)
-    return klass.new(props, timezone)
+    return klass.new(props, timezone: timezone)
   end
 
   # derived from: https://indieweb.org/post-type-discovery
