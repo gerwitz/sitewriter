@@ -82,9 +82,11 @@ class Post
     return {
       slug: slug,
       slug_underscore: slug_underscore,
-      utc_date_time: utc_time.rfc3339,
+
+      utc_date_time: utc_time.to_datetime.rfc3339,
       utc_unix_epoch: utc_time.to_i,
-      date_time: local_time.rfc3339,
+
+      date_time: local_time.to_datetime.rfc3339,
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
       day: local_time.strftime('%d'),
@@ -92,9 +94,12 @@ class Post
       minute: local_time.strftime('%M'),
       second: local_time.strftime('%S'),
       year_month: local_time.strftime('%Y-%m'),
+
       categories: @categories,
       # first_category: @categories.first || '',
+
       content: content,
+
       has_photos: @photos.any?,
       photos: @photos
     }
