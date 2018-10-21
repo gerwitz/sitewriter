@@ -9,7 +9,9 @@ class Post
     content: 'post content',
     slug: 'post slug (using hyphens)',
     slug_underscore: 'post slug (using underscores)',
-    date_time: 'full publication time (rfc3339 format)',
+    date_time: 'publication time (rfc3339 format)',
+    utc_date_time: 'publication time in UTC',
+    utc_unix_epoch: 'publication time as seconds since 1970-01-01',
     year: 'publication year (YYYY)',
     month: 'publication month (01-12)',
     day: 'day of publication month (01-31)',
@@ -23,25 +25,16 @@ class Post
     photos: 'list of attached photos'
   }
 
-  # this was for access to the raw microformat properties
-  # ...but maybe we can avoid that
-  # attr_reader :properties, :url
-
-  def initialize(properties, url=nil)
+  def initialize(properties, timezone: nil)
     @properties = properties
-    @url = url
+    @timezone = timezone
+
     if @properties.key?('category')
       @categories = @properties['category']
     else
       @categories = []
     end
     @photos = []
-
-    unless @properties.key?('published')
-      # This shouldn't happen anymore
-      puts("😱 found no property 'published'")
-      @properties['published'] = [Time.now.utc.iso8601]
-    end
   end
 
   def kind
@@ -58,13 +51,21 @@ class Post
   end
 
   def timify
-    published = @properties['published'].first
-    puts("😱 timify - published: #{published}")
-    return DateTime.iso8601(published)
+    if @properties.key?('published')
+      utc_time = DateTime.iso8601(@properties['published'].first)
+    else
+      utc_time = Time.now.utc
+    end
+    if @timezone
+      local_time = @timezone.utc_to_local(utc_time)
+    else
+      local_time = utc_time
+    end
+    return local_time
   end
 
   # memoize
-  def time
+  def local_time
     @time ||= timify
   end
 
@@ -72,14 +73,16 @@ class Post
     return {
       slug: slug,
       slug_underscore: slug_underscore,
-      date_time: time.rfc3339,
-      year: time.strftime('%Y'),
-      month: time.strftime('%m'),
-      day: time.strftime('%d'),
-      hour: time.strftime('%H'),
-      minute: time.strftime('%M'),
-      second: time.strftime('%S'),
-      year_month: time.strftime('%Y-%m'),
+      utc_date_time: local_time.to_utc.rfc3339,
+      utc_unix_epoch: local_time.to_utc.to_i,
+      date_time: local_time.rfc3339,
+      year: local_time.strftime('%Y'),
+      month: local_time.strftime('%m'),
+      day: local_time.strftime('%d'),
+      hour: local_time.strftime('%H'),
+      minute: local_time.strftime('%M'),
+      second: local_time.strftime('%S'),
+      year_month: local_time.strftime('%Y-%m'),
       categories: @categories,
       # first_category: @categories.first || '',
       content: content,
@@ -223,9 +226,9 @@ class Post
     end
   end
 
-  def self.new_for_type(type, props)
+  def self.new_for_type(type, props, timezone=nil)
     klass = class_for_type(type)
-    return klass.new(props)
+    return klass.new(props, timezone)
   end
 
   # derived from: https://indieweb.org/post-type-discovery

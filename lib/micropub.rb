@@ -2,7 +2,7 @@ module Micropub
   module_function # why?
 
   # TODO: handle JSON requests
-  def create(params)
+  def create(params, timezone=nil)
     if params.key?('h')
       # form-encoded
       mf_type = 'h-'+params['h'].to_s
@@ -24,7 +24,7 @@ module Micropub
     puts "👑 deep_props: #{deep_props.inspect}"
     post_type = Post.type_from_properties(deep_props)
     puts "👑 post_type: #{post_type}"
-    post = Post.new_for_type(post_type, deep_props)
+    post = Post.new_for_type(post_type, deep_props, timezone)
     puts "👑 post: #{post}"
 
     post.set_slug(params)

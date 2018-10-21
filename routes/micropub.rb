@@ -5,11 +5,6 @@ class SiteWriter < Sinatra::Application
     site = find_site
     start_log(site)
     flows = site.flows_dataset
-    # add a localized timestamp to params
-    unless params.key?('published')
-      tz = TZInfo::Timezone.get(site.timezone)
-      params['published'] = tz.now
-    end
     # start by assuming this is a non-create action
     # if params.key?('action')
     #   verify_action
@@ -37,7 +32,9 @@ class SiteWriter < Sinatra::Application
       request.body.rewind
       @log[:request] = request.body.read
       require_auth
-      post = Micropub.create(params)
+      site_tz = TZInfo::Timezone.get(site.timezone) || TZInfo::Timezone.get('UTC')
+      # @log[:timezone] = site_tz.identifier
+      post = Micropub.create(params, site_tz)
       raise Micropub::TypeError.new unless post
       @log[:kind] = post.kind
       flow = flows.where(post_kind: post.kind).first
