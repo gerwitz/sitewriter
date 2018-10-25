@@ -97,7 +97,6 @@ class Post
       # date_time: local_time.to_datetime.rfc3339,
 
       datetime: local_time.strftime('%Y-%m-%dT%H:%M:%S%z'),
-      datetime_rfc: local_time.rfc3339,
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
       day: local_time.strftime('%d'),
