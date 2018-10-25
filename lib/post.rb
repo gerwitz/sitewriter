@@ -7,8 +7,14 @@ class Post
 
   VARIABLES_CATALOG = {
     content: 'post content',
+
     slug: 'post slug (using hyphens)',
     slug_underscore: 'post slug (using underscores)',
+
+    utc_datetime: 'publication time in UTC (RFC 3339 format)',
+    utc_epoch: 'publication time as seconds since 1970-01-01',
+
+    datetime: 'publication time (RFC 3339 format)',
     year: 'publication year (YYYY)',
     month: 'publication month (01-12)',
     day: 'day of publication month (01-31)',
@@ -16,10 +22,10 @@ class Post
     year_month: 'year and month (YYYY-MM)',
     minute: 'minute of publication',
     second: 'second of publication',
-    utc_datetime: 'publication time in UTC (RFC 3339 format)',
-    utc_epoch: 'publication time as seconds since 1970-01-01',
+
     categories: 'list of categories (a.k.a. tags)',
     # first_category: 'the first catagory',
+
     has_photos: 'true if there are any photo attachments',
     photos: 'list of attached photos'
   }
@@ -58,7 +64,7 @@ class Post
       utc_time = Time.now.utc
     end
     if @timezone
-      local_time = @timezone.utc_to_local(utc_time)
+      local_time = @timezone.to_local(utc_time)
     else
       local_time = utc_time
     end
@@ -88,6 +94,8 @@ class Post
       # FIXME this thinks it's UTC and is adding a +0 offset
       # date_time: local_time.to_datetime.rfc3339,
 
+      datetime: local_time.strftime('%Y-%m-%dT%H:%M:%S%z'),
+      datetime_rfc: local_time.rfc3339,
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
       day: local_time.strftime('%d'),
