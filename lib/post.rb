@@ -64,7 +64,9 @@ class Post
       utc_time = Time.now.utc
     end
     if @timezone
-      local_time = @timezone.to_local(utc_time)
+      # local_time = @timezone.utc_to_local(utc_time)
+      utc_total_offset = @timezone.period_for_utc(utc_time).utc_total_offset
+      local_time = utc_time.getlocal(utc_total_offset)
     else
       local_time = utc_time
     end
