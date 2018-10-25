@@ -96,7 +96,7 @@ class Post
       # FIXME this thinks it's UTC and is adding a +0 offset
       # date_time: local_time.to_datetime.rfc3339,
 
-      datetime: local_time.strftime('%Y-%m-%dT%H:%M:%S%z'),
+      datetime: local_time.strftime('%Y-%m-%dT%H:%M:%S%:z'),
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
       day: local_time.strftime('%d'),
