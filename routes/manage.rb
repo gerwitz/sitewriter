@@ -84,6 +84,13 @@ class SiteWriter < Sinatra::Application
     redirect "/#{@site.domain}/config"
   end
 
+  get '/:domain/stores/:id/delete' do
+    @site = auth_site
+    @store = Store.find(id: params[:id].to_i, site_id: @site.id)
+    @store.destroy
+    redirect "/#{@site.domain}/config"
+  end
+
   get '/:domain/flows/new' do
     @site = auth_site
     @flow = Flow.find_or_create(site_id: @site.id, post_kind: params['post_kind'].to_s)

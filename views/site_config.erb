@@ -5,11 +5,11 @@
 <h2>Micropub Posts</h2>
 <% if @site.default_store.nil? %>
   <div class="warning">
-    No saving destination! Please <a href="stores/new">set one up</a> now.
+    No saving destination! Please [<a href="stores/new">set one up</a>] now.
   </div>
 <% else %>
   <div>
-    Posts save to <%= @site.default_store.name %>
+    Posts save to <%= @site.default_store.name %>. [<a href="stores/<%= @site.default_store.id %>/delete">delete</a>]
   </div>
 
   <table class="site-types">
