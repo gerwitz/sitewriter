@@ -84,7 +84,7 @@ categories:
     <div class="float-right">
       <a href="../config" class="button button-clear">Cancel</a>
       <a href="<%= @flow.id %>/delete" class="button button-outline">Disable</a>
-      <button type="submit" class="button">Update</button>
+      <button type="submit" class="button"><%= @flow.new? ? 'Create' : 'Update' %></button>
     </div>
   </form>
 </div>

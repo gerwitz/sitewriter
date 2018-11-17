@@ -62,25 +62,46 @@ class SiteWriter < Sinatra::Application
 
   get '/:domain/stores/new' do
     @site = auth_site
-    erb :store_new
+    if params.key?('type_id')
+      type_id = params['type_id'].to_i
+    else
+      type_id = 1 # github
+    end
+    store_class = Store.sti_class_from_sti_key(type_id)
+    @store = store_class.create(site_id: @site.id)
+    erb :store_edit
+  end
+
+  get '/:domain/stores/:id' do
+    @site = auth_site
+    @store = Store.find(id: params[:id].to_i, site_id: @site.id)
+    erb :store_edit
   end
 
   post '/:domain/stores' do
     @site = auth_site
-    if params.key?('type_id')
-      type_id = params['type_id'].to_i
-      store_class = Store.sti_class_from_sti_key(type_id)
-      # puts "type: #{type_id}, class: #{store_class}"
-      store = store_class.create(site_id: @site.id)
-      store.update_fields(params, [:location, :user, :key])
+
+    store = Store.first(id: params[:id].to_i, site_id: @site.id)
+    
+    # if params.key?('type_id')
+    #   type_id = params['type_id'].to_i
+    #   store_class = Store.sti_class_from_sti_key(type_id)
+    #   # puts "type: #{type_id}, class: #{store_class}"
+    #   store = store_class.create(site_id: @site.id)
+      store.update_fields(params, [
+        :location, 
+        :user, 
+        :key
+      ])
       if params.key?('flow_id')
         flow_id = params['flow_id'].to_i
         flow = Flow.first(id: flow_id)
         flow.store = store
+        flow.save
       end
-    else
-      raise SitewriterError.new("bad_request", "Can't POST a store without a type")
-    end
+    # else
+    #   raise SitewriterError.new("bad_request", "Can't POST a store without a type")
+    # end
     redirect "/#{@site.domain}/config"
   end
 

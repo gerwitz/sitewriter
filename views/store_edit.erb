@@ -9,18 +9,19 @@
 <% end %>
 
 <form action="/<%= @site.domain %>/stores" method="post">
+  <input type="hidden" name="id" value="<%= @store.id %>">
   <% if @flow %>
     <input type="hidden" name="flow_id" value="<%= @flow.id %>">
   <% end %>
   <select name="type_id">
     <% Store::TYPES.each do |id, name| %>
-    <option value="<%= id %>"><%= name %></option>
+    <option value="<%= id %>"<%= ' selected' if id == @store.id %>><%= name %></option>
     <% end %>
   </select>
-  <input type="text" name="user" placeholder="username">
-  <input type="text" name="location" placeholder="repository">
-  <input type="text" name="key" placeholder="access key">
+  <input type="text" name="user" placeholder="username" value="<%= @store.user %>">
+  <input type="text" name="location" placeholder="repository" value="<%= @store.location %>">
+  <input type="text" name="key" placeholder="access key" value="<%= @store.key %>">
 
-  <button type="submit" class="button">Create</button>
+  <button type="submit" class="button"><%= @store.new? ? 'Create' : 'Update' %></button>
   <a href="../config" class="button button-outline">Cancel</a>
 </form>
