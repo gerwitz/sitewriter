@@ -123,8 +123,8 @@ def handle_photos(flow, post, params)
       if item.is_a?(Array)
         handle_photos(flow, post, item)
       else
-        puts "🖼 #{params}"
-        media = Micropub.create_media(params)
+        puts "🖼 #{item}"
+        media = Micropub.create_media(item)
         flow.attach_photo(post, media)
       end
     end
