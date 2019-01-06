@@ -117,19 +117,23 @@ class SiteWriter < Sinatra::Application
 private
 
 def handle_photos(flow, post, params)
+  urls = []
   if params.is_a?(Array)
-    params.map do |item|
+    urls = params.map.with_index do |item, index|
       if item.is_a?(Array)
         handle_photos(flow, post, item)
       else
+        puts "🖼 #{params}"
         media = Micropub.create_media(params)
         flow.attach_photo(post, media)
       end
     end
   else
     media = Micropub.create_media(params)
-    flow.attach_photo(post, media)
+    urls = [flow.attach_photo(post, media)]
   end
+  @log[:photos] = urls
+  return urls
 end
 
   def start_log(site)
