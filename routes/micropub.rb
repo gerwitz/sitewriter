@@ -123,12 +123,12 @@ def handle_photos(flow, post, params)
         handle_photos(flow, post, item)
       else
         media = Micropub.create_media(params)
-        flow.attach_photo(post,media, item)
+        flow.attach_photo(post, media)
       end
     end
   else
     media = Micropub.create_media(params)
-    flow.attach_photo(post, media, params)
+    flow.attach_photo(post, media)
   end
 end
 
