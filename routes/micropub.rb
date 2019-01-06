@@ -43,7 +43,7 @@ class SiteWriter < Sinatra::Application
       ) unless flow
       @log[:flow_id] = flow.id
       if params.key?(:photo)
-        flow.attach_photos(post, params[:photo])
+        handle_photos(flow, post, params[:photo])
       end
       url = flow.store_post(post)
       @log[:url] = url
@@ -115,6 +115,22 @@ class SiteWriter < Sinatra::Application
   end
 
 private
+
+def handle_photos(flow, post, params)
+  if params.is_a?(Array)
+    params.map do |item|
+      if item.is_a?(Array)
+        handle_photos(post, item)
+      else
+        media = Micropub.create_media(params)
+        flow.attach_photo(post, item)
+      end
+    end
+  else
+    media = Micropub.create_media(params)
+    flow.attach_photo(media, params)
+  end
+end
 
   def start_log(site)
     # DB is defined in models/init

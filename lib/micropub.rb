@@ -33,6 +33,10 @@ module Micropub
     return post
   end
 
+  create_media(params)
+    return Media.new(params)
+  end
+
   def action(properties)
     post = Store.get_url(properties['url'])
 

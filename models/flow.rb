@@ -74,20 +74,6 @@ class Flow < Sequel::Model
     return url_for_media(media)
   end
 
-  def attach_photos(post, photos)
-    if photos.is_a?(Array)
-      photos.map do |item|
-        if item.is_a?(Array)
-          attach_photos(post, item)
-        else
-          attach_photo(post, item)
-        end
-      end
-    else
-      attach_photo(post, photos)
-    end
-  end
-
   def attach_photo(post, photo)
     # TODO: allow alt text in hash for JSON (spec 3.3.2)
     if self.class.valid_url?(photo)
