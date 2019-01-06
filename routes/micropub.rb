@@ -43,7 +43,7 @@ class SiteWriter < Sinatra::Application
       ) unless flow
       @log[:flow_id] = flow.id
       if params.key?(:photo)
-        handle_photos(flow, post, params[:photo])
+        handle_photos(flow, params[:photo])
       end
       url = flow.store_post(post)
       @log[:url] = url
@@ -116,14 +116,14 @@ class SiteWriter < Sinatra::Application
 
 private
 
-def handle_photos(flow, post, params)
+def handle_photos(flow, params)
   if params.is_a?(Array)
     params.map do |item|
       if item.is_a?(Array)
-        handle_photos(post, item)
+        handle_photos(flow, item)
       else
         media = Micropub.create_media(params)
-        flow.attach_photo(post, item)
+        flow.attach_photo(media, item)
       end
     end
   else
