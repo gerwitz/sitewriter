@@ -4,7 +4,7 @@ class Flow < Sequel::Model
 
   many_to_one :site
   many_to_one :store
-  # many_to_one :media_store, class: :Store
+  many_to_one :media_store, class: :Store
 
   def name
     if post_kind
@@ -70,7 +70,7 @@ class Flow < Sequel::Model
   end
 
   def store_file(media)
-    store.upload(file_path_for_media(media), media.file, "file")
+    media_store.upload(file_path_for_media(media), media.file, "file")
     return url_for_media(media)
   end
 
