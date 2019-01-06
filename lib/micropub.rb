@@ -33,7 +33,7 @@ module Micropub
     return post
   end
 
-  create_media(params)
+  def create_media(params)
     return Media.new(params)
   end
 
