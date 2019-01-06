@@ -30,7 +30,7 @@ class Github < Store
     )
   end
 
-  def update(sha, filename, description)
+  def update(sha, filename, content, description)
     octokit.update_contents(
       github_full_repo,
       filename,

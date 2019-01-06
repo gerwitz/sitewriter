@@ -21,7 +21,7 @@ module Micropub
     safe_properties['type'] = [mf_type]
     # wrap each non-array value in an array
     deep_props = Hash[ safe_properties.map { |k, v| [k, Array(v)] } ]
-    # puts "👑 deep_props: #{deep_props.inspect}"
+    puts "👑 deep_props: #{deep_props.inspect}"
     post_type = Post.type_from_properties(deep_props)
     puts "👑 post_type: #{post_type}"
     post = Post.new_for_type(post_type, deep_props, timezone)
