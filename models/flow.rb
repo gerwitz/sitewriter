@@ -4,7 +4,7 @@ class Flow < Sequel::Model
 
   many_to_one :site
   many_to_one :store
-  many_to_one :media_store, class: :Store
+  # many_to_one :media_store, class: :Store
 
   def name
     if post_kind
@@ -70,12 +70,14 @@ class Flow < Sequel::Model
   end
 
   def store_file(media)
-    media_store.upload(file_path_for_media(media), media.file, "file")
+    file_flow = site.file_flow
+    file_flow.upload(file_path_for_media(media), media.file, "file")
     return url_for_media(media)
   end
 
   def attach_photo(post, photo)
-    # TODO: allow alt text in hash for JSON (spec 3.3.2)
+    # TODO: build a hash for including in the post content
+    # allow alt text in hash for JSON (spec 3.3.2)
     if self.class.valid_url?(photo)
       post.attach_url(:photo, photo)
     else
