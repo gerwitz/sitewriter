@@ -34,6 +34,7 @@ module Micropub
   end
 
   def create_media(params)
+    puts "🖼 #{params}"
     return Media.new(params)
   end
 

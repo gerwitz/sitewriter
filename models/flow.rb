@@ -71,7 +71,7 @@ class Flow < Sequel::Model
 
   def store_file(media)
     file_flow = site.file_flow
-    file_flow.upload(file_path_for_media(media), media.file, "file")
+    file_flow.store.upload(file_path_for_media(media), media.file, "file")
     return url_for_media(media)
   end
 
