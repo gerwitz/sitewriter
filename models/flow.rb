@@ -70,18 +70,17 @@ class Flow < Sequel::Model
   end
 
   def store_file(media)
-    file_flow = site.file_flow
-    file_flow.store.upload(file_path_for_media(media), media.file, "file")
+    store.upload(file_path_for_media(media), media.file, "file")
     return url_for_media(media)
   end
 
   def attach_photo(post, photo)
-    # TODO: build a hash for including in the post content
-    # allow alt text in hash for JSON (spec 3.3.2)
+    # TODO: allow alt text in hash for JSON (spec 3.3.2)
     if self.class.valid_url?(photo)
       post.attach_url(:photo, photo)
     else
-      url = store_file(photo)
+      file_flow = site.file_flow
+      url = file_flow.store_file(photo)
       post.attach_url(:photo, url)
     end
   end
