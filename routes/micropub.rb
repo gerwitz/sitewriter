@@ -30,7 +30,7 @@ class SiteWriter < Sinatra::Application
     else
       # assume this is a create
       request.body.rewind
-      @log[:request] = request.body.read
+      @log[:request] = request.body.read.dump
       require_auth
       site_tz = TZInfo::Timezone.get(site.timezone) || TZInfo::Timezone.get('UTC')
       # @log[:timezone] = site_tz.identifier
