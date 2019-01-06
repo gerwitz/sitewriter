@@ -17,7 +17,7 @@ class SiteWriter < Sinatra::Application
       # assume this a file (photo) upload
       @log[:request] = "#{request.media_type} (#{request.content_length} bytes)"
       require_auth
-      media = Media.new(params[:file])
+      media = Micropub.create_media(params[:file])
       @log[:kind] = 'file'
       flow = site.file_flow
       @log[:flow_id] = flow.id
