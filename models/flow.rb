@@ -61,12 +61,12 @@ class Flow < Sequel::Model
   end
 
   def url_for_media(media)
-    relative_url = media_url_pattern.expand(:ignore, post.render_variables)
+    relative_url = media_url_pattern.expand(:ignore, media.render_variables)
     return URI.join(site.url, relative_url).to_s
   end
 
   def file_path_for_media(media)
-    return media_path_pattern.expand(:ignore, post.render_variables)
+    return media_path_pattern.expand(:ignore, media.render_variables)
   end
 
   def store_file(media)
