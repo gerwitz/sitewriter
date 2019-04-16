@@ -15,7 +15,7 @@ class Post
     utc_epoch: 'publication time as seconds since 1970-01-01',
 
     datetime: 'publication time (RFC 3339 format)',
-    date: 'publication date (YYYY-MM-DD)'
+    date: 'publication date (YYYY-MM-DD)',
     year: 'publication year (YYYY)',
     month: 'publication month (01-12)',
     day: 'day of publication month (01-31)',
