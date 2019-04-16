@@ -15,6 +15,7 @@ class Post
     utc_epoch: 'publication time as seconds since 1970-01-01',
 
     datetime: 'publication time (RFC 3339 format)',
+    date: 'publication date (YYYY-MM-DD)'
     year: 'publication year (YYYY)',
     month: 'publication month (01-12)',
     day: 'day of publication month (01-31)',
@@ -93,10 +94,8 @@ class Post
       utc_datetime: utc_time.to_datetime.rfc3339,
       utc_epoch: utc_time.to_i,
 
-      # FIXME this thinks it's UTC and is adding a +0 offset
-      # date_time: local_time.to_datetime.rfc3339,
-
       datetime: local_time.strftime('%Y-%m-%dT%H:%M:%S%:z'),
+      date: local_time.strftime('%Y-%m-%d'),
       year: local_time.strftime('%Y'),
       month: local_time.strftime('%m'),
       day: local_time.strftime('%d'),
