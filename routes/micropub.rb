@@ -124,16 +124,36 @@ private
           handle_photos(flow, post, item)
         else
           puts "🖼🖼 #{item}"
-          media = Micropub.create_media(item)
-          flow.attach_photo(post, media)
+          if valid_url?(item)
+            flow.attach_photo_url(post, item)
+          else
+            media = Micropub.create_media(item)
+            flow.attach_photo_media(post, media)
+          end
         end
       end
     else
       puts "🖼🖼 #{params}"
-      media = Micropub.create_media(params)
-      urls = [flow.attach_photo(post, media)]
+      if valid_url?(params)
+        flow.attach_photo_url(post, params)
+      else
+        media = Micropub.create_media(params)
+        flow.attach_photo_media(post, media)
+      end
     end
     return urls
+  end
+
+  def valid_url?(url)
+    puts "Is this a URL? #{url} "
+    begin
+      uri = URI.parse(url)
+      puts "YES!\n"
+      return true
+    rescue URI::InvalidURIError
+      puts "NO.\n"
+      return false
+    end
   end
 
   def start_log(site)
