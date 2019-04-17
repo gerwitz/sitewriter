@@ -76,12 +76,12 @@ class Flow < Sequel::Model
 
   def attach_photo_url(post, url)
     # TODO: allow alt text in hash for JSON (spec 3.3.2)
-    post.attach_url(:photo, photo)
+    post.attach_url(:photo, url)
   end
 
   def attach_photo_media(post, media)
     file_flow = site.file_flow
-    url = file_flow.store_file(photo)
+    url = file_flow.store_file(media)
     post.attach_url(:photo, url)
   end
 
