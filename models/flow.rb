@@ -86,10 +86,13 @@ class Flow < Sequel::Model
   end
 
   def self.valid_url?(url)
+    puts "Is this a URL? #{url} "
     begin
       uri = URI.parse(url)
-      return uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+      puts "YES!\n"
+      return true
     rescue URI::InvalidURIError
+      puts "NO.\n"
       return false
     end
   end
