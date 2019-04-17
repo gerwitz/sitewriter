@@ -28,7 +28,9 @@ class Post
     # first_category: 'the first catagory',
 
     has_photos: 'true if there are any photo attachments',
-    photos: 'list of attached photos'
+    photos_urls: 'list of attached photos'
+    photos_markdown: 'list of attached photos'
+    photos_html: 'list of attached photos'
   }
 
   def initialize(properties, timezone: nil)
@@ -110,7 +112,9 @@ class Post
       content: content,
 
       has_photos: @photos.any?,
-      photos: @photos
+      photos_urls: @photos.map(|p| p[:url])
+      photos_markdown: @photos.map(|p| "![](#{p[:url]}")
+      photos_html: @photos.map(|p| "<img src=\"#{p[:url]}\">")
     }
     # }.merge(@properties)
   end
