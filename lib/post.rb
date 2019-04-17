@@ -60,7 +60,7 @@ class Post
   def timify
     # no client sends 'published' but we'll prepare for it
     if @properties.key?('published')
-      utc_time = DateTime.iso8601(@properties['published'].first)
+      utc_time = Time.iso8601(@properties['published'].first)
     else
       utc_time = Time.now.utc
     end
