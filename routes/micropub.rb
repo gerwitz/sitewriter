@@ -116,25 +116,25 @@ class SiteWriter < Sinatra::Application
 
 private
 
-def handle_photos(flow, post, params)
-  urls = []
-  if params.is_a?(Array)
-    urls = params.map.with_index do |item, index|
-      if item.is_a?(Array)
-        handle_photos(flow, post, item)
-      else
-        # puts "🖼🖼 #{item}"
-        media = Micropub.create_media(item)
-        flow.attach_photo(post, media)
+  def handle_photos(flow, post, params)
+    urls = []
+    if params.is_a?(Array)
+      urls = params.map.with_index do |item, index|
+        if item.is_a?(Array)
+          handle_photos(flow, post, item)
+        else
+          puts "🖼🖼 #{item}"
+          media = Micropub.create_media(item)
+          flow.attach_photo(post, media)
+        end
       end
+    else
+      puts "🖼🖼 #{params}"
+      media = Micropub.create_media(params)
+      urls = [flow.attach_photo(post, media)]
     end
-  else
-    # puts "🖼🖼 #{item}"
-    media = Micropub.create_media(params)
-    urls = [flow.attach_photo(post, media)]
+    return urls
   end
-  return urls
-end
 
   def start_log(site)
     # DB is defined in models/init
