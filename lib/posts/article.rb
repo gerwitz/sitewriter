@@ -1,7 +1,7 @@
 class Article < Post
 
   VARIABLES_CATALOG = {
-    title: 'Post Title'
+    title: 'post title'
   }
 
   attr_accessor :title

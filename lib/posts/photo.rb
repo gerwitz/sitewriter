@@ -1,7 +1,7 @@
 class Photo < Post
 
   VARIABLES_CATALOG = {
-    syndication: 'Original URL'
+    syndication: 'original URL'
   }
 
   def initialize(properties, url=nil)
