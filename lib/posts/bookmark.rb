@@ -1,7 +1,7 @@
 class Bookmark < Post
 
   VARIABLES_CATALOG = {
-    title: 'bookmark title',
+    name: 'bookmark name',
     url: 'bookmarked url'
   }
 
@@ -15,8 +15,8 @@ class Bookmark < Post
 
   def render_variables
     return super().merge({
-      title: @title,
-      url: @url
+      name: @name,
+      url: @bookmark_url
     })
   end
 
