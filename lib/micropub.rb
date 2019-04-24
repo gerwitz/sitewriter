@@ -25,7 +25,7 @@ module Micropub
     post_type = Post.type_from_properties(deep_props)
     puts "👑 post_type: #{post_type}"
     post = Post.new_for_type(post_type, deep_props, timezone)
-    puts "👑 post: #{post.inspect}"
+    # puts "👑 post: #{post.inspect}"
 
     post.set_slug(params)
     # post.syndicate(services) if services.any?
