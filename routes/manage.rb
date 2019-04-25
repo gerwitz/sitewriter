@@ -28,7 +28,11 @@ class SiteWriter < Sinatra::Application
     redirect '/'
   end
 
-  get '/:domain/?' do
+  get '/:domain' do
+    redirect "/#{params[:domain]}/"
+  end
+
+  get '/:domain/' do
     @site = auth_site
     erb :site_overview
   end
