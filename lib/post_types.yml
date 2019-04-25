@@ -10,7 +10,7 @@ article:
   class: Article
 checkin:
   description: |
-    A location and time, often with some description.
+    UNTESTED - A location and time, often with some description.
   link: https://indieweb.org/checkin
   class: Checkin
 photo:
@@ -20,17 +20,17 @@ photo:
   class: Photo
 video:
   description: |
-    A video (or videos) with some description (and optionally thumbnails).
+    UNTESTED - A video (or videos) with some description (and optionally thumbnails).
   link: https://indieweb.org/video
   class: Video
 audio:
   description: |
-    A audio file (or files) with some description.
+    UNTESTED - A audio file (or files) with some description.
   link: https://indieweb.org/audio
   class: Audio
 like:
   description: |
-    A "like" or "favorite" or "star" affirming a post at another URL.
+    UNTESTED - A "like" or "favorite" or "star" affirming a post at another URL.
   link: https://indieweb.org/like
   class: Like
 bookmark:
@@ -40,16 +40,16 @@ bookmark:
   class: Bookmark
 repost:
   description: |
-    Republication of another post, from anywhere.
+    UNTESTED - Republication of another post, from anywhere.
   link: https://indieweb.org/repost
   class: Repost
 reply:
   description: |
-    A comment on another post, from anywhere.
+    UNTESTED - A comment on another post, from anywhere.
   link: https://indieweb.org/reply
   class: Reply
 event:
   description: |
-    An event with a specific time and location.
+    UNTESTED - An event with a specific time and location.
   link: https://indieweb.org/event
   class: Event
