@@ -6,6 +6,7 @@ class SiteWriter < Sinatra::Application
   configure :production do
     set :haml, { :ugly=>true }
     set :clean_trace, true
+    set :show_exceptions, false # supposed to be the default?
   end
 
   configure :development do

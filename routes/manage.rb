@@ -189,6 +189,7 @@ class SiteWriter < Sinatra::Application
   end
 
   error do
+    status 500
     erb :'500', layout: false
   end
 
