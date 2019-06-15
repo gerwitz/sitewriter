@@ -29,59 +29,64 @@ class Checkin < Post
     @postal = ''
     @telephone = ''
     if properties.key?('checkin')
-      checkin_props = properties['checkin'][0]
-      if checkin_props.key?('name')
-        @name = checkin_props['name'][0]
+      if properties['checkin'][0].respond_to?(:key) && properties['checkin'][0]['type'] == 'h-card'
+        checkin_props = properties['checkin'][0]['properties']
+        if checkin_props.key?('name')
+          @name = checkin_props['name'][0]
+        else
+          @name = ''
+        end
+        if checkin_props.key?('url')
+          @url = checkin_props['url'][0]
+        else
+          @url = ''
+        end
+        if checkin_props.key?('latitude')
+          @latitude = checkin_props['latitude'][0]
+        else
+          @latitude = ''
+        end
+        if checkin_props.key?('longitude')
+          @longitude = checkin_props['longitude'][0]
+        else
+          @longitude = ''
+        end
+        if checkin_props.key?('street-address')
+          @address = checkin_props['street-address'][0]
+        else
+          @address = ''
+        end
+        if checkin_props.key?('locality')
+          @locality = checkin_props['locality'][0]
+        else
+          @locality = ''
+        end
+        if checkin_props.key?('region')
+          @region = checkin_props['region'][0]
+        else
+          @region = ''
+        end
+        if checkin_props.key?('country')
+          @country = checkin_props['country'][0]
+        else
+          @country = ''
+        end
+        if checkin_props.key?('postal-code')
+          @postal = checkin_props['postal-code'][0]
+        else
+          @postal = ''
+        end
+        if checkin_props.key?('tel')
+          @telephone = checkin_props['tel'][0]
+        else
+          @telephone = ''
+        end
+        # default slug
+        @slug = @name || @locality || @region || @country
       else
-        @name = ''
+        raise ContentError.new("Checkin without an h-card")
       end
-      if checkin_props.key?('url')
-        @url = checkin_props['url'][0]
-      else
-        @url = ''
-      end
-      if checkin_props.key?('latitude')
-        @latitude = checkin_props['latitude'][0]
-      else
-        @latitude = ''
-      end
-      if checkin_props.key?('longitude')
-        @longitude = checkin_props['longitude'][0]
-      else
-        @longitude = ''
-      end
-      if checkin_props.key?('street-address')
-        @address = checkin_props['street-address'][0]
-      else
-        @address = ''
-      end
-      if checkin_props.key?('locality')
-        @locality = checkin_props['locality'][0]
-      else
-        @locality = ''
-      end
-      if checkin_props.key?('region')
-        @region = checkin_props['region'][0]
-      else
-        @region = ''
-      end
-      if checkin_props.key?('country')
-        @country = checkin_props['country'][0]
-      else
-        @country = ''
-      end
-      if checkin_props.key?('postal-code')
-        @postal = checkin_props['postal-code'][0]
-      else
-        @postal = ''
-      end
-      if checkin_props.key?('tel')
-        @telephone = checkin_props['tel'][0]
-      else
-        @telephone = ''
-      end
-      # default slug
-      @slug = @name || @locality || @region || @country
+      # this should be unreachable
     end
   end
 
