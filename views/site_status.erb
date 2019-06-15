@@ -6,7 +6,7 @@
   <a href="/<%= @site.domain %>/uploading">Uploading</a>
 </div>
 
-<h2><a href="<%= @site.url %>">%= @site.domain %></a></h2>
+<h2><a href="<%= @site.url %>"><%= @site.domain %></a></h2>
 
 <% if @site.default_store.nil? %>
   <div class="warning">
@@ -18,7 +18,7 @@
   </div>
 <% else %>
   <div>
-    Ready for post types: <%= @site.flows.map{|f| "<img src=\"/images/#{entry[:kind]}.svg\"> #{f.name}" }.join(', ') %>
+    Ready for post types: <%= @site.flows.map{|f| "<img src=\"/images/#{f.kind}.svg\"> #{f.name}" }.join(', ') %>
   </div>
 <% end %>
 
