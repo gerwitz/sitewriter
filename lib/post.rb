@@ -267,8 +267,4 @@ class Post
     VARIABLES_CATALOG.merge(class_for_type(type)::VARIABLES_CATALOG).select{|k,v| !v.nil?}
   end
 
-  def self.valid_types
-    %w( h-card h-cite h-entry h-event )
-  end
-
 end
