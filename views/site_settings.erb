@@ -1,0 +1,25 @@
+<div class="nav">
+  <%= @site.domain %>:
+  <a href="/<%= @site.domain %>/">Status</a> |
+  <b>Settings</b> |
+  <a href="/<%= @site.domain %>/posting">Posting</a> |
+  <a href="/<%= @site.domain %>/uploading">Uploading</a>
+</div>
+
+<h2>Settings</h2>
+<div>
+<form action="/<%= @site.domain %>/settings" method="POST">
+  <label>
+    Default Timezone
+    <select name="timezone">
+      <% TZInfo::Timezone.all_data_zones.each do |tz| %>
+      <option value="<%= tz.name %>"<%= " selected" if tz.name == @site.timezone %>><%= tz.to_s %></option>
+      <% end %>
+    </select>
+  </label>
+  <div class="float-right">
+    <a href="." class="button button-clear">Cancel</a>
+    <button type="submit" class="button">Update</button>
+  </div>
+</form>
+</div>

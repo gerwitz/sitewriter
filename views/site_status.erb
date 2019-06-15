@@ -1,5 +1,9 @@
 <div class="nav">
-  <%= @site.domain %>: <b>Status</b> | <a href="config">Setup</a>
+  <%= @site.domain %>:
+  <b>Status</b> |
+  <a href="/<%= @site.domain %>/settings">Settings</a> |
+  <a href="/<%= @site.domain %>/posting">Posting</a> |
+  <a href="/<%= @site.domain %>/uploading">Uploading</a>
 </div>
 
 <h2>Status</h2>
@@ -13,31 +17,13 @@
   </div>
 <% elsif @site.flows.count == 0 %>
   <div class="warning">
-    No post types configured! Please <a href="config">set some up</a> now.
+    No posting configured! Please <a href="config">set some up</a> now.
   </div>
 <% else %>
   <div>
     Ready for post types: <%= @site.flows.map{|f| f.name }.join(', ') %>
   </div>
 <% end %>
-
-<h2>Settings</h2>
-<div>
-<form action="/<%= @site.domain %>/" method="POST">
-  <label>
-    Default Timezone
-    <select name="timezone">
-      <% TZInfo::Timezone.all_data_zones.each do |tz| %>
-      <option value="<%= tz.name %>"<%= " selected" if tz.name == @site.timezone %>><%= tz.to_s %></option>
-      <% end %>
-    </select>
-  </label>
-  <div class="float-right">
-    <a href="." class="button button-clear">Cancel</a>
-    <button type="submit" class="button">Update</button>
-  </div>
-</form>
-</div>
 
 <h2>Recent Activity</h2>
 <% if @site.log.count == 0 %>

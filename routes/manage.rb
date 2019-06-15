@@ -34,20 +34,20 @@ class SiteWriter < Sinatra::Application
 
   get '/:domain/' do
     @site = auth_site
-    erb :site_overview
+    erb :site_status
   end
 
-  post '/:domain/?' do
+  post '/:domain/settings?' do
     @site = auth_site
-    puts "☣️ Updating #{@site.domain}"
+    # puts "☣️ Updating #{@site.domain}"
     @site.update_fields(params, [
       :timezone
     ])
-    puts("updated timezone to #{@site.timezone}")
-    redirect "/#{@site.domain}/"
+    # puts("updated timezone to #{@site.timezone}")
+    redirect "/#{@site.domain}/settings"
   end
 
-  get '/:domain/config' do
+  get '/:domain/posting' do
     @site = auth_site
     site_flows = @site.flows_dataset
     @flows = Post::TYPES.map do |kind|
@@ -61,7 +61,7 @@ class SiteWriter < Sinatra::Application
         { kind: kind }
       end
     end
-    erb :site_config
+    erb :site_posting
   end
 
   get '/:domain/stores/new' do
@@ -86,15 +86,15 @@ class SiteWriter < Sinatra::Application
     @site = auth_site
 
     store = Store.first(id: params[:id].to_i, site_id: @site.id)
-    
+
     # if params.key?('type_id')
     #   type_id = params['type_id'].to_i
     #   store_class = Store.sti_class_from_sti_key(type_id)
     #   # puts "type: #{type_id}, class: #{store_class}"
     #   store = store_class.create(site_id: @site.id)
       store.update_fields(params, [
-        :location, 
-        :user, 
+        :location,
+        :user,
         :key
       ])
       if params.key?('flow_id')
@@ -106,14 +106,14 @@ class SiteWriter < Sinatra::Application
     # else
     #   raise SitewriterError.new("bad_request", "Can't POST a store without a type")
     # end
-    redirect "/#{@site.domain}/config"
+    redirect "/#{@site.domain}/posting"
   end
 
   get '/:domain/stores/:id/delete' do
     @site = auth_site
     @store = Store.find(id: params[:id].to_i, site_id: @site.id)
     @store.destroy
-    redirect "/#{@site.domain}/config"
+    redirect "/#{@site.domain}/posting"
   end
 
   get '/:domain/flows/new' do
@@ -149,7 +149,7 @@ class SiteWriter < Sinatra::Application
       :media_path_template,
       :media_url_template
     ])
-    redirect "/#{@site.domain}/config"
+    redirect "/#{@site.domain}/uploading"
   end
 
 
@@ -173,14 +173,14 @@ class SiteWriter < Sinatra::Application
       :media_url_template
       # :allow_meta
     ])
-    redirect "/#{@site.domain}/config"
+    redirect "/#{@site.domain}/posting"
   end
 
   get '/:domain/flows/:id/delete' do
     @site = auth_site
     @flow = Flow.find(id: params[:id].to_i, site_id: @site.id)
     @flow.destroy
-    redirect "/#{@site.domain}/config"
+    redirect "/#{@site.domain}/posting"
   end
 
   not_found do

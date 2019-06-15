@@ -1,0 +1,36 @@
+<div class="nav">
+  <%= @site.domain %>:
+  <a href="/<%= @site.domain %>/">Status</a> |
+  <a href="/<%= @site.domain %>/settings">Settings</a> |
+  <a href="/<%= @site.domain %>/posting">Posting</a> |
+  <b>Uploading</b>
+</div>
+
+<h2>Media Endpoint</h2>
+<% if @site.file_flow.nil? || @site.file_flow.media_store.nil? %>
+  <div class="warning">
+    No file saving destination! Please <a href="flows/media">set one up</a> now.
+  </div>
+<% else %>
+  <div>
+    Files save to <%= @site.file_flow.media_store.name %>. [<a href="stores/<%= @site.default_store.id %>">edit</a>]
+  </div>
+
+  <table class="site-types">
+    <tr>
+      <th class="icon">
+        <img src="/images/file.svg">
+      </th>
+      <th>
+        Uploads
+      </th>
+      <td>
+        path template: <code><%= @site.file_flow.media_path_template %></code>
+        <br>
+        url template: <code><%= @site.file_flow.media_url_template %></code>
+      </td><td>
+        <a href="flows/media" class="button button-outline">Edit</a>
+      </td>
+    </tr>
+  </table>
+<% end %>

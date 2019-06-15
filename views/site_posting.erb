@@ -1,9 +1,13 @@
 <div class="nav">
-  <%= @site.domain %>: <a href="./">Status</a> | <b>Setup</b>
+  <%= @site.domain %>:
+  <a href="/<%= @site.domain %>/">Status</a> |
+  <a href="/<%= @site.domain %>/settings">Settings</a> |
+  <b>Posting</b> |
+  <a href="/<%= @site.domain %>/uploading">Uploading</a>
 </div>
 
 <h2>Micropub Posts</h2>
-<% if @site.default_store.nil? %>
+<% if @site.default_store.nil? %>s
   <div class="warning">
     No saving destination! Please [<a href="stores/new">set one up</a>] now.
   </div>
@@ -42,34 +46,4 @@
     </tr>
     <% end %>
   </table>
-
-  <h2>Media Endpoint</h2>
-
-  <% if @site.file_flow.nil? || @site.file_flow.media_store.nil? %>
-    <div class="warning">
-      No file saving destination! Please <a href="flows/media">set one up</a> now.
-    </div>
-  <% else %>
-    <div>
-      Files save to <%= @site.file_flow.media_store.name %>
-    </div>
-
-    <table class="site-types">
-      <tr>
-        <th class="icon">
-          <img src="/images/file.svg">
-        </th>
-        <th>
-          Uploads
-        </th>
-        <td>
-          path template: <code><%= @site.file_flow.media_path_template %></code>
-          <br>
-          url template: <code><%= @site.file_flow.media_url_template %></code>
-        </td><td>
-          <a href="flows/media" class="button button-outline">Edit</a>
-        </td>
-      </tr>
-    </table>
-  <% end %>
 <% end %>
