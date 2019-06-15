@@ -171,49 +171,6 @@ class Post
     return content
   end
 
-  # def replace(props)
-  #   props.keys.each do |prop|
-  #     @properties[prop] = props[prop]
-  #   end
-  # end
-  #
-  # def add(props)
-  #   props.keys.each do |prop|
-  #     unless @properties.key?(prop)
-  #       @properties[prop] = props[prop]
-  #     else
-  #       @properties[prop] += props[prop]
-  #     end
-  #   end
-  # end
-  #
-  # def remove(props)
-  #   if props.is_a?(Hash)
-  #     props.keys.each do |prop|
-  #       @properties[prop] -= props[prop]
-  #       if @properties[prop].empty?
-  #         @properties.delete(prop)
-  #       end
-  #     end
-  #   else
-  #     props.each do |prop|
-  #       @properties.delete(prop)
-  #     end
-  #   end
-  # end
-  #
-  # def delete
-  #   @properties['deleted'] = [Time.now.utc.iso8601]
-  # end
-  #
-  # def undelete
-  #   @properties.delete('deleted')
-  # end
-  #
-  # def set_updated
-  #   @properties['updated'] = [Time.now.utc.iso8601]
-  # end
-
   def set_slug(mp_params)
     if mp_params.key?('properties')
       return unless mp_params['properties'].key?('mp-slug')
@@ -301,19 +258,6 @@ class Post
     end
     return post_type
   end
-
-  # def self.class_from_type(type)
-  #   case type
-  #   when 'h-card'
-  #     Card
-  #   when 'h-cite'
-  #     Cite
-  #   when 'h-entry'
-  #     Entry
-  #   when 'h-event'
-  #     Event
-  #   end
-  # end
 
   def self.description_for_type(type = :unknown)
     "<p>#{TYPES_CATALOG[type.to_s]['description']}</p> <a href=\"#{TYPES_CATALOG[type.to_s]['link']}\">Read more.</a>"

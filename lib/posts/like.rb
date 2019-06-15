@@ -6,7 +6,6 @@ class Like < Post
     content: nil,
     has_photos: nil,
     photos: nil
-
   }
 
   def initialize(properties, url=nil)
