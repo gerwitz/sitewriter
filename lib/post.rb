@@ -171,7 +171,7 @@ class Post
     return content
   end
 
-  def set_slug(mp_params)
+  def set_explicit_slug(mp_params)
     if mp_params.key?('properties')
       return unless mp_params['properties'].key?('mp-slug')
       mp_slug = mp_params['properties']['mp-slug'][0]

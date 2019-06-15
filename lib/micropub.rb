@@ -27,7 +27,7 @@ module Micropub
     post = Post.new_for_type(post_type, deep_props, timezone)
     # puts "👑 post: #{post.inspect}"
 
-    post.set_slug(params)
+    post.set_explicit_slug(params)
     # post.syndicate(services) if services.any?
     # Store.save(post)
     return post
