@@ -18,7 +18,7 @@
   </div>
 <% else %>
   <div>
-    Ready for post types: <%= @site.flows.map{|f| "<img src=\"/images/#{f.kind}.svg\"> #{f.name}" }.join(', ') %>
+    Ready for post types: <%= @site.flows.map{|f| f.name }.join(', ') %>
   </div>
 <% end %>
 
