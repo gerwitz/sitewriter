@@ -18,14 +18,14 @@ photo:
     A photo (or photos) with some description.
   link: https://indieweb.org/photo
   class: Photo
-video:
+_video:
   description: |
-    UNTESTED - A video (or videos) with some description (and optionally thumbnails).
+    A video (or videos) with some description (and optionally thumbnails).
   link: https://indieweb.org/video
   class: Video
-audio:
+_audio:
   description: |
-    UNTESTED - A audio file (or files) with some description.
+    A audio file (or files) with some description.
   link: https://indieweb.org/audio
   class: Audio
 like:
@@ -38,18 +38,18 @@ bookmark:
     A bookmark of another URL, often with some comments or metadata.
   link: https://indieweb.org/bookmark
   class: Bookmark
-repost:
+_repost:
   description: |
-    UNTESTED - Republication of another post, from anywhere.
+    Republication of another post, from anywhere.
   link: https://indieweb.org/repost
   class: Repost
-reply:
+_reply:
   description: |
-    UNTESTED - A comment on another post, from anywhere.
+    A comment on another post, from anywhere.
   link: https://indieweb.org/reply
   class: Reply
-event:
+_event:
   description: |
-    UNTESTED - An event with a specific time and location.
+    An event with a specific time and location.
   link: https://indieweb.org/event
   class: Event

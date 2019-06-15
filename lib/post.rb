@@ -3,7 +3,7 @@ class Post
 
   TYPES_CATALOG = YAML.load_file(File.join(__dir__, 'post_types.yml'))
 
-  TYPES = TYPES_CATALOG.keys
+  TYPES = TYPES_CATALOG.keys.select{|k| !k.start_with?('_') }
 
   VARIABLES_CATALOG = {
     content: 'post content',
