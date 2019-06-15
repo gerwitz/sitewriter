@@ -1,7 +1,7 @@
 class Like < Post
 
   VARIABLES_CATALOG = {
-    like_of: 'URL',
+    like_of: 'liked URL',
 
     has_photos: nil,
     photos: nil
@@ -10,6 +10,11 @@ class Like < Post
 
   def initialize(properties, url=nil)
     super(properties, url)
+    if properties.key?('like-of')
+      @like_of = properties['like-of'][0]
+    else
+      @like_of = ''
+    end
   end
 
   def kind
