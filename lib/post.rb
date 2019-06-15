@@ -147,7 +147,7 @@ class Post
   def slugify(spacer='-')
     @raw_slug ||= slugify_raw
     if @raw_slug.empty?
-      return time.strftime("%d#{spacer}%H%M%S")
+      return utc_time.strftime("%d#{spacer}%H%M%S")
     else
       return @raw_slug.downcase.gsub(/[^\w-]/, ' ').strip.gsub(' ', spacer).gsub(/[-_]+/,spacer).split(spacer)[0..5].join(spacer)
     end
