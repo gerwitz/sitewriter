@@ -2,54 +2,65 @@ note:
   description: |
     A simple text post, usually short, without a title.
   link: https://indieweb.org/note
+  attachments: true
   class: Note
 article:
   description: |
     A titled post, usually long.
   link: https://indieweb.org/article
+  attachments: true
   class: Article
-checkin:
-  description: |
-    A location and time, often with some description.
-  link: https://indieweb.org/checkin
-  class: Checkin
 photo:
   description: |
     A photo (or photos) with some description.
   link: https://indieweb.org/photo
+  attachments: true
   class: Photo
 _video:
   description: |
     A video (or videos) with some description (and optionally thumbnails).
   link: https://indieweb.org/video
+  attachments: true
   class: Video
 _audio:
   description: |
     A audio file (or files) with some description.
   link: https://indieweb.org/audio
+  attachments: true
   class: Audio
-like:
-  description: |
-    A "like" or "favorite" or "star" affirming a post at another URL.
-  link: https://indieweb.org/like
-  class: Like
 bookmark:
   description: |
     A bookmark of another URL, often with some comments or metadata.
   link: https://indieweb.org/bookmark
+  attachments: false
   class: Bookmark
+checkin:
+  description: |
+    A location and time, often with some description.
+  link: https://indieweb.org/checkin
+  attachments: true
+  class: Checkin
+like:
+  description: |
+    A "like" or "favorite" or "star" affirming a post at another URL.
+  link: https://indieweb.org/like
+  attachments: false
+  class: Like
 _repost:
   description: |
     Republication of another post, from anywhere.
   link: https://indieweb.org/repost
+  attachments: true
   class: Repost
 _reply:
   description: |
     A comment on another post, from anywhere.
   link: https://indieweb.org/reply
+  attachments: true
   class: Reply
 _event:
   description: |
     An event with a specific time and location.
   link: https://indieweb.org/event
+  attachments: true
   class: Event

@@ -61,6 +61,8 @@ categories:
 </code></pre>
     </div>
 
+<% if Post.type_supports_attachments?(@flow.post_kind) %>
+
     <h2><img src="/images/attachment.svg">Attachments</h2>
     <div>
       <label>
@@ -78,6 +80,8 @@ categories:
       </label>
       example: <code>assets/:year_month/:day-:slug.:extension</code>
     </div>
+
+<% end %>
 
     <br>
 
