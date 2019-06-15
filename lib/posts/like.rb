@@ -3,6 +3,7 @@ class Like < Post
   VARIABLES_CATALOG = {
     like_of: 'liked URL',
 
+    content: nil,
     has_photos: nil,
     photos: nil
 
