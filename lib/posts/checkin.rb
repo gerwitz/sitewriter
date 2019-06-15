@@ -29,8 +29,6 @@ class Checkin < Post
     @postal = ''
     @telephone = ''
     if properties.key?('checkin')
-      puts("🤠 found a checkin, is there a hash? #{properties['checkin'][0].respond_to?(:key)}")
-      puts("🤠 what is the type? #{properties['checkin'][0]['type'][0]}")
       if properties['checkin'][0].respond_to?(:key) && properties['checkin'][0].key?('type') && properties['checkin'][0]['type'][0] == 'h-card'
         checkin_props = properties['checkin'][0]['properties']
         if checkin_props.key?('name')

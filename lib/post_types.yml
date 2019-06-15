@@ -10,7 +10,7 @@ article:
   class: Article
 checkin:
   description: |
-    UNTESTED - A location and time, often with some description.
+    A location and time, often with some description.
   link: https://indieweb.org/checkin
   class: Checkin
 photo:

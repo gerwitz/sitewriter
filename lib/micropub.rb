@@ -17,7 +17,6 @@ module Micropub
         params['properties']['mp-syndicate-to'] : []
       # check_if_syndicated(params['properties'])
     end
-    puts "👑 mf_type: #{mf_type}"
     safe_properties['type'] = [mf_type]
     # wrap each non-array value in an array
     deep_props = Hash[ safe_properties.map { |k, v| [k, Array(v)] } ]
