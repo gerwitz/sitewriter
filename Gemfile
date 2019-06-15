@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.4'
 
-gem 'rake'
+gem 'rake', ">= 2.0.6"
 gem 'sinatra', require: 'sinatra/base'
 gem 'sinatra-contrib', require: 'sinatra/link_header'
 gem 'rack-contrib'
