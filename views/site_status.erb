@@ -6,10 +6,7 @@
   <a href="/<%= @site.domain %>/uploading">Uploading</a>
 </div>
 
-<h2>Status</h2>
-<div>
-  Base URL: <a href="<%= @site.url %>"><%= @site.url %></a>
-</div>
+<h2><a href="<%= @site.url %>">%= @site.domain %></a></h2>
 
 <% if @site.default_store.nil? %>
   <div class="warning">
@@ -21,7 +18,7 @@
   </div>
 <% else %>
   <div>
-    Ready for post types: <%= @site.flows.map{|f| f.name }.join(', ') %>
+    Ready for post types: <%= @site.flows.map{|f| "<img src=\"/images/#{entry[:kind]}.svg\"> #{f.name}" }.join(', ') %>
   </div>
 <% end %>
 
@@ -34,18 +31,25 @@
 <% else %>
   <table>
     <colgroup>
-      <col style="width: 25%">
+      <col style="width: 5%">
       <col style="width: 15%">
-      <col style="width: 60%">
+      <col style="width: 35%">
+      <col style="width: 35%">
     </colgroup>
   <% @site.log.each do |entry| %>
     <tr class="<% entry[:url] ? 'post' : 'error' %>">
-      <th>
-        <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
+      <td>
+      <% if entry[:kind] %>
+        <img src="/images/<%= entry[:kind] %>.svg">
+        <%= entry[:kind] %>
+      <% end %>
+      </td><th>
+        <span title="<%= entry[:request] %>">
+          <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
+        </span>
       </th><td>
-        <% if entry[:kind] %>
-          <img src="/images/<%= entry[:kind] %>.svg">
-          <%= entry[:kind] %>
+        <% if entry[:file] %>
+          <a href="<%= entry[:file] %>"><%= entry[:file] %></a>
         <% end %>
       </td><td>
         <% if entry[:url] %>

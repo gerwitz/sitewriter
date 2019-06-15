@@ -37,6 +37,11 @@ class SiteWriter < Sinatra::Application
     erb :site_status
   end
 
+  get '/:domain/settings' do
+    @site = auth_site
+    erb :site_settings
+  end
+
   post '/:domain/settings?' do
     @site = auth_site
     # puts "☣️ Updating #{@site.domain}"
@@ -62,6 +67,12 @@ class SiteWriter < Sinatra::Application
       end
     end
     erb :site_posting
+  end
+
+  get '/:domain/uploading' do
+    @site = auth_site
+    site_flows = @site.flows_dataset
+    erb :site_uploading
   end
 
   get '/:domain/stores/new' do
