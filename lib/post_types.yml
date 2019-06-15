@@ -30,7 +30,7 @@ audio:
   class: Audio
 like:
   description: |
-    UNTESTED - A "like" or "favorite" or "star" affirming a post at another URL.
+    A "like" or "favorite" or "star" affirming a post at another URL.
   link: https://indieweb.org/like
   class: Like
 bookmark:

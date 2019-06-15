@@ -320,7 +320,7 @@ class Post
   end
 
   def self.variables_for_type(type)
-    class_for_type(type)::VARIABLES_CATALOG.merge(VARIABLES_CATALOG)
+    VARIABLES_CATALOG.merge(class_for_type(type)::VARIABLES_CATALOG).select{|k,v| !v.nil?}
   end
 
   def self.valid_types
