@@ -84,7 +84,7 @@ class Checkin < Post
         # default slug
         @slug = @name || @locality || @region || @country
       else
-        raise ContentError.new("Checkin without an h-card")
+        raise "Checkin without an h-card"
       end
       # this should be unreachable
     end
