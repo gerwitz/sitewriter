@@ -96,26 +96,26 @@ class SiteWriter < Sinatra::Application
     halt(e.status, { 'Content-Type' => 'application/json' }, json)
   end
 
-  error do
-    e = env['sinatra.error']
-    error_description = "Unexpected server error (#{e.class})."
-    if @log.is_a? Hash
-      error_description << " Details can be found in your activity log."
-      @log[:status_code] = 500
-      log_json = {
-        error: e.class,
-        error_description: e.message,
-        backtrace: e.backtrace
-      }.to_json
-      @log[:error] = Sequel.pg_json(log_json)
-      write_log
-    end
-    json = {
-      error: 'server_error',
-      error_description: error_description
-    }.to_json
-    halt(500, { 'Content-Type' => 'application/json' }, json)
-  end
+  # error do
+  #   e = env['sinatra.error']
+  #   error_description = "Unexpected server error (#{e.class})."
+  #   if @log.is_a? Hash
+  #     error_description << " Details can be found in your activity log."
+  #     @log[:status_code] = 500
+  #     log_json = {
+  #       error: e.class,
+  #       error_description: e.message,
+  #       backtrace: e.backtrace
+  #     }.to_json
+  #     @log[:error] = Sequel.pg_json(log_json)
+  #     write_log
+  #   end
+  #   json = {
+  #     error: 'server_error',
+  #     error_description: error_description
+  #   }.to_json
+  #   halt(500, { 'Content-Type' => 'application/json' }, json)
+  # end
 
 private
 

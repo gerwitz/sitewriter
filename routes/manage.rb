@@ -201,7 +201,7 @@ class SiteWriter < Sinatra::Application
 
   error do
     status 500
-    erb :'500', layout: false
+    erb :'500'
   end
 
 private
