@@ -267,7 +267,7 @@ class Post
     VARIABLES_CATALOG.merge(class_for_type(type)::VARIABLES_CATALOG).select{|k,v| !v.nil?}
   end
 
-  def self.type_supports_attachments(type)
+  def self.type_supports_attachments?(type)
     TYPES_CATALOG[type.to_s]['attachments']
   end
 

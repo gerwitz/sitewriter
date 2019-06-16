@@ -1,0 +1,32 @@
+eleventy:
+  name: Eleventy
+  url: https://11ty.io/
+  destination: github
+  frontmatter: yaml
+  body: markdown
+jekyll:
+  name: Jekyll
+  url: https://jekyllrb.com/
+  destination: github
+  frontmatter: yaml
+  body: markdown
+middleman:
+  name: Middleman
+  url: https://middlemanapp.com/
+  destination: github
+  frontmatter: yaml
+  body: markdown
+hugo:
+  name: Hugo
+  url: https://www.staticgen.com/hugo
+  destination: github
+  frontmatter: yaml
+  body: markdown
+_blot:
+  name: Blot
+  url: https://blot.im/
+  destination: dropbox
+  frontmatter: comment
+  body: markdown
+
+
