@@ -40,7 +40,7 @@
       <ul class="template-vars">
       <% Post.variables_for_type(@flow.post_kind).each do |v, desc| %>
         <li title="<%= desc %>"
-            onclick="editor.replaceSelection('{{<%= v %>}}');"
+            onclick="editor.replaceSelection('{{<%= v %>}}'); editor.focus();"
             onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc %>';"
             onmouseout="document.getElementById('vars-desc').innerHTML = '<%= @flow.post_kind %> variables:';"
         ><%= v %></li>
@@ -94,26 +94,46 @@ categories:
 </div>
 
 <script src="/js/codemirror/codemirror.js"></script>
-<script src="/js/codemirror/overlay.js"></script>
+<script src="/js/codemirror/multiplex.js"></script>
 <script src="/js/codemirror/markdown.js"></script>
 <script>
-  CodeMirror.defineMode("mustache", function(config, parserConfig) {
-    var mustacheOverlay = {
-      token: function(stream, state) {
-        var ch;
-        if (stream.match("{{")) {
-          while ((ch = stream.next()) != null)
-            if (ch == "}" && stream.next() == "}") {
-              stream.eat("}");
-              return "mustache cm-variable";
-            }
-        }
-        while (stream.next() != null && !stream.match("{{", false)) {}
-        return null;
-      }
-    };
-    return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "markdown"), mustacheOverlay);
+  CodeMirror.defineMode("liquid", function(config) {
+      return CodeMirror.multiplexingMode(
+          CodeMirror.getMode(config, "text/markdown"),
+          {
+              open: "{{",
+              close: "}}",
+              mode: CodeMirror.getMode(config, "text/x-liquid"),
+              delimStyle: "liquid variable variable-2",
+              innerStyle: "liquid variable variable-2"
+          },
+          {
+              open: "{%",
+              close: "%}",
+              mode: CodeMirror.getMode(config, "text/x-liquid"),
+              delimStyle: "liquid variable-2 special keyword",
+              innerStyle: "liquid variable-2 special keyword"
+          }
+      );
   });
 
-  var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {mode: "mustache"});
+  # CodeMirror.defineMode("mustache", function(config, parserConfig) {
+  #   var mustacheOverlay = {
+  #     token: function(stream, state) {
+  #       var ch;
+  #       if (stream.match("{{")) {
+  #         while ((ch = stream.next()) != null)
+  #           if (ch == "}" && stream.next() == "}") {
+  #             stream.eat("}");
+  #             return "mustache cm-variable";
+  #           }
+  #       }
+  #       while (stream.next() != null && !stream.match("{{", false)) {}
+  #       return null;
+  #     }
+  #   };
+  #   return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "markdown"), mustacheOverlay);
+  # });
+
+  var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {mode: "liquid"});
 </script>
