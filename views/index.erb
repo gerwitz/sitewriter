@@ -40,7 +40,7 @@ Recent Posts
   <col style="width: 35%">
   <col style="width: 35%">
 </colgroup>
-<% DB[:log].exclude(url: nil, kind: 'file').distinct(:started_at, :site_id).reverse_order(:started_at).first(5).each do |entry| %>
+<% Site.all.map{|s| s.log.first}.select{|e| !e.nil?}.sort_by{|e| e[:started_at]}.each do |entry| %>
 <tr class="post">
   <td>
   <% if entry[:kind] %>
