@@ -31,9 +31,9 @@
 </p>
 <% end %>
 
-<h2>Recent Activity</h2>
+<h2>Sample Posts</h2>
 
-<ul>
+<ul class="activity">
 <% Site.all.map{|s| s.log.first}.select{|e| !e.nil?}.sort_by{|e| e[:started_at]}.first(5).each do |entry| %>
 <li>
   <% if entry[:kind] %>

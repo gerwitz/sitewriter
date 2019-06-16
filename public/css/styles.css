@@ -74,6 +74,10 @@ a {
   color: #34495E;
 }
 
+ul.activity li {
+  list-style: none;
+}
+
 .warning {
   font-weight: bold;
   background-color: #E67E22;
