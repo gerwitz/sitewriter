@@ -46,18 +46,18 @@ like:
   link: https://indieweb.org/like
   attachments: false
   class: Like
+reply:
+  description: |
+    A comment on another post, from anywhere.
+  link: https://indieweb.org/reply
+  attachments: true
+  class: Reply
 _repost:
   description: |
     Republication of another post, from anywhere.
   link: https://indieweb.org/repost
   attachments: true
   class: Repost
-_reply:
-  description: |
-    A comment on another post, from anywhere.
-  link: https://indieweb.org/reply
-  attachments: true
-  class: Reply
 _event:
   description: |
     An event with a specific time and location.
