@@ -30,3 +30,26 @@
   </small>
 </p>
 <% end %>
+
+Recent Posts
+
+<table>
+<colgroup>
+  <col style="width: 5%">
+  <col style="width: 15%">
+  <col style="width: 35%">
+  <col style="width: 35%">
+</colgroup>
+<% DB[:log].exclude(url: nil, kind: 'file').distinct(:site_id).reverse_order(:started_at).first(5).each do |entry| %>
+<tr class="post">
+  <td>
+  <% if entry[:kind] %>
+    <img src="/images/<%= entry[:kind] %>.svg">
+    <%= entry[:kind] %>
+  <% end %>
+  </td><th>
+    <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
+  </td>
+</tr>
+<% end %>
+</table>
