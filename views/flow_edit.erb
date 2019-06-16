@@ -27,8 +27,7 @@
       <ul class="template-vars">
       <% post_vars.each do |v, desc| %>
         <li title="<%= desc %>"
-            onclick="document.getElementById('path-template').value += ':<%= v %>'); document.getElementById('path-template').focus();"
-            onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc %>';"
+            onclick="document.getElementById('path-template').value += ':<%= v %>'; document.getElementById('path-template').focus();"
         ><%= v %></li>
       <% end %>
       </ul>
@@ -43,8 +42,7 @@
       <ul class="template-vars">
       <% post_vars.each do |v, desc| %>
         <li title="<%= desc %>"
-            onclick="document.getElementById('url-template').value += ':<%= v %>'); document.getElementById('url-template').focus();"
-            onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc %>';"
+            onclick="document.getElementById('url-template').value += ':<%= v %>'; document.getElementById('url-template').focus();"
         ><%= v %></li>
       <% end %>
       </ul>

@@ -260,7 +260,7 @@ class Post
   end
 
   def self.description_for_type(type = :unknown)
-    "<p>#{TYPES_CATALOG[type.to_s]['description']}</p> <a href=\"#{TYPES_CATALOG[type.to_s]['link']}\">Read more.</a>"
+    "<p>#{TYPES_CATALOG[type.to_s]['description']} <a href=\"#{TYPES_CATALOG[type.to_s]['link']}\">Read more.</a></p>"
   end
 
   def self.variables_for_type(type)
