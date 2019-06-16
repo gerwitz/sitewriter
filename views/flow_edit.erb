@@ -1,5 +1,6 @@
 <%
-  post_vars = Post.variables_for_type(@flow.post_kind)
+  content_vars = Post.variables_for_type(@flow.post_kind)
+  path_vars = content_vars.reject{|k,v| [:content, :categories, :has_photos, :photos].include? k }
 %>
 <div class="nav">
   <%= @site.domain %>:
@@ -25,7 +26,7 @@
       <br>
       <input id="path-template" type="text" size="80" name="path_template" value="<%= @flow.path_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="_posts/:year_month/:year-:month-:day-:slug.md">
       <ul class="template-vars">
-      <% post_vars.each do |v, desc| %>
+      <% path_vars.each do |v, desc| %>
         <li title="<%= desc %>"
             onclick="document.getElementById('path-template').value += ':<%= v %>'; document.getElementById('path-template').focus();"
         ><%= v %></li>
@@ -40,7 +41,7 @@
       <br>
       <input id="url-template" type="text" size="80" name="url_template" value="<%= @flow.url_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder=":year/:month/:day/:slug.html">
       <ul class="template-vars">
-      <% post_vars.each do |v, desc| %>
+      <% path_vars.each do |v, desc| %>
         <li title="<%= desc %>"
             onclick="document.getElementById('url-template').value += ':<%= v %>'; document.getElementById('url-template').focus();"
         ><%= v %></li>
@@ -57,7 +58,7 @@
         <%= @flow.post_kind %> variables: (hover for description)
       </div>
       <ul class="template-vars">
-      <% post_vars.each do |v, desc| %>
+      <% content_vars.each do |v, desc| %>
         <li title="<%= desc %>"
             onclick="editor.replaceSelection('{{<%= v %>}}'); editor.focus();"
             onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc %>';"
