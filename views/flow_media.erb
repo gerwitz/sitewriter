@@ -8,22 +8,12 @@
 
 <h1>
   <img src="/images/file.svg">
-  Media
+  Media Uploads
 </h1>
 
 <div>
-  Files sent to the media endpoint will be saved with this configuration.
+  Files sent to your Sitewriter media endpoint will be saved with this configuration.
 </div>
-
-<% if @flow.media_store %>
-  <div>
-    Saves to <%= @flow.media_store.name %>. <!-- [<a href="<%= "/#{@site.domain}/stores/new?flow_id=#{@flow.id}" %>">Change</a>] -->
-  </div>
-<% else %>
-  <div class="warning">
-    No file storage configured. That won't work, will it?
-  </div>
-<% end %>
 
 <div>
   <form action="/<%= @site.domain %>/flows/media" method="post">

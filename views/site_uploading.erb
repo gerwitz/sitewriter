@@ -6,7 +6,7 @@
   <b>Uploading</b>
 </div>
 
-<h2>Media Endpoint</h2>
+<h2>Micropub Uploads</h2>
 <% if @site.file_flow.nil? || @site.file_flow.media_store.nil? %>
   <div class="warning">
     No file saving destination! Please <a href="flows/media">set one up</a> now.
@@ -22,7 +22,7 @@
         <img src="/images/file.svg">
       </th>
       <th>
-        Uploads
+        All Files
       </th>
       <td>
         path template: <code><%= @site.file_flow.media_path_template %></code>

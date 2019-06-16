@@ -8,7 +8,7 @@
     <th>
       <%= entry[:started_at].strftime('%Y-%m-%d %H:%M:%S') %>
     </th><td>
-      <%= entry[:kind] %>
+      <span title="<%= %>"><%= entry[:request] %></span>
     </td><td>
       <% if entry[:url] %>
         <a href="<%= entry[:url] %>"><%= entry[:url] %></a>
