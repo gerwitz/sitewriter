@@ -21,6 +21,7 @@ class SiteWriter < Sinatra::Application
       @log[:kind] = 'file'
       flow = site.file_flow
       @log[:flow_id] = flow.id
+      @log[:file] = flow.file_path_for_media(media)
       url = flow.store_file(media)
       @log[:url] = url
       @log[:status_code] = 202
@@ -43,8 +44,10 @@ class SiteWriter < Sinatra::Application
       ) unless flow
       @log[:flow_id] = flow.id
       if params.key?(:photo)
-        handle_photos(flow, post, params[:photo])
+        photo_urls = handle_photos(flow, post, params[:photo])
+        @log[:photos] = photo_urls
       end
+      @log[:file] = flow.file_path_for_post(post)
       url = flow.store_post(post)
       @log[:url] = url
       @log[:status_code] = 202
@@ -138,6 +141,7 @@ private
         flow.attach_photo_url(post, params)
       else
         media = Micropub.create_media(params)
+        media.post_slug = post.slug
         flow.attach_photo_media(post, media)
       end
     end

@@ -17,7 +17,9 @@
       <a href="/">Sitewriter</a>
       <small><a href="https://github.com/gerwitz/sitewriter/milestone/1">ALPHA</a></small>
       <% if session[:domain] %>
-        <a class="site" href="/<%= session[:domain] %>"><%= session[:domain] %></a>
+        <div class="domain">
+          <a href="/<%= session[:domain] %>"><%= session[:domain] %></a>
+        </div>
       <% end %>
       </header>
     <div id="content">

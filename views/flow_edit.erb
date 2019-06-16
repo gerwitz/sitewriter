@@ -1,3 +1,6 @@
+<%
+  post_vars = Post.variables_for_type(@flow.post_kind)
+%>
 <div class="nav">
   <%= @site.domain %>:
   <a href="/<%= @site.domain %>/">Status</a> |
@@ -20,8 +23,15 @@
         Path template
       </label>
       <br>
-      <input id="path-template" type="text" size="80" name="path_template" value="<%= @flow.path_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
-      example: <code>_posts/:year_month/:year-:month-:day-:slug.md</code>
+      <input id="path-template" type="text" size="80" name="path_template" value="<%= @flow.path_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="_posts/:year_month/:year-:month-:day-:slug.md">
+      <ul class="template-vars">
+      <% post_vars.each do |v, desc| %>
+        <li title="<%= desc %>"
+            onclick="document.getElementById('path-template').value += ':<%= v %>'); document.getElementById('path-template').focus();"
+            onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc %>';"
+        ><%= v %></li>
+      <% end %>
+      </ul>
     </div>
     <br>
     <div>
@@ -29,8 +39,15 @@
         URL template
       </label>
       <br>
-      <input id="url-template" type="text" size="80" name="url_template" value="<%= @flow.url_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
-      example: <code>:year/:month/:day/:slug.html</code>
+      <input id="url-template" type="text" size="80" name="url_template" value="<%= @flow.url_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder=":year/:month/:day/:slug.html">
+      <ul class="template-vars">
+      <% post_vars.each do |v, desc| %>
+        <li title="<%= desc %>"
+            onclick="document.getElementById('url-template').value += ':<%= v %>'); document.getElementById('url-template').focus();"
+            onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc %>';"
+        ><%= v %></li>
+      <% end %>
+      </ul>
     </div>
     <br>
     <div>
@@ -42,7 +59,7 @@
         <%= @flow.post_kind %> variables: (hover for description)
       </div>
       <ul class="template-vars">
-      <% Post.variables_for_type(@flow.post_kind).each do |v, desc| %>
+      <% post_vars.each do |v, desc| %>
         <li title="<%= desc %>"
             onclick="editor.replaceSelection('{{<%= v %>}}'); editor.focus();"
             onmouseover="document.getElementById('vars-desc').innerHTML = '<%= v %> - <%=h desc %>';"

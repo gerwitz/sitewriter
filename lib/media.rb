@@ -15,8 +15,12 @@ class Media
     @extension = extension || Rack::Mime::MIME_TYPES.invert[type][1..-1]
   end
 
+  def post_slug=(post_slug)
+    @post_slug = post_slug
+  end
+
   def render_variables
-    {
+    vars = {
       slug: @slug,
       extension: @extension,
       date: @time.strftime('%Y-%m-%d'),
@@ -28,9 +32,42 @@ class Media
       second: @time.strftime('%S'),
       year_month: @time.strftime('%Y-%m')
     }
+
+    if @post_slug
+      vars.merge!({
+        post_slug: @post_slug
+      })
+    end
+
+    return vars
   end
 
   def file
     @file
   end
+
+  def self.variables(is_attachment=false)
+    vars = {
+      slug: 'slug (filename)',
+      extension: 'file extension',
+
+      date: 'upload date (YYYY-MM-DD)',
+      year: 'upload year (YYYY)',
+      month: 'upload month (01-12)',
+      day: 'day of upload month (01-31)',
+      hour: 'hour of upload (00-23)',
+      minute: 'minute of upload',
+      second: 'second of upload',
+      year_month: 'year and month (YYYY-MM)'
+    }
+
+    if is_attachment
+      vars.merge!({
+        post_slug: 'the post slug'
+      })
+    end
+
+    return vars
+  end
+
 end
