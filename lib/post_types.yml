@@ -50,7 +50,7 @@ reply:
   description: |
     A comment on another post, from anywhere.
   link: https://indieweb.org/reply
-  attachments: true
+  attachments: false
   class: Reply
 _repost:
   description: |
