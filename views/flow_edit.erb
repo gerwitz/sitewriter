@@ -12,28 +12,28 @@
   <form action="/<%= @site.domain %>/flows" method="post">
     <input type="hidden" name="id" value="<%= @flow.id %>">
     <div>
-      <label>
+      <label for="path-template">
         Path template
-        <br>
-        <input type="text" size="80" name="path_template" value="<%= @flow.path_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
       </label>
+      <br>
+      <input id="path-template" type="text" size="80" name="path_template" value="<%= @flow.path_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
       example: <code>_posts/:year_month/:year-:month-:day-:slug.md</code>
     </div>
     <br>
     <div>
-      <label>
+      <label for="url-template">
         URL template
-        <br>
-        <input type="text" size="80" name="url_template" value="<%= @flow.url_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
       </label>
+      <br>
+      <input id="url-template" type="text" size="80" name="url_template" value="<%= @flow.url_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
       example: <code>:year/:month/:day/:slug.html</code>
     </div>
     <br>
     <div>
-      <label>
+      <label for="codemirror">
         Content template
-        <textarea id="codemirror" name="content_template" cols="80" rows="25" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"><%= @flow.content_template %></textarea>
       </label>
+      <textarea id="codemirror" name="content_template" cols="80" rows="25" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"><%= @flow.content_template %></textarea>
       <div id="vars-desc">
         <%= @flow.post_kind %> variables: (hover for description)
       </div>
@@ -65,19 +65,19 @@ categories:
 
     <h2><img src="/images/attachment.svg">Attachments</h2>
     <div>
-      <label>
+      <label for="media-path-template">
         Path template
-        <br>
-        <input type="text" size="80" name="media_path_template" value="<%= @flow.media_path_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
       </label>
+      <br>
+      <input id="media-path-template" type="text" size="80" name="media_path_template" value="<%= @flow.media_path_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
       example: <code>assets/:year_month/:day-:slug.:extension</code>
     </div>
     <br>
     <div>
-      <label>
+      <label for="media-url-template">
         URL template
-        <input type="text" size="80" name="media_url_template" value="<%= @flow.media_url_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
       </label>
+      <input id="media-url-template" type="text" size="80" name="media_url_template" value="<%= @flow.media_url_template %>" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
       example: <code>assets/:year_month/:day-:slug.:extension</code>
     </div>
 
@@ -94,10 +94,12 @@ categories:
 </div>
 
 <script src="/js/codemirror/codemirror.js"></script>
-<script src="/js/codemirror/multiplex.js"></script>
 <script src="/js/codemirror/markdown.js"></script>
+<script src="/js/codemirror/multiplex.js"></script>
+<script src="/js/codemirror/yaml.js"></script>
+<script src="/js/codemirror/yaml-frontmatter.js"></script>
 <script>
-  CodeMirror.defineMode("liquid", function(config) {
+  CodeMirror.defineMode("liquid-markdown", function(config) {
       return CodeMirror.multiplexingMode(
           CodeMirror.getMode(config, "text/markdown"),
           {
@@ -117,23 +119,5 @@ categories:
       );
   });
 
-  // CodeMirror.defineMode("mustache", function(config, parserConfig) {
-  //   var mustacheOverlay = {
-  //     token: function(stream, state) {
-  //       var ch;
-  //       if (stream.match("{{")) {
-  //         while ((ch = stream.next()) != null)
-  //           if (ch == "}" && stream.next() == "}") {
-  //             stream.eat("}");
-  //             return "mustache cm-variable";
-  //           }
-  //       }
-  //       while (stream.next() != null && !stream.match("{{", false)) {}
-  //       return null;
-  //     }
-  //   };
-  //   return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "markdown"), mustacheOverlay);
-  // });
-
-  var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {mode: "liquid"});
+  var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {mode: {name: "yaml-frontmatter", base: "liquid-markdown"}});
 </script>
