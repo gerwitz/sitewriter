@@ -25,6 +25,9 @@ header a {
 	text-decoration: none;
 	color: inherit;
 }
+header .site {
+  float: right;
+}
 
 #content {
 	flex: 1 0 auto;

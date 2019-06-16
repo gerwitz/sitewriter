@@ -1,5 +1,9 @@
 <div class="nav">
-  <%= @site.domain %>: <a href="../">Status</a> | <b><a href="../config">Setup</a></b>
+  <%= @site.domain %>:
+  <a href="/<%= @site.domain %>/">Status</a> |
+  <a href="/<%= @site.domain %>/settings">Settings</a> |
+  <a href="/<%= @site.domain %>/posting">Posting</a> |
+  <a href="/<%= @site.domain %>/uploading"><b>Uploading</b></a>
 </div>
 
 <h1>

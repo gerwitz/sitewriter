@@ -1,5 +1,9 @@
 <div class="nav">
-  <a href="./"><%= @site.domain %></a> | <b><a href="../config">Setup</a></b>
+  <%= @site.domain %>:
+  <a href="/<%= @site.domain %>/">Status</a> |
+  <a href="/<%= @site.domain %>/settings"><b>Settings</b></a> |
+  <a href="/<%= @site.domain %>/posting">Posting</a> |
+  <a href="/<%= @site.domain %>/uploading">Uploading</a>
 </div>
 
 <% if @flow.nil? %>

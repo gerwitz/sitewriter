@@ -16,7 +16,10 @@
     <header>
       <a href="/">Sitewriter</a>
       <small><a href="https://github.com/gerwitz/sitewriter/milestone/1">ALPHA</a></small>
-    </header>
+      <% if session[:domain] %>
+        <a class="site" href="/<%= session[:domain] %>"><%= session[:domain] %></a>
+      <% endif %>
+      </header>
     <div id="content">
       <%= yield %>
     </div>
