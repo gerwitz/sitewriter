@@ -21,20 +21,20 @@ end
 use Rack::PostBodyContentTypeParser
 
 # session pool using redis via moneta
-if env != :development
-  require 'rack/session/moneta'
-  use Rack::Session::Moneta,
-      key:            'sitewriter.net',
-      path:           '/',
-      expire_after:   7*24*60*60, # one week
-      secret:         ENV['SESSION_SECRET_KEY'],
+# if env != :development
+#   require 'rack/session/moneta'
+#   use Rack::Session::Moneta,
+#       key:            'sitewriter.net',
+#       path:           '/',
+#       expire_after:   7*24*60*60, # one week
+#       secret:         ENV['SESSION_SECRET_KEY'],
 
-      store:          Moneta.new(:Redis, {
-          url:            ENV['REDISCLOUD_URL'],
-          expires:        true,
-          threadsafe:     true
-      })
-end
+#       store:          Moneta.new(:Redis, {
+#           url:            ENV['REDISCLOUD_URL'],
+#           expires:        true,
+#           threadsafe:     true
+#       })
+# end
 
 root = ::File.dirname(__FILE__)
 require ::File.join( root, 'app' )
