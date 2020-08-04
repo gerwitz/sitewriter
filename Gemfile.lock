@@ -7,7 +7,7 @@ GEM
     buftok (0.2.0)
     builder (3.2.4)
     concurrent-ruby (1.1.5)
-    crass (1.0.5)
+    crass (1.0.6)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.5)
@@ -65,7 +65,7 @@ GEM
     s3 (0.3.28)
       addressable
       proxies
-    sanitize (5.1.0)
+    sanitize (5.2.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.8.0)
       nokogumbo (~> 2.0)
